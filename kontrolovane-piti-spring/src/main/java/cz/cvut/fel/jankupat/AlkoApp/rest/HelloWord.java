@@ -17,4 +17,11 @@ public class HelloWord {
     public String helloWord(){
         return "Hello alko app user";
     }
+
+
+    @GetMapping
+    @RequestMapping(value = "/hiy")
+    public String howAreYou(){
+        return "How are you?";
+    }
 }
