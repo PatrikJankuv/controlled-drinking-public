@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  * @author Patrik Jankuv
  * @created 8/2/2020
  */
-class Account {
+class Account extends BaseEntity{
 
     @NotNull
     String email;
