@@ -1,8 +1,9 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Patrik Jankuv
@@ -25,5 +26,8 @@ public class Day extends BaseEntity {
     private Double savedMoney;
 
     private Double maxMile;
+
+    @ManyToMany
+    private List<Feeling> feelings;
 
 }

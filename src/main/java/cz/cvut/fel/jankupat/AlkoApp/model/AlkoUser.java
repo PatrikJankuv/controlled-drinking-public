@@ -33,7 +33,7 @@ public class AlkoUser extends BaseEntity{
     private int age;
 
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Smoker smoker;
 
     //todo make sql request which search alko_user for account
