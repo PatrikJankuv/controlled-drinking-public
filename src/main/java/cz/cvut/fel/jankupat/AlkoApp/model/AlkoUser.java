@@ -37,10 +37,10 @@ public class AlkoUser extends BaseEntity{
     @NotNull
     private Smoker smoker;
 
-//    //todo make sql request which search alko_user for account
-//    @NonNull
-//    @OneToOne
-//    @JoinColumn(name = "ACCOUNT_ID")
-//    private Account account;
+    //todo make sql request which search alko_user for account
+    @NonNull
+    @OneToOne
+    @JoinColumn(name = "ACCOUNT_ID")
+    private Account account;
 
 }

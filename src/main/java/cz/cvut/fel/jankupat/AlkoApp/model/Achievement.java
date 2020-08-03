@@ -1,21 +1,24 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Patrik Jankuv
  * @created 8/2/2020
  */
-@Entity(name = "USER_ACHIEVEMENT")
+@Entity(name = "ACHIEVEMENT")
 public class Achievement extends BaseEntity {
 
+    private String name;
 
+    private int Image;
+
+    /**
+     * list of users, which gained achievement
+     */
     @OneToMany
-    @JoinColumn(name = "alko_user_id")
-    private AlkoUser alkoUser;
-
-    private Boolean isDone = false;
-
+    private List<AlkoUser> absences;
 }
