@@ -1,5 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.Gender;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.Smoker;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;

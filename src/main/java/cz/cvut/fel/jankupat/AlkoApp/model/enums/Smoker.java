@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.model;
+package cz.cvut.fel.jankupat.AlkoApp.model.enums;
 
 /**
  * @author Patrik Jankuv

@@ -1,5 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingeEnum;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

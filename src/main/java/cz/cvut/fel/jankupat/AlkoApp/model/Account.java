@@ -1,5 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.Account_role;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
