@@ -1,6 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 /**
  * @author Patrik Jankuv
@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 @Entity
 public class DrinkItem extends BaseEntity{
 
+    @ManyToOne(cascade = CascadeType.PERSIST, optional = true)
+    @JoinColumn(nullable = false)
     private AlkoUser alkoUser;
 
     private Day day;
@@ -25,5 +27,5 @@ public class DrinkItem extends BaseEntity{
 
     private String description;
 
-    private Boolean planned;
+    private Boolean planned = false;
 }
