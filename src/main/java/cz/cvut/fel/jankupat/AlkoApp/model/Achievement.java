@@ -1,9 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Patrik Jankuv
@@ -22,6 +20,6 @@ public class Achievement extends BaseEntity {
      * list of users, which gained achievement
      */
     @OneToMany
-    private List<AlkoUser> alkoUserList;
+    private List<User> userList;
 
 }

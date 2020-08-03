@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @created 8/2/2020
  */
 @Entity(name = "ALKO_USER")
-public class AlkoUser extends BaseEntity{
+public class User extends BaseEntity{
     @NotNull
     private String name;
 

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @created 8/2/2020
  */
 @Entity
-class Account extends BaseEntity{
+public class Account extends BaseEntity{
 
     @NotNull
     String email;

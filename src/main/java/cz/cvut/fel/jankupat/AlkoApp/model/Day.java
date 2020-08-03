@@ -3,7 +3,6 @@ package cz.cvut.fel.jankupat.AlkoApp.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Patrik Jankuv
@@ -13,7 +12,7 @@ import java.util.Set;
 public class Day extends BaseEntity {
 
     @ManyToOne
-    private AlkoUser alkoUser;
+    private User user;
 
     private String name;
 
