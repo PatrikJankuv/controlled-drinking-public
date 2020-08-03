@@ -2,9 +2,7 @@ package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -35,6 +33,7 @@ public class AlkoUser extends BaseEntity{
     private int age;
 
     @NotNull
+    @Enumerated(EnumType.ORDINAL)
     private Smoker smoker;
 
     //todo make sql request which search alko_user for account

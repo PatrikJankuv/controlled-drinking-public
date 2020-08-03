@@ -16,9 +16,12 @@ public class Achievement extends BaseEntity {
 
     private int Image;
 
+    private String description;
+
     /**
      * list of users, which gained achievement
      */
     @OneToMany
-    private List<AlkoUser> absences;
+    private List<AlkoUser> alkoUserList;
+
 }
