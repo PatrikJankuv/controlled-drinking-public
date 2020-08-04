@@ -17,6 +17,7 @@ public class User extends BaseEntity{
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     /**
