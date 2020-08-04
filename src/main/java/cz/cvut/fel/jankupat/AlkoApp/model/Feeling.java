@@ -1,6 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingeEnum;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,10 +13,10 @@ import javax.persistence.Entity;
 public class Feeling extends BaseEntity{
 
     @Column(name = "feeling")
-    private FeelingeEnum feel;
+    private FeelingsEnum feel;
 
-    public Feeling(FeelingeEnum feel) {
-        this.feel = feel;
-    }
+//    public Feeling(FeelingsEnum feel) {
+//        this.feel = feel;
+//    }
 
 }

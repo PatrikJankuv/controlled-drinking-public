@@ -1,12 +1,10 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.Account_role;
-import org.springframework.lang.NonNull;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.AccountRole;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 
 
 /**
@@ -23,7 +21,7 @@ public class Account extends BaseEntity{
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Account_role role;
+    private AccountRole role;
 
     public String getEmail() {
         return email;
@@ -41,11 +39,11 @@ public class Account extends BaseEntity{
         this.password = password;
     }
 
-    public Account_role getRole() {
+    public AccountRole getRole() {
         return role;
     }
 
-    public void setRole(Account_role role) {
+    public void setRole(AccountRole role) {
         this.role = role;
     }
 }

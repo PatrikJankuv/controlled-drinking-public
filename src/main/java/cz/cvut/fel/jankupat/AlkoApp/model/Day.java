@@ -1,5 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +28,7 @@ public class Day extends BaseEntity {
 
     private Double maxMile;
 
+    //todo try to make it only from enums
     @ManyToMany
     private List<Feeling> feelings;
 
