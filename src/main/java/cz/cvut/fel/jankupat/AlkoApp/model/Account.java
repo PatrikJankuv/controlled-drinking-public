@@ -2,9 +2,11 @@ package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.AccountRole;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import org.springframework.lang.NonNull;
 
 
 /**
@@ -12,14 +14,19 @@ import javax.persistence.Enumerated;
  * @created 8/2/2020
  */
 @Entity
-public class Account extends BaseEntity{
+public class Account extends BaseEntity implements IEntity{
 
 
+    @NonNull
+    @Column(unique = true)
     private String email;
 
 
+    @NonNull
     private String password;
 
+
+    @NonNull
     @Enumerated(EnumType.STRING)
     private AccountRole role;
 
