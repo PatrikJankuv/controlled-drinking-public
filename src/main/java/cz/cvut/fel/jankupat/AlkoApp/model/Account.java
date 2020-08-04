@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
+
 /**
  * @author Patrik Jankuv
  * @created 8/2/2020
