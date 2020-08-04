@@ -17,16 +17,15 @@ import org.springframework.lang.NonNull;
 public class Account extends BaseEntity implements IEntity{
 
 
-    @NonNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
 
-    @NonNull
+    @Column(nullable = false)
     private String password;
 
 
-    @NonNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountRole role;
 
