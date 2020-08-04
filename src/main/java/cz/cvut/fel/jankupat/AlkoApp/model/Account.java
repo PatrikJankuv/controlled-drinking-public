@@ -4,6 +4,8 @@ import cz.cvut.fel.jankupat.AlkoApp.model.enums.Account_role;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 
@@ -14,12 +16,36 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Account extends BaseEntity{
 
-    @NotNull
-    String email;
 
-    @NonNull
-    String password;
+    private String email;
 
-    @NotNull
-    Account_role role;
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Account_role role;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Account_role getRole() {
+        return role;
+    }
+
+    public void setRole(Account_role role) {
+        this.role = role;
+    }
 }
