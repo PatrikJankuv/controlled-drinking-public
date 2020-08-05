@@ -10,7 +10,7 @@ import javax.persistence.Entity;
  * @created 8/3/2020
  */
 @Entity
-public class Feeling extends BaseEntity{
+public class Feeling extends BaseEntity implements IEntity{
 
     @Column(name = "feeling")
     private FeelingsEnum feel;

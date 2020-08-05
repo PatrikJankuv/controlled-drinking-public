@@ -8,7 +8,7 @@ import java.util.List;
  * @created 8/2/2020
  */
 @Entity(name = "ACHIEVEMENT")
-public class Achievement extends BaseEntity {
+public class Achievement extends BaseEntity implements IEntity{
 
     private String name;
 

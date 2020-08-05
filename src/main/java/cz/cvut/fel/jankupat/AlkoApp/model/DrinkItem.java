@@ -9,7 +9,7 @@ import javax.persistence.*;
  * @created 8/3/2020
  */
 @Entity
-public class DrinkItem extends BaseEntity{
+public class DrinkItem extends BaseEntity implements IEntity{
 
     @ManyToOne(cascade = CascadeType.PERSIST, optional = true)
     @JoinColumn(nullable = false)

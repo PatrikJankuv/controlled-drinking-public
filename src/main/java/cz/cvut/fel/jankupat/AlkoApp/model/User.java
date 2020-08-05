@@ -2,10 +2,10 @@ package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.Gender;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.Smoker;
-import org.springframework.lang.NonNull;
+
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+
 
 /**
  * @author Patrik Jankuv
@@ -40,7 +40,7 @@ public class User extends BaseEntity implements IEntity{
     private Smoker smoker;
 
     //todo make sql request which search alko_user for account
-    @NonNull
+    @Column(nullable = false)
     @OneToOne
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;

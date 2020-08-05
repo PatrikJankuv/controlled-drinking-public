@@ -11,7 +11,7 @@ import java.util.List;
  * @created 8/3/2020
  */
 @Entity
-public class Day extends BaseEntity {
+public class Day extends BaseEntity implements IEntity{
 
     @ManyToOne
     private User user;
@@ -28,7 +28,6 @@ public class Day extends BaseEntity {
 
     private Double maxMile;
 
-    //todo try to make it only from enums
     @ManyToMany
     private List<Feeling> feelings;
 

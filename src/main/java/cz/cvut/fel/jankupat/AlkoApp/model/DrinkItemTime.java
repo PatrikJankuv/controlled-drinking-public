@@ -11,7 +11,7 @@ import java.time.LocalTime;
  * @created 8/3/2020
  */
 @Entity
-public class DrinkItemTime extends BaseEntity{
+public class DrinkItemTime extends BaseEntity implements IEntity{
 
     @ManyToOne(cascade = CascadeType.PERSIST, optional = true)
     @JoinColumn(nullable = false)
