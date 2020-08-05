@@ -40,7 +40,6 @@ public class User extends BaseEntity implements IEntity{
     private Smoker smoker;
 
     //todo make sql request which search alko_user for account
-    @Column(nullable = false)
     @OneToOne
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
