@@ -1,0 +1,22 @@
+-----account---
+{
+    "email" : "ko541@ge.com",
+    "password": "heslom",
+    "role": "USER"
+}
+
+----user-----
+{
+    "name" : "igor",
+    "gender": "MALE",
+    "height": 180,
+    "weight": 100,
+    "age": 34,
+    "smoker": "YES",
+    "account":{
+    "id": 1,
+	"email": "jannko@gmail.com",
+	"password" : "heslo",
+	"role" : "USER"
+}
+}
