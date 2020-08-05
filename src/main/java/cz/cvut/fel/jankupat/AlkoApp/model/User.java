@@ -12,30 +12,30 @@ import javax.validation.constraints.NotNull;
  * @created 8/2/2020
  */
 @Entity(name = "ALKO_USER")
-public class User extends BaseEntity{
-    @NotNull
+public class User extends BaseEntity implements IEntity{
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     /**
      * height in cm
      */
-    @NotNull
+    @Column(nullable = false)
     private int height;
 
     /**
      * weight in kg
      */
-    @NotNull
+    @Column(nullable = false)
     private int weight;
 
-    @NotNull
+    @Column(nullable = false)
     private int age;
 
-    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Smoker smoker;
 
