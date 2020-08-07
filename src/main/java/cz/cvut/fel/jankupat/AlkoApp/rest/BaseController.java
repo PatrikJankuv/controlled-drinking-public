@@ -49,7 +49,7 @@ public abstract class BaseController<T, S, D> {
         ((BaseService<S, D>)service).persist(entity);
         LOG.debug("Created entity {}.", entity);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entity).getId());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
     /**
