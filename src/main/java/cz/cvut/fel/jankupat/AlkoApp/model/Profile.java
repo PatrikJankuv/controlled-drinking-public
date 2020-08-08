@@ -5,7 +5,7 @@ import cz.cvut.fel.jankupat.AlkoApp.model.enums.Smoker;
 
 
 import javax.persistence.*;
-import javax.swing.*;
+import java.util.Collection;
 
 
 /**
@@ -13,7 +13,7 @@ import javax.swing.*;
  * @created 8/2/2020
  */
 @Entity
-public class Profile extends BaseEntity implements IEntity{
+public class Profile extends BaseEntity implements IEntity {
     @Column(nullable = false)
     private String name;
 
@@ -40,10 +40,12 @@ public class Profile extends BaseEntity implements IEntity{
     @Enumerated(EnumType.STRING)
     private Smoker smoker;
 
-    //todo make sql request which search alko_user for account
-//    @OneToOne(cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "user_id")
-//    private Account account;
+    @OneToMany
+    @JoinTable(name = "PROFILE_DAY",
+            joinColumns = @JoinColumn(name = "PROFILE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "DAY_ID"))
+    private Collection<Day> days;
+
 
     public String getName() {
         return name;
@@ -93,11 +95,11 @@ public class Profile extends BaseEntity implements IEntity{
         this.smoker = smoker;
     }
 
-//    public Account getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Account account) {
-//        this.account = account;
-//    }
+    public Collection<Day> getDays() {
+        return days;
+    }
+
+    public void setDays(Collection<Day> days) {
+        this.days = days;
+    }
 }
