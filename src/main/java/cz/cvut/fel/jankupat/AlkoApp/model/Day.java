@@ -1,7 +1,5 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 public class Day extends BaseEntity implements IEntity{
 
     @ManyToOne
-    private User user;
+    private Profile user;
 
     private String name;
 

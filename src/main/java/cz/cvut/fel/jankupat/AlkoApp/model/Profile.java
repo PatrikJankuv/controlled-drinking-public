@@ -5,14 +5,15 @@ import cz.cvut.fel.jankupat.AlkoApp.model.enums.Smoker;
 
 
 import javax.persistence.*;
+import javax.swing.*;
 
 
 /**
  * @author Patrik Jankuv
  * @created 8/2/2020
  */
-@Entity(name = "ALKO_USER")
-public class User extends BaseEntity implements IEntity{
+@Entity
+public class Profile extends BaseEntity implements IEntity{
     @Column(nullable = false)
     private String name;
 
@@ -40,9 +41,9 @@ public class User extends BaseEntity implements IEntity{
     private Smoker smoker;
 
     //todo make sql request which search alko_user for account
-    @OneToOne
-    @JoinColumn(name = "ACCOUNT_ID")
-    private Account account;
+//    @OneToOne(cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "user_id")
+//    private Account account;
 
     public String getName() {
         return name;
@@ -92,11 +93,11 @@ public class User extends BaseEntity implements IEntity{
         this.smoker = smoker;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
+//    public Account getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(Account account) {
+//        this.account = account;
+//    }
 }

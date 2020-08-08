@@ -2,10 +2,8 @@ package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.AccountRole;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
+
 import org.springframework.lang.NonNull;
 
 
@@ -14,7 +12,7 @@ import org.springframework.lang.NonNull;
  * @created 8/2/2020
  */
 @Entity
-public class Account extends BaseEntity implements IEntity{
+public class Account extends BaseEntity implements IEntity {
 
 
     @Column(unique = true, nullable = false)
@@ -28,6 +26,10 @@ public class Account extends BaseEntity implements IEntity{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AccountRole role;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
     public String getEmail() {
         return email;
@@ -51,5 +53,13 @@ public class Account extends BaseEntity implements IEntity{
 
     public void setRole(AccountRole role) {
         this.role = role;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

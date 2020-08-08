@@ -1,6 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.dao;
 
-import cz.cvut.fel.jankupat.AlkoApp.model.User;
+import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
  * @created 8/3/2020
  */
 @Repository
-public class UserDao extends BaseDao<User> {
+public class ProfileDao extends BaseDao<Profile> {
 
-    public UserDao() {
-        super(User.class);
+    public ProfileDao() {
+        super(Profile.class);
     }
 }

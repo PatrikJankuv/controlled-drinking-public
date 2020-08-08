@@ -20,6 +20,6 @@ public class Achievement extends BaseEntity implements IEntity{
      * list of users, which gained achievement
      */
     @OneToMany
-    private List<User> userList;
+    private List<Profile> userList;
 
 }

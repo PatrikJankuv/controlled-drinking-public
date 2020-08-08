@@ -13,7 +13,7 @@ public class DrinkItem extends BaseEntity implements IEntity{
 
     @ManyToOne(cascade = CascadeType.PERSIST, optional = true)
     @JoinColumn(nullable = false)
-    private User user;
+    private Profile user;
 
     private Day day;
 
