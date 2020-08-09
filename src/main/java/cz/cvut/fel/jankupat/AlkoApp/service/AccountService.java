@@ -14,4 +14,8 @@ public class AccountService extends BaseService<Account, AccountDao> {
     public AccountService(AccountDao dao){
         super(dao);
     }
+
+    public Account findByEmail(String email){
+        return dao.findByEmail(email);
+    }
 }
