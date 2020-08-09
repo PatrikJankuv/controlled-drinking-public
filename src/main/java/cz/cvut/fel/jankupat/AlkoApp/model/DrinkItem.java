@@ -11,10 +11,8 @@ import javax.persistence.*;
 @Entity
 public class DrinkItem extends BaseEntity implements IEntity{
 
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = true)
-    @JoinColumn(nullable = false)
-    private Profile user;
-
+    @ManyToOne
+    @JoinColumn(name = "DAY_ID")
     private Day day;
 
     private String name;

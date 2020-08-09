@@ -1,5 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.AchievementEnum;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.Gender;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.Smoker;
 
@@ -46,6 +48,11 @@ public class Profile extends BaseEntity implements IEntity {
             inverseJoinColumns = @JoinColumn(name = "DAY_ID"))
     private Collection<Day> days;
 
+    @ElementCollection(targetClass = FeelingsEnum.class)
+    @JoinTable(name = "PROFILE_ACHIEVEMENT", joinColumns = @JoinColumn(name = "day_id"))
+    @Column(name = "ACHIEVEMENT", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Collection<AchievementEnum> achievements;
 
     public String getName() {
         return name;
@@ -101,5 +108,13 @@ public class Profile extends BaseEntity implements IEntity {
 
     public void setDays(Collection<Day> days) {
         this.days = days;
+    }
+
+    public Collection<AchievementEnum> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(Collection<AchievementEnum> achievements) {
+        this.achievements = achievements;
     }
 }

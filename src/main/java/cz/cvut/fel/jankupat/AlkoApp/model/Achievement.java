@@ -7,7 +7,7 @@ import java.util.List;
  * @author Patrik Jankuv
  * @created 8/2/2020
  */
-@Entity(name = "ACHIEVEMENT")
+//@Entity(name = "ACHIEVEMENT")
 public class Achievement extends BaseEntity implements IEntity{
 
     private String name;

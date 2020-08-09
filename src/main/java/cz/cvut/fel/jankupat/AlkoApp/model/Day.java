@@ -32,6 +32,17 @@ public class Day extends BaseEntity implements IEntity{
     @Enumerated(EnumType.STRING)
     private Collection<FeelingsEnum> feelings;
 
+    @OneToMany(mappedBy = "day")
+    private Collection<DrinkItem> items;
+
+    public Collection<DrinkItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Collection<DrinkItem> items) {
+        this.items = items;
+    }
+
     public String getName() {
         return name;
     }
