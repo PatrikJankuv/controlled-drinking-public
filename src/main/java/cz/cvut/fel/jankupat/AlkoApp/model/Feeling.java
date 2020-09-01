@@ -9,7 +9,7 @@ import javax.persistence.Entity;
  * @author Patrik Jankuv
  * @created 8/3/2020
  */
-@Entity
+//@Entity
 public class Feeling extends BaseEntity implements IEntity{
 
     @Column(name = "feeling")

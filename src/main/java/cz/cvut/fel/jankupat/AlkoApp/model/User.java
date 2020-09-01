@@ -1,48 +1,59 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.Gender;
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.Smoker;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.AccountRole;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-/**
- * @author Patrik Jankuv
- * @created 8/2/2020
- */
-@Entity(name = "ALKO_USER")
-public class User extends BaseEntity implements IEntity{
     @Column(nullable = false)
     private String name;
 
+    @Email
     @Column(nullable = false)
+    private String email;
+
+    private String imageUrl;
+
+    @Column(nullable = false)
+    private Boolean emailVerified = false;
+
+    @JsonIgnore
+    private String password;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private AuthProvider provider;
 
-    /**
-     * height in cm
-     */
-    @Column(nullable = false)
-    private int height;
+//todo solve problem with roles
 
-    /**
-     * weight in kg
-     */
-    @Column(nullable = false)
-    private int weight;
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private AccountRole role = AccountRole.USER;
 
-    @Column(nullable = false)
-    private int age;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Smoker smoker;
+    private String providerId;
 
-    //todo make sql request which search alko_user for account
-    @OneToOne
-    @JoinColumn(name = "ACCOUNT_ID")
-    private Account account;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -52,51 +63,67 @@ public class User extends BaseEntity implements IEntity{
         this.name = name;
     }
 
-    public Gender getGender() {
-        return gender;
+    public String getEmail() {
+        return email;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getHeight() {
-        return height;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public int getWeight() {
-        return weight;
+    public Boolean getEmailVerified() {
+        return emailVerified;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setEmailVerified(Boolean emailVerified) {
+        this.emailVerified = emailVerified;
     }
 
-    public int getAge() {
-        return age;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Smoker getSmoker() {
-        return smoker;
+    public AuthProvider getProvider() {
+        return provider;
     }
 
-    public void setSmoker(Smoker smoker) {
-        this.smoker = smoker;
+    public void setProvider(AuthProvider provider) {
+        this.provider = provider;
     }
 
-    public Account getAccount() {
-        return account;
+    public String getProviderId() {
+        return providerId;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+//    public AccountRole getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(AccountRole role) {
+//        this.role = role;
+//    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

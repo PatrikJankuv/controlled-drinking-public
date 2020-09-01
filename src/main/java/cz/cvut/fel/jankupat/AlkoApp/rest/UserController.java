@@ -1,19 +1,24 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
-import cz.cvut.fel.jankupat.AlkoApp.dao.UserDao;
+import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.User;
-import cz.cvut.fel.jankupat.AlkoApp.service.UserService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
+import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
+import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
+import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Patrik Jankuv
- * @created 8/4/2020
- */
 @RestController
-@RequestMapping(path = "/user")
-public class UserController extends BaseController<UserService, User, UserDao> {
-    public UserController(UserService service){ super(service);}
+public class UserController {
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/user/me")
+//    @PreAuthorize("hasRole('USER')")
+    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        return userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
  * @author Patrik Jankuv
  * @created 8/2/2020
  */
-@Entity(name = "ACHIEVEMENT")
+//@Entity(name = "ACHIEVEMENT")
 public class Achievement extends BaseEntity implements IEntity{
 
     private String name;
@@ -20,6 +20,6 @@ public class Achievement extends BaseEntity implements IEntity{
      * list of users, which gained achievement
      */
     @OneToMany
-    private List<User> userList;
+    private List<Profile> userList;
 
 }

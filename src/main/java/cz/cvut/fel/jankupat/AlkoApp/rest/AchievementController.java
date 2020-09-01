@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @created 8/4/2020
  */
 @RestController
-@RequestMapping(path = "/day")
+@RequestMapping(path = "/achievement")
 public class AchievementController extends BaseController<AchievementService, Achievement, AchievementDao> {
     public AchievementController(AchievementService service){ super(service);}
 }

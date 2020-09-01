@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @created 8/4/2020
  */
 //todo check whats going on
-//@RestController
-//@RequestMapping(path = "/day")
+@RestController
+@RequestMapping(path = "/day")
 public class DayController extends BaseController<DayService, Day, DayDao> {
     public DayController(DayService service){ super(service);}
 }
