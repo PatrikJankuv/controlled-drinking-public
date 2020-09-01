@@ -1,5 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.AccountRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -32,6 +34,16 @@ public class User {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
+
+//todo solve problem with roles
+
+//    @Column(nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private AccountRole role = AccountRole.USER;
+
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
     private String providerId;
 
@@ -97,5 +109,21 @@ public class User {
 
     public void setProviderId(String providerId) {
         this.providerId = providerId;
+    }
+
+//    public AccountRole getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(AccountRole role) {
+//        this.role = role;
+//    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }
