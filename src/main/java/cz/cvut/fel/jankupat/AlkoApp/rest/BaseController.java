@@ -49,7 +49,7 @@ public abstract class BaseController<T, S, D> {
         ((BaseService<S, D>)service).persist(entity);
         LOG.debug("Created entity {}.", entity);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entity).getId());
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class BaseController<T, S, D> {
 
         LOG.debug("Updated entity {}.", entityToUpdate);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entityToUpdate).getId());
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
