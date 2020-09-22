@@ -106,6 +106,10 @@ public class Profile extends BaseEntity implements IEntity {
         return days;
     }
 
+    public void addDay(Day day){
+        days.add(day);
+    }
+
     public void setDays(Collection<Day> days) {
         this.days = days;
     }
