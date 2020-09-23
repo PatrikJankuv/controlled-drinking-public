@@ -48,7 +48,7 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
         service.update(profile);
 
         LOG.debug("Updated entity {}.", profile);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)profile).getId());
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
         return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 }
