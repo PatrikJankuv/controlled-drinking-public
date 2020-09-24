@@ -2,10 +2,13 @@ package cz.cvut.fel.jankupat.AlkoApp.rest;
 
 import cz.cvut.fel.jankupat.AlkoApp.dao.ProfileDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
+import cz.cvut.fel.jankupat.AlkoApp.model.Achievement;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.AchievementEnum;
 import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
+import cz.cvut.fel.jankupat.AlkoApp.service.BaseService;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * @author Patrik Jankuv
@@ -27,6 +32,22 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     @Autowired
     public ProfileController(ProfileService service, DayService dayService){ super(service);
         this.dayService = dayService;
+    }
+
+    @Override
+    public ResponseEntity<Void> updateEntity(Profile entityToUpdate, Integer id) {
+        Profile profile = service.find(id);
+        Collection<Day> tempDays = profile.getDays();
+        Collection<AchievementEnum> tempAchievements = profile.getAchievements();
+
+        entityToUpdate.setId(((IEntity)profile).getId());
+        entityToUpdate.setAchievements(tempAchievements);
+        entityToUpdate.setDays(tempDays);
+        service.update(entityToUpdate);
+
+        LOG.debug("Updated entity {}.", entityToUpdate);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entityToUpdate).getId());
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 
     /**
