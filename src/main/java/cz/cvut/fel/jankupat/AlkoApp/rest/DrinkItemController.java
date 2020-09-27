@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest.util;
+package cz.cvut.fel.jankupat.AlkoApp.rest;
 
 import cz.cvut.fel.jankupat.AlkoApp.dao.DrinkItemDao;
 import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
