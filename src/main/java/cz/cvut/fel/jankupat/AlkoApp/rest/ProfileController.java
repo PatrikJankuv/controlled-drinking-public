@@ -35,21 +35,21 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     }
 
     //todo vyries aby sa nemazali dni, ked sa updatuje
-//    @Override
-//    public ResponseEntity<Void> updateEntity(Profile entityToUpdate, Integer id) {
-//        Profile profile = service.find(id);
-//        Collection<Day> tempDays = profile.getDays();
-//        Collection<AchievementEnum> tempAchievements = profile.getAchievements();
-//
-//        entityToUpdate.setId(((IEntity)profile).getId());
-//        entityToUpdate.setAchievements(tempAchievements);
-//        entityToUpdate.setDays(tempDays);
-//        service.update(entityToUpdate);
-//
-//        LOG.debug("Updated entity {}.", entityToUpdate);
-//        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entityToUpdate).getId());
-//        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
-//    }
+    @Override
+    public ResponseEntity<Void> updateEntity(Profile entityToUpdate, Integer id) {
+        final Profile entity = service.find(id);
+        if (entity == null) {
+            throw NotFoundException.create(this.getClass().getSimpleName(), id);
+        }
+        ((IEntity)entityToUpdate).setId(((IEntity)entity).getId());
+        entityToUpdate.setDays(entity.getDays());
+
+        service.update(entityToUpdate);
+
+        LOG.debug("Updated entity {}.", entityToUpdate);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entityToUpdate).getId());
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+    }
 
     /**
      * Create a day and add to collection of days User
