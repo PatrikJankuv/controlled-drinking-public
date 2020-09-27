@@ -20,11 +20,11 @@ public class Day extends BaseEntity implements IEntity{
 
     private LocalDate dateTime;
 
-    private String stickWithTime;
-
-    private Double savedMoney;
-
-    private Double maxMile;
+//    private String stickWithTime;
+//
+//    private Double savedMoney;
+//
+//    private Double maxMile;
 
     @ElementCollection(targetClass = FeelingsEnum.class)
     @JoinTable(name = "feelings", joinColumns = @JoinColumn(name = "day_id"))
@@ -67,29 +67,29 @@ public class Day extends BaseEntity implements IEntity{
         this.dateTime = dateTime;
     }
 
-    public String getStickWithTime() {
-        return stickWithTime;
-    }
-
-    public void setStickWithTime(String stickWithTime) {
-        this.stickWithTime = stickWithTime;
-    }
-
-    public Double getSavedMoney() {
-        return savedMoney;
-    }
-
-    public void setSavedMoney(Double savedMoney) {
-        this.savedMoney = savedMoney;
-    }
-
-    public Double getMaxMile() {
-        return maxMile;
-    }
-
-    public void setMaxMile(Double maxMile) {
-        this.maxMile = maxMile;
-    }
+//    public String getStickWithTime() {
+//        return stickWithTime;
+//    }
+//
+//    public void setStickWithTime(String stickWithTime) {
+//        this.stickWithTime = stickWithTime;
+//    }
+//
+//    public Double getSavedMoney() {
+//        return savedMoney;
+//    }
+//
+//    public void setSavedMoney(Double savedMoney) {
+//        this.savedMoney = savedMoney;
+//    }
+//
+//    public Double getMaxMile() {
+//        return maxMile;
+//    }
+//
+//    public void setMaxMile(Double maxMile) {
+//        this.maxMile = maxMile;
+//    }
 
     public Collection<FeelingsEnum> getFeelings() {
         return feelings;

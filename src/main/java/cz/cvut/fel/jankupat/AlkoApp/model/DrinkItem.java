@@ -29,8 +29,18 @@ public class DrinkItem extends BaseEntity implements IEntity{
 
     private Boolean planned = false;
 
+    private String description;
+
     public Day getDay() {
         return day;
+    }
+
+    public String getDesc() {
+        return description;
+    }
+
+    public void setDesc(String desc) {
+        this.description = desc;
     }
 
     public void setDay(Day day) {
