@@ -1,5 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.DrinkTypeEnum;
 
 import javax.persistence.*;
@@ -11,7 +12,9 @@ import javax.persistence.*;
 @Entity
 public class DrinkItem extends BaseEntity implements IEntity{
 
+
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "DAY_ID")
     private Day day;
 

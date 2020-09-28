@@ -1,10 +1,12 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Set;
 
 
 /**
@@ -12,6 +14,7 @@ import java.util.Collection;
  * @created 8/3/2020
  */
 @Entity
+@Table(name="DAY")
 public class Day extends BaseEntity implements IEntity{
 
     private String name;
@@ -32,14 +35,15 @@ public class Day extends BaseEntity implements IEntity{
     @Enumerated(EnumType.STRING)
     private Collection<FeelingsEnum> feelings;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "day")
-    private Collection<DrinkItem> items;
+    private Set<DrinkItem> items;
 
-    public Collection<DrinkItem> getItems() {
+    public Set<DrinkItem> getItems() {
         return items;
     }
 
-    public void setItems(Collection<DrinkItem> items) {
+    public void setItems(Set<DrinkItem> items) {
         this.items = items;
     }
 
