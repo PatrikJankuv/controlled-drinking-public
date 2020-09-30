@@ -22,13 +22,13 @@ public class DrinkItem extends BaseEntity implements IEntity{
 
     private String drinkType;
 
-    private int price;
+    private double price;
 
     private int amount = 0;
 
     private int count;
 
-    private int alcohol;
+    private double alcohol;
 
     private Boolean planned = false;
 
@@ -66,14 +66,6 @@ public class DrinkItem extends BaseEntity implements IEntity{
         this.drinkType = drinkType;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public int getAmount() {
         return amount;
     }
@@ -90,19 +82,35 @@ public class DrinkItem extends BaseEntity implements IEntity{
         this.count = count;
     }
 
-    public int getAlcohol() {
-        return alcohol;
-    }
-
-    public void setAlcohol(int alcohol) {
-        this.alcohol = alcohol;
-    }
-
     public Boolean getPlanned() {
         return planned;
     }
 
     public void setPlanned(Boolean planned) {
         this.planned = planned;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getAlcohol() {
+        return alcohol;
+    }
+
+    public void setAlcohol(double alcohol) {
+        this.alcohol = alcohol;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

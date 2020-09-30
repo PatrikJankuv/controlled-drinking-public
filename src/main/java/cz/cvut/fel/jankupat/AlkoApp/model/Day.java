@@ -23,21 +23,23 @@ public class Day extends BaseEntity implements IEntity{
 
     private LocalDate dateTime;
 
-//    private String stickWithTime;
-//
-//    private Double savedMoney;
-//
-//    private Double maxMile;
-
-    @ElementCollection(targetClass = FeelingsEnum.class)
-    @JoinTable(name = "feelings", joinColumns = @JoinColumn(name = "day_id"))
-    @Column(name = "feeling", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Collection<FeelingsEnum> feelings;
+//    @ElementCollection(targetClass = FeelingsEnum.class)
+//    @JoinTable(name = "feelings", joinColumns = @JoinColumn(name = "day_id"))
+//    @Column(name = "feeling", nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private Collection<FeelingsEnum> feelings;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "day")
     private Set<DrinkItem> items;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "day_reflection",
+            joinColumns =
+                    { @JoinColumn(name = "day_id", referencedColumnName = "id") },
+            inverseJoinColumns =
+                    { @JoinColumn(name = "reflection_id", referencedColumnName = "id") })
+    private Reflection reflection;
 
     public Set<DrinkItem> getItems() {
         return items;
@@ -71,35 +73,18 @@ public class Day extends BaseEntity implements IEntity{
         this.dateTime = dateTime;
     }
 
-//    public String getStickWithTime() {
-//        return stickWithTime;
-//    }
-//
-//    public void setStickWithTime(String stickWithTime) {
-//        this.stickWithTime = stickWithTime;
-//    }
-//
-//    public Double getSavedMoney() {
-//        return savedMoney;
-//    }
-//
-//    public void setSavedMoney(Double savedMoney) {
-//        this.savedMoney = savedMoney;
-//    }
-//
-//    public Double getMaxMile() {
-//        return maxMile;
-//    }
-//
-//    public void setMaxMile(Double maxMile) {
-//        this.maxMile = maxMile;
-//    }
-
-    public Collection<FeelingsEnum> getFeelings() {
-        return feelings;
+    public Reflection getReflection() {
+        return reflection;
     }
 
-    public void setFeelings(Collection<FeelingsEnum> feelings) {
-        this.feelings = feelings;
+    public void setReflection(Reflection reflection) {
+        this.reflection = reflection;
     }
+//    public Collection<FeelingsEnum> getFeelings() {
+//        return feelings;
+//    }
+//
+//    public void setFeelings(Collection<FeelingsEnum> feelings) {
+//        this.feelings = feelings;
+//    }
 }
