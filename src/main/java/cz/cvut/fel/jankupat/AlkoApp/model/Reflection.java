@@ -22,17 +22,6 @@ public class Reflection extends BaseEntity implements IEntity{
     @Enumerated(EnumType.STRING)
     private Set<FeelingsEnum> feelings;
 
-    @OneToOne(mappedBy = "reflection")
-    private Day day;
-
-    public Day getDay() {
-        return day;
-    }
-
-    public void setDay(Day day) {
-        this.day = day;
-    }
-
     public String getDifficulty() {
         return difficulty;
     }

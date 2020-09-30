@@ -34,11 +34,7 @@ public class Day extends BaseEntity implements IEntity{
     private Set<DrinkItem> items;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "day_reflection",
-            joinColumns =
-                    { @JoinColumn(name = "day_id", referencedColumnName = "id") },
-            inverseJoinColumns =
-                    { @JoinColumn(name = "reflection_id", referencedColumnName = "id") })
+    @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
     public Set<DrinkItem> getItems() {
