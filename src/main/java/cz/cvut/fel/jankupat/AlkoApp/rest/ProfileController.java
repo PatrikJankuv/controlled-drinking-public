@@ -6,9 +6,8 @@ import cz.cvut.fel.jankupat.AlkoApp.model.Achievement;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.AchievementEnum;
 import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
-import cz.cvut.fel.jankupat.AlkoApp.service.BaseService;
+import cz.cvut.fel.jankupat.AlkoApp.service.AchievementService;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.time.LocalDateTime;
 
 /**
  * @author Patrik Jankuv
@@ -28,10 +27,12 @@ import java.util.Collection;
 @RequestMapping(path = "/profile")
 public class ProfileController extends BaseController<ProfileService, Profile, ProfileDao> {
     private final DayService dayService;
+    private final AchievementService achievementService;
 
     @Autowired
-    public ProfileController(ProfileService service, DayService dayService){ super(service);
+    public ProfileController(ProfileService service, DayService dayService, AchievementService achievementService){ super(service);
         this.dayService = dayService;
+        this.achievementService = achievementService;
     }
 
     @Override
@@ -84,6 +85,27 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
 
         LOG.debug("Updated entity {}.", profile);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Add achievement and set time for profile
+     *
+     * @param id of Profile
+     * @param achievement Achievement
+     * @return response
+     */
+    @PostMapping(value = "{id}/achievement", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> addAchievement(@PathVariable Integer id, @RequestBody Achievement achievement){
+        Profile profile = service.find(id);
+        achievement.setDateTime(LocalDateTime.now());
+
+        achievementService.persist(achievement);
+        profile.addAchievement(achievement);
+        service.update(profile);
+
+        LOG.debug("Updated entity {}.", profile);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", achievement.getId());
         return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 }

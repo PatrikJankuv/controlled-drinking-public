@@ -48,11 +48,12 @@ public class Profile extends BaseEntity implements IEntity {
             inverseJoinColumns = @JoinColumn(name = "DAY_ID"))
     private Collection<Day> days;
 
-    @ElementCollection(targetClass = FeelingsEnum.class)
-    @JoinTable(name = "PROFILE_ACHIEVEMENT", joinColumns = @JoinColumn(name = "day_id"))
-    @Column(name = "ACHIEVEMENT", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Collection<AchievementEnum> achievements;
+
+    @OneToMany
+    @JoinTable(name = "PROFILE_ACHIEVEMENT",
+            joinColumns = @JoinColumn(name = "PROFILE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ACHIEVEMENT_ID"))
+    private Collection<Achievement> achievements;
 
     public String getName() {
         return name;
@@ -114,11 +115,15 @@ public class Profile extends BaseEntity implements IEntity {
         this.days = days;
     }
 
-    public Collection<AchievementEnum> getAchievements() {
+    public Collection<Achievement> getAchievements() {
         return achievements;
     }
 
-    public void setAchievements(Collection<AchievementEnum> achievements) {
+    public void setAchievements(Collection<Achievement> achievements) {
         this.achievements = achievements;
+    }
+
+    public void addAchievement(Achievement achievement){
+        achievements.add(achievement);
     }
 }
