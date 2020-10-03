@@ -24,6 +24,7 @@ public class DrinkItem extends BaseEntity implements IEntity{
 
     private double price;
 
+    //ml
     private int amount = 0;
 
     private int count;
