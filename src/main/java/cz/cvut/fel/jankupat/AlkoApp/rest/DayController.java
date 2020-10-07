@@ -3,6 +3,7 @@ package cz.cvut.fel.jankupat.AlkoApp.rest;
 import cz.cvut.fel.jankupat.AlkoApp.dao.DayDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
+import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
 import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
@@ -29,12 +30,25 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
         this.reflectionService = reflectionService;
     }
 
+    @Override
+    public ResponseEntity<Void> updateEntity(@RequestBody Day entityToUpdate, @PathVariable("id") Integer id) {
+        Day den = this.service.find(id);
+
+        den.setDateTime(entityToUpdate.getDateTime());
+        den.setDescription(entityToUpdate.getDescription());
+        den.setName(entityToUpdate.getName());
+
+        this.service.update(den);
+        LOG.debug("Updated entity {}.", entityToUpdate);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entityToUpdate).getId());
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+    }
 
     /**
      *
-     * @param id
-     * @param reflection
-     * @return
+     * @param id of day
+     * @param reflection body of new reflection
+     * @return status 202
      */
     @PostMapping(value = "{id}/reflection", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createDayAndAddToProfileDays(@PathVariable Integer id, @RequestBody Reflection reflection){

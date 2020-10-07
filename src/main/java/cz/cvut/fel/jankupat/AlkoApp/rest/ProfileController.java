@@ -35,6 +35,12 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
         this.achievementService = achievementService;
     }
 
+    /**
+     * override method for updating object
+     * @param entityToUpdate source of information, from form
+     * @param   id of edit entity
+     * @return status 201
+     */
     @Override
     public ResponseEntity<Void> updateEntity(@RequestBody Profile entityToUpdate, @PathVariable("id") Integer id) {
         Profile profile = this.service.find(id);
