@@ -18,4 +18,20 @@ public class DrinkItemTime extends BaseEntity implements IEntity{
     private DrinkItem drinkItem;
 
     private LocalTime dateTime;
+
+    public DrinkItem getDrinkItem() {
+        return drinkItem;
+    }
+
+    public void setDrinkItem(DrinkItem drinkItem) {
+        this.drinkItem = drinkItem;
+    }
+
+    public LocalTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalTime dateTime) {
+        this.dateTime = dateTime;
+    }
 }
