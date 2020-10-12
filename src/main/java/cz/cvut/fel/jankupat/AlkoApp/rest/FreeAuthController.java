@@ -1,5 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
+import cz.cvut.fel.jankupat.AlkoApp.dao.UserDao;
 import cz.cvut.fel.jankupat.AlkoApp.model.AuthProvider;
 import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
@@ -56,8 +57,10 @@ public class FreeAuthController {
     @PostMapping("/profile")
     public ResponseEntity<?> createProfile(@RequestBody Profile profile){
         User user = new User();
+        long count = userRepository.count();
 
-        String email = "temp@alcoapp.com";
+        int number = (int)count + 2;
+        String email = "temp" + number + "@alcoapp.com";
         String name = generateRandomString(7);
         String password = generateRandomString(7);
 
@@ -70,10 +73,7 @@ public class FreeAuthController {
         user.setProfile(profile);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        User result = userRepository.save(user);
-
-        //todo generovanie emailov
-
+        userRepository.save(user);
 
         //give time db
         try {
@@ -98,9 +98,14 @@ public class FreeAuthController {
     }
 
     public String generateRandomString(int len) {
-        byte[] array = new byte[len]; // length is bounded by 7
-        new Random().nextBytes(array);
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
 
-        return new String(array, StandardCharsets.UTF_8);
+        return random.ints(leftLimit, rightLimit + 1)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 }
