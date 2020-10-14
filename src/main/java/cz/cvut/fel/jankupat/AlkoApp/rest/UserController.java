@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserRepository userRepository;
@@ -40,6 +40,13 @@ public class UserController {
     public Profile getCurrentUserProfile(@CurrentUser UserPrincipal userPrincipal){
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+
+        Profile temp = user.getProfile();
+        Profile response = new Profile();
+        response.setName(temp.getName());
+        response.setWeight(temp.getWeight());
+
 
         return user.getProfile();
     }
