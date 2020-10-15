@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 public class Achievement extends BaseEntity implements IEntity {
 
     @Column(nullable = false)
-    private AchievementEnum name;
+    private String name;
 
     private LocalDateTime dateTime;
 
-    public AchievementEnum getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(AchievementEnum name) {
+    public void setName(String name) {
         this.name = name;
     }
 

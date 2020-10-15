@@ -23,7 +23,7 @@ public class ProfileService extends BaseService<Profile, ProfileDao> {
      * @param achievementEnum name of achievement
      * @return true if contains, false if not
      */
-    public boolean containsAchievement(Profile profile, AchievementEnum achievementEnum){
+    public boolean containsAchievement(Profile profile, String achievementEnum){
         return profile.getAchievements().stream().anyMatch(p -> p.getName().equals(achievementEnum));
     }
 }

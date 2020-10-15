@@ -20,8 +20,7 @@ public class Profile extends BaseEntity implements IEntity {
     private String name;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
     /**
      * height in cm
@@ -39,8 +38,7 @@ public class Profile extends BaseEntity implements IEntity {
     private int age;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Smoker smoker;
+    private String smoker;
 
     @OneToMany
     @JoinTable(name = "PROFILE_DAY",
@@ -63,11 +61,11 @@ public class Profile extends BaseEntity implements IEntity {
         this.name = name;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -95,11 +93,11 @@ public class Profile extends BaseEntity implements IEntity {
         this.age = age;
     }
 
-    public Smoker getSmoker() {
+    public String getSmoker() {
         return smoker;
     }
 
-    public void setSmoker(Smoker smoker) {
+    public void setSmoker(String smoker) {
         this.smoker = smoker;
     }
 

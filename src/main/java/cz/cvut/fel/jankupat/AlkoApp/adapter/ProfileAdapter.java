@@ -11,7 +11,7 @@ public class ProfileAdapter {
 
     private String name;
 
-    private Gender gender;
+    private String gender;
 
     private int weight;
 
@@ -19,9 +19,9 @@ public class ProfileAdapter {
 
     private int age;
 
-    private Smoker smoker;
+    private String smoker;
 
-    public ProfileAdapter(String name, Gender gender, int weight, int height, int age, Smoker smoker) {
+    public ProfileAdapter(String name, String gender, int weight, int height, int age, String smoker) {
         this.name = name;
         this.gender = gender;
         this.weight = weight;
@@ -62,19 +62,19 @@ public class ProfileAdapter {
         this.age = age;
     }
 
-    public Gender getGender() {
+    public String  getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public Smoker getSmoker() {
+    public String getSmoker() {
         return smoker;
     }
 
-    public void setSmoker(Smoker smoker) {
+    public void setSmoker(String smoker) {
         this.smoker = smoker;
     }
 }
