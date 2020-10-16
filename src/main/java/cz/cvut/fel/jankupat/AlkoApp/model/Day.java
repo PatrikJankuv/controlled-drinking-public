@@ -1,7 +1,9 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,18 +31,22 @@ public class Day extends BaseEntity implements IEntity{
 //    @Enumerated(EnumType.STRING)
 //    private Collection<FeelingsEnum> feelings;
 
+
     @JsonManagedReference
     @OneToMany(mappedBy = "day")
     private Set<DrinkItem> items;
+
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
+
     public Set<DrinkItem> getItems() {
         return items;
     }
 
+    @JsonIgnore
     public void setItems(Set<DrinkItem> items) {
         this.items = items;
     }

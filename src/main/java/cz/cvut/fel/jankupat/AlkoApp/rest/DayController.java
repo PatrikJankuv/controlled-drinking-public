@@ -1,11 +1,14 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
+import cz.cvut.fel.jankupat.AlkoApp.adapter.ProfileAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.dao.DayDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
-import cz.cvut.fel.jankupat.AlkoApp.model.Day;
-import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
-import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
+import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
+import cz.cvut.fel.jankupat.AlkoApp.model.*;
+import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
 import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
+import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
+import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ReflectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author Patrik Jankuv
@@ -24,6 +30,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/day")
 public class DayController extends BaseController<DayService, Day, DayDao> {
     private final ReflectionService reflectionService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public DayController(DayService service, ReflectionService reflectionService){ super(service);
@@ -65,5 +74,19 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
         LOG.debug("Updated entity {}.", day);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", reflection.getId());
         return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * @param userPrincipal current user
+     * @return Profile variables without relationships
+     */
+    @GetMapping("/adapter")
+    public Collection<Day> getCurrentUserDays(@CurrentUser UserPrincipal userPrincipal) {
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+        Profile temp = user.getProfile();
+
+        return temp.getDays();
     }
 }

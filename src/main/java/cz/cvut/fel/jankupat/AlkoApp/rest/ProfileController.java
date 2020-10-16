@@ -1,13 +1,16 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
+import cz.cvut.fel.jankupat.AlkoApp.adapter.ProfileAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.dao.ProfileDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
-import cz.cvut.fel.jankupat.AlkoApp.model.Achievement;
-import cz.cvut.fel.jankupat.AlkoApp.model.Day;
-import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
-import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
+import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
+import cz.cvut.fel.jankupat.AlkoApp.model.*;
+import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
 import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
+import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
+import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
 import cz.cvut.fel.jankupat.AlkoApp.service.AchievementService;
+import cz.cvut.fel.jankupat.AlkoApp.service.BaseService;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ import java.time.LocalDateTime;
 public class ProfileController extends BaseController<ProfileService, Profile, ProfileDao> {
     private final DayService dayService;
     private final AchievementService achievementService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     public ProfileController(ProfileService service, DayService dayService, AchievementService achievementService){ super(service);
@@ -109,5 +115,61 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
             final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", profile.getId());
             return new ResponseEntity<>(headers, HttpStatus.NOT_MODIFIED);
         }
+    }
+
+    /**
+     * @param userPrincipal current user
+     * @return Profile variables without relationships
+     */
+    @GetMapping("/me")
+    public ProfileAdapter getCurrentUserProfile(@CurrentUser UserPrincipal userPrincipal) {
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+        Profile temp = user.getProfile();
+
+        return new ProfileAdapter(temp.getName(), temp.getGender(), temp.getWeight(), temp.getHeight(), temp.getAge(), temp.getSmoker());
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<Void> updateCurrentProfile(@CurrentUser UserPrincipal userPrincipal, @RequestBody Profile entityToUpdate) {
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+        Profile profile = user.getProfile();
+        profile.setName(entityToUpdate.getName());
+        profile.setAge(entityToUpdate.getAge());
+        profile.setGender(entityToUpdate.getGender());
+        profile.setHeight(entityToUpdate.getHeight());
+        profile.setSmoker(entityToUpdate.getSmoker());
+        profile.setWeight(entityToUpdate.getWeight());
+
+        service.update(profile);
+
+        LOG.debug("Updated entity {}.", profile);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)profile).getId());
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     *
+     * @param userPrincipal current user
+     * @param day new day which gonna add
+     * @return
+     */
+    @PostMapping("/day")
+    public ResponseEntity<Void> addDayCurrentProfile(@CurrentUser UserPrincipal userPrincipal, @RequestBody Day day) {
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+
+        Profile temp = user.getProfile();
+
+        dayService.persist(day);
+        temp.addDay(day);
+        service.update(temp);
+
+        LOG.debug("Updated entity {}.", temp);
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
+        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 }
