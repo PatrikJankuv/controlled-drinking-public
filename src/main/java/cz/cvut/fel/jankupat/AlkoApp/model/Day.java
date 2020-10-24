@@ -1,5 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
@@ -17,6 +18,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name="DAY")
+@JsonIgnoreProperties(value = { "items", "reflection" })
 public class Day extends BaseEntity implements IEntity{
 
     private String name;
@@ -31,12 +33,12 @@ public class Day extends BaseEntity implements IEntity{
 //    @Enumerated(EnumType.STRING)
 //    private Collection<FeelingsEnum> feelings;
 
-
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "day")
     private Set<DrinkItem> items;
 
-
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
