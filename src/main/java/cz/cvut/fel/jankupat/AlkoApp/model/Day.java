@@ -18,7 +18,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name="DAY")
-@JsonIgnoreProperties(value = { "items", "reflection" })
 public class Day extends BaseEntity implements IEntity{
 
     private String name;
@@ -33,12 +32,11 @@ public class Day extends BaseEntity implements IEntity{
 //    @Enumerated(EnumType.STRING)
 //    private Collection<FeelingsEnum> feelings;
 
-    @JsonIgnore
     @JsonManagedReference
-    @OneToMany(mappedBy = "day")
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
     private Set<DrinkItem> items;
 
-    @JsonIgnore
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
@@ -84,11 +82,4 @@ public class Day extends BaseEntity implements IEntity{
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
     }
-//    public Collection<FeelingsEnum> getFeelings() {
-//        return feelings;
-//    }
-//
-//    public void setFeelings(Collection<FeelingsEnum> feelings) {
-//        this.feelings = feelings;
-//    }
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class DrinkItem extends BaseEntity implements IEntity{
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     @JoinColumn(name = "DAY_ID")
     private Day day;
