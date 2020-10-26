@@ -153,7 +153,7 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
                     break;
             }
         }
-        System.out.println(response.toString());
+
         return response.toString();
     }
 
