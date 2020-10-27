@@ -68,8 +68,18 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
         }
 
         reflectionService.persist(reflection);
+
+        //clean existing reflection
+        Reflection r = day.getReflection();
+
         day.setReflection(reflection);
         service.update(day);
+
+        if(r != null){
+            int rid = r.getId();
+            Reflection ref = reflectionService.find(rid);
+            reflectionService.remove(ref);
+        }
 
         LOG.debug("Updated entity {}.", day);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", reflection.getId());
