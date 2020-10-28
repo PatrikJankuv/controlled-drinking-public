@@ -29,13 +29,13 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
     public void persist(DrinkItem object) {
         super.persist(object);
 
-        //todo - time
-//        if(object.getPlanned()){
-//            DrinkItemTime time = new DrinkItemTime();
-//            time.setDrinkItem(object);
-//            time.setDateTime(LocalTime.now());
-//            drinkItemTimeDao.persist(time);
-//        }
+        if(!object.getPlanned()){
+            DrinkItemTime time = new DrinkItemTime();
+            time.setDrinkItem(object);
+            time.setDateTime(LocalTime.now());
+            drinkItemTimeDao.persist(time);
+        }
+
     }
 
     @Override
@@ -43,12 +43,11 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         super.update(object);
         Objects.requireNonNull(object);
 
-        //todo - time
-//        if(!object.getPlanned()){
-//            DrinkItemTime time = new DrinkItemTime();
-//            time.setDrinkItem(object);
-//            time.setDateTime(LocalTime.now());
-//            drinkItemTimeDao.persist(time);
-//        }
+        if(!object.getPlanned()){
+            DrinkItemTime time = new DrinkItemTime();
+            time.setDrinkItem(object);
+            time.setDateTime(LocalTime.now());
+            drinkItemTimeDao.persist(time);
+        }
     }
 }

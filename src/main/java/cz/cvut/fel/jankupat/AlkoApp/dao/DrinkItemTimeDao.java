@@ -14,4 +14,8 @@ public class DrinkItemTimeDao extends BaseDao<DrinkItemTime> {
     public DrinkItemTimeDao(){
         super(DrinkItemTime.class);
     }
+
+    public DrinkItemTime findDrinkItemTimeAccordingDrink(DrinkItem drinkItem){
+        return em.createQuery("SELECT t FROM DrinkItemTime t where t.drinkItem = :item", DrinkItemTime.class).setParameter("item", drinkItem).getResultList().get(0);
+    }
 }
