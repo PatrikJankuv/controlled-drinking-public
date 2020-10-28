@@ -40,7 +40,7 @@ public class Profile extends BaseEntity implements IEntity {
     @Column(nullable = false)
     private String smoker;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "PROFILE_DAY",
             joinColumns = @JoinColumn(name = "PROFILE_ID"),
             inverseJoinColumns = @JoinColumn(name = "DAY_ID"))

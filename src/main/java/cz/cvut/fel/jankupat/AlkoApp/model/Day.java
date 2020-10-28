@@ -26,12 +26,6 @@ public class Day extends BaseEntity implements IEntity{
 
     private LocalDate dateTime;
 
-//    @ElementCollection(targetClass = FeelingsEnum.class)
-//    @JoinTable(name = "feelings", joinColumns = @JoinColumn(name = "day_id"))
-//    @Column(name = "feeling", nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    private Collection<FeelingsEnum> feelings;
-
     @JsonManagedReference
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
     private Set<DrinkItem> items;
@@ -46,7 +40,6 @@ public class Day extends BaseEntity implements IEntity{
         return items;
     }
 
-    @JsonIgnore
     public void setItems(Set<DrinkItem> items) {
         this.items = items;
     }
