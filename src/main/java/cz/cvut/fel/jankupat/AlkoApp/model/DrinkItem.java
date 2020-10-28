@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.DrinkTypeEnum;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 
 /**
  * @author Patrik Jankuv
@@ -31,9 +32,11 @@ public class DrinkItem extends BaseEntity implements IEntity{
 
     private double alcohol;
 
-    private Boolean planned = false;
+    private Boolean planned;
 
     private String description;
+
+    private LocalTime dateTime;
 
     public Day getDay() {
         return day;
@@ -113,5 +116,13 @@ public class DrinkItem extends BaseEntity implements IEntity{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalTime dateTime) {
+        this.dateTime = dateTime;
     }
 }
