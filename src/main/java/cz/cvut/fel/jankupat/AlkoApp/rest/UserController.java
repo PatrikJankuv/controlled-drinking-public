@@ -1,15 +1,18 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
+import cz.cvut.fel.jankupat.AlkoApp.exception.BadRequestException;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.AuthProvider;
 import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.User;
 import cz.cvut.fel.jankupat.AlkoApp.payload.ApiResponse;
+import cz.cvut.fel.jankupat.AlkoApp.payload.AuthResponse;
 import cz.cvut.fel.jankupat.AlkoApp.payload.SignUpRequest;
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
 import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
 import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
+import cz.cvut.fel.jankupat.AlkoApp.security.TokenProvider;
 import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,6 +41,12 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @GetMapping("/user/me")
 //    @PreAuthorize("hasRole('USER')")
@@ -95,6 +108,10 @@ public class UserController {
      */
     @PostMapping("/user/signup")
     public ResponseEntity<?> signUpWithExistingProfile(@CurrentUser UserPrincipal userPrincipal, @Valid @RequestBody SignUpRequest signUpRequest){
+        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new BadRequestException("Email address already in use.");
+        }
+
         User oldUser = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
@@ -116,12 +133,17 @@ public class UserController {
 
         User result = userRepository.save(user);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/user/me")
-                .buildAndExpand(result.getId()).toUri();
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getEmail(),
+                        user.getPassword()
+                )
+        );
 
-        return ResponseEntity.created(location)
-                .body(new ApiResponse(true, "User registered successfully@"));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = tokenProvider.createToken(authentication);
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
 
