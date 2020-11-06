@@ -1,6 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
 import cz.cvut.fel.jankupat.AlkoApp.exception.BadRequestException;
+import cz.cvut.fel.jankupat.AlkoApp.exception.BaseException;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.AuthProvider;
 import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
@@ -108,13 +109,13 @@ public class UserController {
      */
     @PostMapping("/user/signup")
     public ResponseEntity<?> signUpWithExistingProfile(@CurrentUser UserPrincipal userPrincipal, @Valid @RequestBody SignUpRequest signUpRequest){
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new BadRequestException("Email address already in use.");
-        }
-
         User oldUser = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
 
+
+        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new BaseException("Email address already in use.");
+        }
 
         Profile profile = oldUser.getProfile();
         oldUser.setProfile(null);
@@ -128,20 +129,17 @@ public class UserController {
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
         user.setProfile(profile);
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        User result = userRepository.save(user);
+        userRepository.save(user);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         user.getEmail(),
-                        user.getPassword()
+                        signUpRequest.getPassword()
                 )
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String token = tokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token));
     }
