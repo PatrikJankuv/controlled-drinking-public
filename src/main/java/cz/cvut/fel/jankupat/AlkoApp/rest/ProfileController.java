@@ -10,7 +10,6 @@ import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
 import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
 import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
 import cz.cvut.fel.jankupat.AlkoApp.service.AchievementService;
-import cz.cvut.fel.jankupat.AlkoApp.service.BaseService;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Patrik Jankuv
@@ -36,15 +37,17 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     private UserRepository userRepository;
 
     @Autowired
-    public ProfileController(ProfileService service, DayService dayService, AchievementService achievementService){ super(service);
+    public ProfileController(ProfileService service, DayService dayService, AchievementService achievementService) {
+        super(service);
         this.dayService = dayService;
         this.achievementService = achievementService;
     }
 
     /**
      * override method for updating object
+     *
      * @param entityToUpdate source of information, from form
-     * @param   id of edit entity
+     * @param id             of edit entity
      * @return status 201
      */
     @Override
@@ -60,46 +63,55 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
 
         this.service.update(profile);
         LOG.debug("Updated entity {}.", entityToUpdate);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)entityToUpdate).getId());
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity) entityToUpdate).getId());
         return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 
 
-    /**
-     * Create a day and add to collection of days User
-     *
-     * @param id id of Profile
-     * @param day body of day, which gonna create
-     * @return response 202
-     */
-    @PostMapping(value = "/{id}/day", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createDayAndAddToProfileDays(@PathVariable Integer id, @RequestBody Day day){
-        Profile profile = service.find(id);
-        if (profile == null) {
-            throw NotFoundException.create(this.getClass().getSimpleName(), id);
-        }
-
-        dayService.persist(day);
-        profile.addDay(day);
-        service.update(profile);
-
-        LOG.debug("Updated entity {}.", profile);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
-        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
-    }
+//    /**
+//     * Create a day and add to collection of days User
+//     *
+//     * @param id  id of Profile
+//     * @param day body of day, which gonna create
+//     * @return response 202
+//     */
+//    @PostMapping(value = "/{id}/day", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Void> createDayAndAddToProfileDays(@PathVariable Integer id, @RequestBody Day day) {
+//        Profile profile = service.find(id);
+//        if (profile == null) {
+//            throw NotFoundException.create(this.getClass().getSimpleName(), id);
+//        }
+//
+//        //prevent duplicate days with same date
+//        Collection<Day> dni = profile.getDays();
+//        Day finalDay = day;
+//        Day den = dni.stream().filter(day1 -> finalDay.getDateTime() == day1.getDateTime()).findFirst().orElse(null);
+//
+//        if (den == null) {
+//            dayService.persist(day);
+//            profile.addDay(day);
+//            service.update(profile);
+//        } else {
+//            day = den;
+//        }
+//
+//        LOG.debug("Updated entity {}.", profile);
+//        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
+//        return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
+//    }
 
     /**
      * Add achievement and set time for profile
      *
-     * @param id of Profile
+     * @param id          of Profile
      * @param achievement Achievement
      * @return response
      */
     @PostMapping(value = "{id}/achievement", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addAchievement(@PathVariable Integer id, @RequestBody Achievement achievement){
+    public ResponseEntity<Void> addAchievement(@PathVariable Integer id, @RequestBody Achievement achievement) {
         Profile profile = service.find(id);
 
-        if(!service.containsAchievement(profile, achievement.getName())){
+        if (!service.containsAchievement(profile, achievement.getName())) {
 
             achievement.setDateTime(LocalDateTime.now());
             achievementService.persist(achievement);
@@ -109,8 +121,7 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
             LOG.debug("Updated entity {}.", profile);
             final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", achievement.getId());
             return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
-        }
-        else {
+        } else {
             LOG.debug("Profile contains achievement {}.", profile);
             final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", profile.getId());
             return new ResponseEntity<>(headers, HttpStatus.NOT_MODIFIED);
@@ -147,14 +158,13 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
         service.update(profile);
 
         LOG.debug("Updated entity {}.", profile);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity)profile).getId());
+        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", ((IEntity) profile).getId());
         return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 
     /**
-     *
      * @param userPrincipal current user
-     * @param day new day which gonna add
+     * @param day           new day which gonna add
      * @return
      */
     @PostMapping("/day")
@@ -164,9 +174,18 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
 
         Profile temp = user.getProfile();
 
-        dayService.persist(day);
-        temp.addDay(day);
-        service.update(temp);
+        //prevent duplicate days with same date
+        Collection<Day> dni = temp.getDays();
+        Day finalDay = day;
+        Day den = dni.stream().filter(day1 -> finalDay.getDateTime().equals(day1.getDateTime())).findFirst().orElse(null);
+
+        if (den == null) {
+            dayService.persist(day);
+            temp.addDay(day);
+            service.update(temp);
+        } else {
+            day = den;
+        }
 
         LOG.debug("Updated entity {}.", temp);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
