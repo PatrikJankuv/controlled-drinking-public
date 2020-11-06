@@ -165,7 +165,7 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     /**
      * @param userPrincipal current user
      * @param day           new day which gonna add
-     * @return
+     * @return 202 if succesfull
      */
     @PostMapping("/day")
     public ResponseEntity<Void> addDayCurrentProfile(@CurrentUser UserPrincipal userPrincipal, @RequestBody Day day) {
@@ -179,13 +179,22 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
         Day finalDay = day;
         Day den = dni.stream().filter(day1 -> finalDay.getDateTime().equals(day1.getDateTime())).findFirst().orElse(null);
 
-        if (den == null) {
+        try {
+            if (den == null) {
+                dayService.persist(day);
+                temp.addDay(day);
+                service.update(temp);
+            }
+            else{
+                day = den;
+            }
+        } catch (NullPointerException ex) {
             dayService.persist(day);
             temp.addDay(day);
             service.update(temp);
-        } else {
-            day = den;
         }
+
+//        }
 
         LOG.debug("Updated entity {}.", temp);
         final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", day.getId());
