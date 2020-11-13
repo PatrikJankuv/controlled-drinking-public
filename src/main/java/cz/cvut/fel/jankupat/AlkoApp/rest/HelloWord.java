@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @created 7/20/2020
  */
 
-@RestController
-@RequestMapping("")
+//@RestController
+//@RequestMapping("")
 public class HelloWord {
 
     @GetMapping

@@ -10,7 +10,7 @@ spring:
             ddl-auto: update
         properties:
             hibernate:
-              default_schema: public
+              default_schema: dev
               dialect: org.hibernate.dialect.PostgreSQLDialect
     security:
       oauth2:
