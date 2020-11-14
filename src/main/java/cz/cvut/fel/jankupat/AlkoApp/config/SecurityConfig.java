@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //disable security
         http.authorizeRequests().antMatchers("/").permitAll();
 
-//        disable security
+//       // comment this code to disable security
 //        http
 //                .cors()
 //                    .and()

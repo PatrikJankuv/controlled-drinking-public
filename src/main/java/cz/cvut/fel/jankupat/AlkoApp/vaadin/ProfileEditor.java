@@ -62,8 +62,8 @@ public class ProfileEditor extends VerticalLayout implements KeyNotifier {
     public ProfileEditor(ProfileRepository repository, ProfileService service) {
 
         this.service = service;
-
-        add(name, gender, weight, height, age, smoker, actions);
+        HorizontalLayout items = new HorizontalLayout(name, gender, weight, height, age, smoker);
+        add(items, actions);
 
         // bind using naming convention
 
