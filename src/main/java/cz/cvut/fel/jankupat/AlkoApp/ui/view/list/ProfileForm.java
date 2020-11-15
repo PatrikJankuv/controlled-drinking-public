@@ -1,13 +1,11 @@
-package cz.cvut.fel.jankupat.AlkoApp.vaadin;
+package cz.cvut.fel.jankupat.AlkoApp.ui.view.list;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
@@ -39,7 +37,6 @@ public class ProfileForm extends FormLayout {
     private Profile profile;
     ProfileService service;
     Binder<Profile> binder = new Binder<>(Profile.class);
-    private ProfileEditor.ChangeHandler changeHandler;
 
     public ProfileForm() {
         addClassName("contact-form");
@@ -55,8 +52,7 @@ public class ProfileForm extends FormLayout {
                 .withConverter(
                         new StringToIntegerConverter("Must enter a number"))
                 .bind(Profile::getAge, Profile::setAge);
-//        gender.setItems(Gender.values());
-//        smoker.setItems(Smoker.values());
+
 
         binder.bindInstanceFields(this);
 

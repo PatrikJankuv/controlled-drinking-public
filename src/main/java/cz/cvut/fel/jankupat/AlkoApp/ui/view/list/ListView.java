@@ -1,10 +1,12 @@
-package cz.cvut.fel.jankupat.AlkoApp.vaadin;
+package cz.cvut.fel.jankupat.AlkoApp.ui.view.list;
 
 /**
  * @author Patrik Jankuv
  * @created 11/13/2020
  */
+
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -12,15 +14,18 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.repository.ProfileRepository;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
+import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
 
 
-@Route("")
-@CssImport("./styles/shared-styles.css")
-public class MainView extends VerticalLayout {
+@Route(value = "", layout = MainLayout.class)
+public class ListView extends VerticalLayout {
 
     private final ProfileForm form;
     Grid<Profile> grid = new Grid<>(Profile.class);
@@ -29,7 +34,7 @@ public class MainView extends VerticalLayout {
     private ProfileService contactService;
     private ProfileRepository profileRepository;
 
-    public MainView(ProfileService contactService, ProfileRepository repository) {
+    public ListView(ProfileService contactService, ProfileRepository repository) {
         this.contactService = contactService;
         this.profileRepository = repository;
         addClassName("list-view");
@@ -75,10 +80,15 @@ public class MainView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addContactButton = new Button("Add contact");
+        Button addContactButton = new Button("Pridaj profil");
         addContactButton.addClickListener(click -> addContact());
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, addContactButton);
+        Button statistic = new Button("Štatistika");
+        statistic.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        RouterLink routerLink = new RouterLink("", GenderDashboard.class);
+        routerLink.getElement().appendChild(statistic.getElement());
+
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, addContactButton, routerLink);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
