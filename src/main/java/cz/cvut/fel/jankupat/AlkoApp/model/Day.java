@@ -1,14 +1,9 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Set;
 
 
@@ -27,7 +22,7 @@ public class Day extends BaseEntity implements IEntity{
     private LocalDate dateTime;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<DrinkItem> items;
 
 

@@ -5,11 +5,17 @@ import cz.cvut.fel.jankupat.AlkoApp.model.enums.DrinkTypeEnum;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.Collection;
 
 /**
  * @author Patrik Jankuv
  * @created 8/3/2020
  */
+
+
+//@NamedQueries({
+//        @NamedQuery(name = "DrinkItem.findByProfile", query = "SELECT di from drink_item di INNER JOIN profile_day pd on di.day_id = pd.day_id where pd.profile_id = 1")
+//})
 @Entity
 public class DrinkItem extends BaseEntity implements IEntity{
 
@@ -26,7 +32,7 @@ public class DrinkItem extends BaseEntity implements IEntity{
     private double price;
 
     //ml
-    private int amount = 0;
+    private int amount;
 
     private int count;
 
@@ -125,4 +131,5 @@ public class DrinkItem extends BaseEntity implements IEntity{
     public void setDateTime(LocalTime dateTime) {
         this.dateTime = dateTime;
     }
+
 }

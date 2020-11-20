@@ -33,6 +33,7 @@ public class ProfileForm extends FormLayout {
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
+    Button profileDetailes = new Button("Profile details");
 
     private Profile profile;
     ProfileService service;
@@ -58,6 +59,7 @@ public class ProfileForm extends FormLayout {
 
 
         add(
+                createProfileDetailButton(),
                 name,
                 age,
                 weight,
@@ -71,6 +73,11 @@ public class ProfileForm extends FormLayout {
     public void setContact(Profile contact) {
         this.profile = contact;
         binder.readBean(contact);
+    }
+
+    private Component createProfileDetailButton(){
+        profileDetailes.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
+        return profileDetailes;
     }
 
     private Component createButtonsLayout() {

@@ -1,14 +1,14 @@
 package cz.cvut.fel.jankupat.AlkoApp.service;
 
+import cz.cvut.fel.jankupat.AlkoApp.dao.DayDao;
+import cz.cvut.fel.jankupat.AlkoApp.dao.DrinkItemDao;
 import cz.cvut.fel.jankupat.AlkoApp.dao.ProfileDao;
+import cz.cvut.fel.jankupat.AlkoApp.model.Day;
+import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.AchievementEnum;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Patrik Jankuv
@@ -17,8 +17,10 @@ import java.util.Map;
 @Service
 public class ProfileService extends BaseService<Profile, ProfileDao> {
 
+
     public ProfileService(ProfileDao dao) {
         super(dao);
+
     }
 
     /**
@@ -33,7 +35,6 @@ public class ProfileService extends BaseService<Profile, ProfileDao> {
     }
 
     /**
-     *
      * @return count genders in map
      */
     public Map<String, Integer> getGenderStats() {
@@ -55,12 +56,11 @@ public class ProfileService extends BaseService<Profile, ProfileDao> {
                 otherCount++;
             }
 
-            if (profile.getSmoker().equals("YES")){
+            if (profile.getSmoker().equals("YES")) {
                 smoke++;
-            }
-            else if(profile.getSmoker().equals("NO")){
+            } else if (profile.getSmoker().equals("NO")) {
                 nosmoke++;
-            }else {
+            } else {
                 ocasionally++;
             }
         }
@@ -73,5 +73,13 @@ public class ProfileService extends BaseService<Profile, ProfileDao> {
         response.put("nosmoke", nosmoke);
         response.put("ocas_smoke", ocasionally);
         return response;
+    }
+
+    public List<DrinkItem> getPlannedItems(Profile profile) {
+        Collection<Day> days = profile.getDays();
+
+
+        List<DrinkItem> items = new LinkedList<>();
+        return items;
     }
 }

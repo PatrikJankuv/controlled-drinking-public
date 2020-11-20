@@ -7,14 +7,12 @@ package cz.cvut.fel.jankupat.AlkoApp.ui.view.list;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
@@ -64,7 +62,7 @@ public class ListView extends VerticalLayout {
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(event ->
-                editContact(event.getValue()));
+                editProfile(event.getValue()));
     }
 
     private void configureFilter() {
@@ -95,14 +93,14 @@ public class ListView extends VerticalLayout {
 
     private void addContact() {
         grid.asSingleSelect().clear();
-        editContact(new Profile());
+        editProfile(new Profile());
     }
 
     private void updateList() {
         grid.setItems(profileRepository.findByNameStartsWithIgnoreCase(filterText.getValue()));
     }
 
-    public void editContact(Profile contact) {
+    public void editProfile(Profile contact) {
         if (contact == null) {
             closeEditor();
         } else {

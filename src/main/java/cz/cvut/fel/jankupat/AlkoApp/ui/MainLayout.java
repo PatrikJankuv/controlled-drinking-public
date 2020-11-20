@@ -10,8 +10,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.CalendarView;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.ListView;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.UsersList;
 
 /**
  * @author Patrik Jankuv
@@ -48,7 +50,9 @@ public class MainLayout extends AppLayout {
 
         addToDrawer(new VerticalLayout(
                 listLink,
-                new RouterLink("Dashboard", GenderDashboard.class)
+                new RouterLink("Dashboard", GenderDashboard.class),
+                new RouterLink("Calendar", CalendarView.class),
+                new RouterLink("Users", UsersList.class)
         ));
     }
 }

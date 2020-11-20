@@ -23,6 +23,7 @@ import com.vaadin.flow.router.Route;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 
+import java.awt.*;
 import java.util.Map;
 
 
@@ -36,10 +37,18 @@ public class GenderDashboard extends VerticalLayout {
         this.contactService = contactService;
         genderStats = contactService.getGenderStats();
 
-        VerticalLayout genders = new VerticalLayout(new Span("Pohlaví"), pieChartExample());
-        VerticalLayout smoker = new VerticalLayout(new Span("Kuřáci"), pieSmokerChartExample());
-        HorizontalLayout grafy = new HorizontalLayout(genders, smoker);
-        add(grafy);
+//        VerticalLayout genders = new VerticalLayout(new Span("Pohlaví"), pieChartExample());
+//        VerticalLayout smoker = new VerticalLayout(new Span("Kuřáci"), pieSmokerChartExample());
+//        setFlexGrow(1, genders);
+////        setFlexGrow(1, smoker);
+////        add(genders);
+////        add(smoker);
+//        Div content = new Div(pieSmokerChartExample(), pieSmokerChartExample());
+//        add(content);
+
+        HorizontalLayout layout = new HorizontalLayout(pieChartExample(), pieSmokerChartExample());
+        layout.setWidthFull();
+        add(layout);
         addClassName("dashboard-view");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
     }
@@ -69,14 +78,16 @@ public class GenderDashboard extends VerticalLayout {
                                 .build())
                         .build())
                 .build();
-        pieChart.setColors("#2ab7ca","#fe4a49", "#fed766");
+        pieChart.setColors("#2ab7ca", "#fe4a49", "#fed766");
 //        setWidth("120%");
+        pieChart.setWidthFull();
 
-        return pieChart;
+        VerticalLayout verL = new VerticalLayout(stats, pieChart);
+        return verL;
     }
 
     public Component pieSmokerChartExample() {
-
+        Span stats = new Span("Kuřáci");
         ApexCharts pieChart = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get().withType(Type.pie).build())
                 .withLabels("Áno", "Ne", "Občas")
@@ -93,10 +104,10 @@ public class GenderDashboard extends VerticalLayout {
                                 .build())
                         .build())
                 .build();
-        pieChart.setColors("#2ab7ca","#fe4a49", "#fed766");
-//        setWidth("100%");
-
-        return pieChart;
+        pieChart.setColors("#2ab7ca", "#fe4a49", "#fed766");
+        pieChart.setWidthFull();
+        VerticalLayout verL = new VerticalLayout(stats, pieChart);
+        return verL;
     }
 
 
