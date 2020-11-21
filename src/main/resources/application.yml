@@ -5,7 +5,7 @@ spring:
         password: 9996ab69091445c7c9c0899a469ac1cab45819d471744766255868227f586c13
 
     jpa:
-        show-sql: true
+        show-sql: false
         hibernate:
             ddl-auto: update
         properties:

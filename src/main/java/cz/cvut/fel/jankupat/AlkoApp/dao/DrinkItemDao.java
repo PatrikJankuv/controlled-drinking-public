@@ -27,7 +27,6 @@ public class DrinkItemDao extends BaseDao<DrinkItem> {
 
 
     public List<DrinkItem> getProfileItems(Profile profile, LocalDate dt) {
-//        LocalDate dt = LocalDate.of(2020, 11, 4);
         Day items = em.createQuery("SELECT d from Profile p INNER JOIN p.days d WHERE p.id = ?1 AND d.dateTime = ?2", Day.class).setParameter(1, profile.getId()).setParameter(2, dt).getSingleResult();
 
         return new ArrayList<>(items.getItems());

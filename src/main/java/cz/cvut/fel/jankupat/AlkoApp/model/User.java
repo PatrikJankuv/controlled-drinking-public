@@ -36,7 +36,6 @@ public class User {
     private AuthProvider provider;
 
 //todo solve problem with roles
-
 //    @Column(nullable = false)
 //    @Enumerated(EnumType.STRING)
 //    private AccountRole role = AccountRole.USER;

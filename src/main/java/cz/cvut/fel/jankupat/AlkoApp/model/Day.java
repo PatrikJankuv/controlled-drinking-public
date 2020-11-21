@@ -30,6 +30,15 @@ public class Day extends BaseEntity implements IEntity{
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
+    private Boolean planAccomplished;
+
+    public Boolean getPlanAccomplished() {
+        return planAccomplished;
+    }
+
+    public void setPlanAccomplished(Boolean planAccomplished) {
+        this.planAccomplished = planAccomplished;
+    }
 
     public Set<DrinkItem> getItems() {
         return items;

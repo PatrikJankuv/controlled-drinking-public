@@ -12,10 +12,6 @@ import java.util.Collection;
  * @created 8/3/2020
  */
 
-
-//@NamedQueries({
-//        @NamedQuery(name = "DrinkItem.findByProfile", query = "SELECT di from drink_item di INNER JOIN profile_day pd on di.day_id = pd.day_id where pd.profile_id = 1")
-//})
 @Entity
 public class DrinkItem extends BaseEntity implements IEntity{
 

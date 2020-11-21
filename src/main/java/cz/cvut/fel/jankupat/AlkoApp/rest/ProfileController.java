@@ -175,6 +175,7 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
         Profile temp = user.getProfile();
 
         //prevent duplicate days with same date
+        //todo do if by sql request
         Collection<Day> dni = temp.getDays();
         Day finalDay = day;
         Day den = dni.stream().filter(day1 -> finalDay.getDateTime().equals(day1.getDateTime())).findFirst().orElse(null);
