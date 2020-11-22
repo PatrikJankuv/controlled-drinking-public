@@ -12,6 +12,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.CalendarView;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.PlaneChart;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.ListView;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.UsersList;
 
@@ -52,7 +53,8 @@ public class MainLayout extends AppLayout {
                 listLink,
                 new RouterLink("Dashboard", GenderDashboard.class),
                 new RouterLink("Calendar", CalendarView.class),
-                new RouterLink("Users", UsersList.class)
+                new RouterLink("Users", UsersList.class),
+                new RouterLink("Planes", PlaneChart.class)
         ));
     }
 }

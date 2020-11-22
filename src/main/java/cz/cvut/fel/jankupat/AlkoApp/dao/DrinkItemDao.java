@@ -25,7 +25,12 @@ public class DrinkItemDao extends BaseDao<DrinkItem> {
         super(DrinkItem.class);
     }
 
-
+    /**
+     *
+     * @param profile Profile
+     * @param dt Date
+     * @return Profile's drinkitems drank in Date
+     */
     public List<DrinkItem> getProfileItems(Profile profile, LocalDate dt) {
         Day items = em.createQuery("SELECT d from Profile p INNER JOIN p.days d WHERE p.id = ?1 AND d.dateTime = ?2", Day.class).setParameter(1, profile.getId()).setParameter(2, dt).getSingleResult();
 
