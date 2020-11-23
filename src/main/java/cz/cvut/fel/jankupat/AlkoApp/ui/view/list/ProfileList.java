@@ -23,16 +23,16 @@ import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
 
 
 @Route(value = "", layout = MainLayout.class)
-public class ListView extends VerticalLayout {
+public class ProfileList extends VerticalLayout {
 
     private final ProfileForm form;
-    Grid<Profile> grid = new Grid<>(Profile.class);
-    TextField filterText = new TextField();
+    private Grid<Profile> grid = new Grid<>(Profile.class);
+    private TextField filterText = new TextField();
 
     private ProfileService contactService;
     private ProfileRepository profileRepository;
 
-    public ListView(ProfileService contactService, ProfileRepository repository) {
+    public ProfileList(ProfileService contactService, ProfileRepository repository) {
         this.contactService = contactService;
         this.profileRepository = repository;
         addClassName("list-view");

@@ -10,6 +10,8 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
@@ -28,7 +30,7 @@ import java.util.List;
 
 @EnableVaadin({"com.example.application", "org.vaadin.stefan"})
 @Route(value = "calendar", layout = MainLayout.class)
-public class CalendarView extends VerticalLayout {
+public class CalendarView extends VerticalLayout implements HasUrlParameter<Integer> {
 
     private Grid<DrinkItem> planned = new Grid<>(DrinkItem.class);
     private Grid<DrinkItem> drunk = new Grid<>(DrinkItem.class);
@@ -40,7 +42,9 @@ public class CalendarView extends VerticalLayout {
     Icon fail = new Icon(VaadinIcon.FROWN_O);
     Span text = new Span();
 
-    CalendarView(ProfileService profileService, DrinkItemService service) {
+    Integer profileId;
+
+    public CalendarView(ProfileService profileService, DrinkItemService service) {
         this.profileService = profileService;
         this.drinkItemService = service;
 
@@ -119,5 +123,10 @@ public class CalendarView extends VerticalLayout {
         }
         this.planned.setItems(items);
         this.drunk.setItems(drank);
+    }
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, Integer profileId) {
+        this.profileId = profileId;
     }
 }

@@ -42,10 +42,6 @@ public class UserForm extends FormLayout {
 
     UserForm(){
         addClassName("contact-form");
-//        binder.forField(age)
-//                .withConverter(
-//                        new StringToIntegerConverter("Must enter a number"))
-//                .bind(Profile::getAge, Profile::setAge);
         binder.bindInstanceFields(this);
 
         add(email, name, createButtonsLayout());

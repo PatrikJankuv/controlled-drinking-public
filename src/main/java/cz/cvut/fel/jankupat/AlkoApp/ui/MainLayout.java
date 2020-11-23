@@ -13,7 +13,7 @@ import com.vaadin.flow.router.RouterLink;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.CalendarView;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.PlaneChart;
-import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.ListView;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.ProfileList;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.UsersList;
 
 /**
@@ -46,13 +46,13 @@ public class MainLayout extends AppLayout {
 
 
     private void createDrawer() {
-        RouterLink listLink = new RouterLink("List", ListView.class);
+        RouterLink listLink = new RouterLink("List", ProfileList.class);
         listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         addToDrawer(new VerticalLayout(
                 listLink,
                 new RouterLink("Dashboard", GenderDashboard.class),
-                new RouterLink("Calendar", CalendarView.class),
+                new RouterLink("Calendar", CalendarView.class, 1),
                 new RouterLink("Users", UsersList.class),
                 new RouterLink("Planes", PlaneChart.class)
         ));

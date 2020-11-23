@@ -1,7 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.ui.view.list;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -10,13 +9,15 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
-import com.vaadin.flow.component.ComponentEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.shared.Registration;
+import cz.cvut.fel.jankupat.AlkoApp.service.DrinkItemService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.CalendarView;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
 
 @SpringComponent
 @UIScope
@@ -33,10 +34,11 @@ public class ProfileForm extends FormLayout {
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button close = new Button("Cancel");
-    Button profileDetailes = new Button("Profile details");
+    Button profileDetails = new Button("Profile calendar");
 
     private Profile profile;
-    ProfileService service;
+    public ProfileService profileService;
+    public DrinkItemService drinkItemService;
     Binder<Profile> binder = new Binder<>(Profile.class);
 
     public ProfileForm() {
@@ -56,10 +58,10 @@ public class ProfileForm extends FormLayout {
 
 
         binder.bindInstanceFields(this);
-
+        configureProfileDetailButton();
 
         add(
-                createProfileDetailButton(),
+                profileDetails,
                 name,
                 age,
                 weight,
@@ -70,14 +72,17 @@ public class ProfileForm extends FormLayout {
         );
     }
 
-    public void setContact(Profile contact) {
+
+    void setContact(Profile contact) {
         this.profile = contact;
         binder.readBean(contact);
     }
 
-    private Component createProfileDetailButton(){
-        profileDetailes.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
-        return profileDetailes;
+    public void configureProfileDetailButton() {
+        profileDetails.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
+        profileDetails.addClickListener(buttonClickEvent -> {
+            UI.getCurrent().navigate(CalendarView.class, profile.getId());
+        });
     }
 
     private Component createButtonsLayout() {
@@ -105,9 +110,8 @@ public class ProfileForm extends FormLayout {
         final boolean persisted = c.getId() != null;
         if (persisted) {
             // Find fresh entity for editing
-            profile = service.find(c.getId());
-        }
-        else {
+            profile = profileService.find(c.getId());
+        } else {
             profile = c;
         }
 
@@ -131,6 +135,7 @@ public class ProfileForm extends FormLayout {
             e.printStackTrace();
         }
     }
+
     // Events
     public static abstract class ContactFormEvent extends ComponentEvent<ProfileForm> {
         private Profile contact;
