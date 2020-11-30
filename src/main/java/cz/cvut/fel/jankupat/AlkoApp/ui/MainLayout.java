@@ -52,9 +52,9 @@ public class MainLayout extends AppLayout {
         addToDrawer(new VerticalLayout(
                 listLink,
                 new RouterLink("Dashboard", GenderDashboard.class),
-                new RouterLink("Calendar", CalendarView.class, 1),
+//                new RouterLink("Stats", CalendarView.class, 1),
                 new RouterLink("Users", UsersList.class),
-                new RouterLink("Planes", PlaneChart.class)
+                new RouterLink("Stats", PlaneChart.class)
         ));
     }
 }

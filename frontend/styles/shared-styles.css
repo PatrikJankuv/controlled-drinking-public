@@ -41,3 +41,15 @@ a[highlight] {
     font-size: 4em;
     margin: 1em 0;
 }
+
+.label {
+    color: white;
+    padding: 8px;
+    border-radius: 7px 7px 7px 7px;
+}
+
+.success {background-color: #4CAF50;} /* Green */
+.info {background-color: #2196F3;} /* Blue */
+.warning {background-color: #ff9800;} /* Orange */
+.danger {background-color: #f44336;} /* Red */
+.other {background-color: #e7e7e7; color: black;} /* Gray */

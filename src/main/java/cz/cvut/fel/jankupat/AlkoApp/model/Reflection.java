@@ -16,7 +16,7 @@ public class Reflection extends BaseEntity implements IEntity{
 
     private String comment;
 
-    @ElementCollection(targetClass = FeelingsEnum.class)
+    @ElementCollection(targetClass = FeelingsEnum.class, fetch = FetchType.EAGER)
     @JoinTable(name = "feelings", joinColumns = @JoinColumn(name = "reflection_id"))
     @Column(name = "feeling", nullable = false)
     @Enumerated(EnumType.STRING)

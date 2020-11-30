@@ -26,7 +26,7 @@ public class Day extends BaseEntity implements IEntity{
     private Set<DrinkItem> items;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
