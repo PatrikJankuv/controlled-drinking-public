@@ -32,7 +32,6 @@ public final class SecurityUtils {
      * @return true if is an internal framework request. False otherwise.
      */
     public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
-        System.out.println("ja som hladny");
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null
                 && Stream.of(HandlerHelper.RequestType.values()).anyMatch(r -> r.getIdentifier().equals(parameterValue));
@@ -43,7 +42,6 @@ public final class SecurityUtils {
      * we have to ignore those tokens explicitly.
      */
     public static boolean isUserLoggedIn() {
-        System.out.println("is juser logged");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null
                 && !(authentication instanceof AnonymousAuthenticationToken)
