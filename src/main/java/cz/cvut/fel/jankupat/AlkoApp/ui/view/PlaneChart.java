@@ -9,32 +9,30 @@ import com.github.appreciated.apexcharts.config.grid.builder.RowBuilder;
 import com.github.appreciated.apexcharts.config.stroke.Curve;
 import com.github.appreciated.apexcharts.config.subtitle.Align;
 import com.github.appreciated.apexcharts.helper.Series;
-import com.vaadin.flow.component.Component;
-
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-
 import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import cz.cvut.fel.jankupat.AlkoApp.dao.util.DayStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.service.DayService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * The type Plane chart.
+ *
  * @author Patrik Jankuv
- * @created 11/21/2020
+ * @created 11 /21/2020
  */
+@PageTitle("Stats")
 @Route(value = "plan", layout = MainLayout.class)
 public class PlaneChart extends VerticalLayout {
 
@@ -42,42 +40,61 @@ public class PlaneChart extends VerticalLayout {
     private ApexCharts lineChart;
     private VerticalLayout layoutWithChart = new VerticalLayout();
     private VerticalLayout filter = new VerticalLayout();
+    private ComboBox<String> durationCombox = new ComboBox<>();
 
+    /**
+     * Instantiates a new Plane chart.
+     *
+     * @param dayService the day service
+     */
     public PlaneChart(DayService dayService) {
         this.dayService = dayService;
         add(filter);
         filter.setVisible(false);
         HorizontalLayout tools = new HorizontalLayout();
-        ComboBox<String> comboBox = new ComboBox<>();
-        comboBox.setLabel("Select interval");
-        comboBox.setItems("Last week", "Last month");
-        comboBox.setClearButtonVisible(true);
+        durationCombox.setLabel("Select interval");
+        durationCombox.setItems("Last week", "Last month");
+        durationCombox.setClearButtonVisible(true);
 
-        comboBox.addValueChangeListener(event -> {
+        durationCombox.addValueChangeListener(event -> {
             if (event.getValue().equals("Last month")) {
-                lastMonth();
+                if(!filter.isVisible())
+                    lastMonth();
                 layoutWithChart.removeAll();
                 layoutWithChart.add(lineChart);
             } else {
-                lastWeek();
+                if(!filter.isVisible())
+                    lastWeek();
                 layoutWithChart.removeAll();
                 layoutWithChart.add(lineChart);
             }
         });
 
-        lastMonth();
+        durationCombox.setValue("Last month");
 
-//        add(configFilter());
+        configFilter();
+        filter.setVisible(false);
+
+
         Button showFilter = new Button("Show filter");
+        Button hideFilter = new Button("Hide filter");
+        hideFilter.addClickListener(buttonClickEvent -> {
+            filter.setVisible(false);
+            showFilter.setVisible(true);
+            hideFilter.setVisible(false);
+        });
+
         showFilter.addClickListener(buttonClickEvent -> {
-            configFilter();
-            showFilter.setDisableOnClick(true);
+            filter.setVisible(true);
+            showFilter.setVisible(false);
+            hideFilter.setVisible(true);
         });
         tools.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 
         layoutWithChart.add(lineChart);
-        tools.add(comboBox, showFilter);
+        tools.add(durationCombox, showFilter, hideFilter);
         add(tools, layoutWithChart);
+        hideFilter.setVisible(false);
 //        add(configureChart());
     }
 
@@ -91,12 +108,14 @@ public class PlaneChart extends VerticalLayout {
         HorizontalLayout weight = new HorizontalLayout(fromWeight, toWeight);
 
         IntegerField fromHeight = new IntegerField("From height");
+        fromHeight.setHeight("75%");
         IntegerField toHeight = new IntegerField("To height");
         HorizontalLayout height = new HorizontalLayout(fromHeight, toHeight);
         HorizontalLayout physical = new HorizontalLayout(weight, new Span(" "), height);
 
         MultiselectComboBox<String> genderComboBox = new MultiselectComboBox();
-        genderComboBox.setWidth("100%");
+        genderComboBox.setWidth("75%");
+        genderComboBox.setHeight("75%");
         genderComboBox.setLabel("Select gender");
         genderComboBox.setPlaceholder("Choose...");
         genderComboBox.setItems("Male", "Female", "Other");
@@ -112,11 +131,15 @@ public class PlaneChart extends VerticalLayout {
 
         Button button = new Button("Filter");
         button.addClickListener(buttonClickEvent -> {
-            fromAge.getValue();
-            toAge.getValue();
-            genderComboBox.getSelectedItems();
+            durationCombox.getValue();
+
+            int period = 7;
+            if(durationCombox.getValue().equals("Last month")){
+                period = 30;
+            }
+
             layoutWithChart.removeAll();
-            configureChart(dayService.getStatsFilter(fromAge.getValue(), toAge.getValue(), genderComboBox.getSelectedItems(), smokerComboBox.getSelectedItems(), fromWeight.getValue(), toWeight.getValue(), fromHeight.getValue(), toHeight.getValue()), "Filtered data");
+            configureChart(dayService.getStatsFilter(period, fromAge.getValue(), toAge.getValue(), genderComboBox.getSelectedItems(), smokerComboBox.getSelectedItems(), fromWeight.getValue(), toWeight.getValue(), fromHeight.getValue(), toHeight.getValue()), "Filtered data");
 
             layoutWithChart.add(lineChart);
         });
@@ -160,11 +183,11 @@ public class PlaneChart extends VerticalLayout {
     }
 
     private void lastWeek() {
-        configureChart(dayService.getStats(), "Trend the last week");
+        configureChart(dayService.getStats(7), "Trend the last week");
     }
 
     private void lastMonth() {
-        configureChart(dayService.getStats(), "Trend the last month");
+        configureChart(dayService.getStats(30), "Trend the last month");
     }
 
     /**

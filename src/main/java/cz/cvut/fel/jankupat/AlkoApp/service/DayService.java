@@ -6,7 +6,6 @@ import cz.cvut.fel.jankupat.AlkoApp.dao.util.DayStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,31 +13,62 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * The type Day service.
+ *
  * @author Patrik Jankuv
- * @created 8/4/2020
+ * @created 8 /4/2020
  */
 @Service
 public class DayService extends BaseService<Day, DayDao> {
+    /**
+     * The Reflection dao.
+     */
     ReflectionDao reflectionDao;
 
+    /**
+     * Instantiates a new Day service.
+     *
+     * @param dao           the dao
+     * @param reflectionDao the reflection dao
+     */
     public DayService(DayDao dao, ReflectionDao reflectionDao) {
         super(dao);
         this.reflectionDao = reflectionDao;
     }
 
-    public List<DayStatsAdapter> getStats() {
+    /**
+     * Gets stats.
+     *
+     * @param period the period
+     * @return the stats
+     */
+    public List<DayStatsAdapter> getStats(int period) {
         LocalDate now = LocalDate.now();
-        LocalDate lastWeek = now.minusDays(7);
+        LocalDate lastWeek = now.minusDays(period);
         return dao.getStatsFilterDate(lastWeek, now);
     }
 
-    public List<DayStatsAdapter> getStatsFilter(Integer bottomAge, Integer topAge,
+    /**
+     * Gets stats filter.
+     *
+     * @param period       the period
+     * @param bottomAge    the bottom age
+     * @param topAge       the top age
+     * @param gender       the gender
+     * @param smoker       the smoker
+     * @param bottomWeight the bottom weight
+     * @param topWeight    the top weight
+     * @param bottomHeight the bottom height
+     * @param topHeight    the top height
+     * @return the stats filter
+     */
+    public List<DayStatsAdapter> getStatsFilter(int period, Integer bottomAge, Integer topAge,
                                                 Set<String> gender,
                                                 Set<String> smoker,
                                                 Integer bottomWeight, Integer topWeight,
                                                 Integer bottomHeight, Integer topHeight) {
         LocalDate now = LocalDate.now();
-        LocalDate lastWeek = now.minusDays(7);
+        LocalDate lastWeek = now.minusDays(period);
 
         String male = "null";
         String female = "null";
@@ -102,12 +132,26 @@ public class DayService extends BaseService<Day, DayDao> {
         return dao.getStatsFilter(lastWeek, now, bottomAge, topAge, male, female, other, yes, no, occasionally, bottomWeight, topWeight, bottomHeight, topHeight);
     }
 
+    /**
+     * Gets feelings for profile.
+     *
+     * @param profile the profile
+     * @param dt      the dt
+     * @return the feelings for profile
+     */
     public Reflection getFeelingsForProfile(Profile profile, LocalDate dt) {
         Day day = dao.getDayForProfile(profile, dt);
         Reflection reflection = dao.getReflectionForDay(day);
         return reflection;
     }
 
+    /**
+     * Gets day for profile.
+     *
+     * @param profile the profile
+     * @param dt      the dt
+     * @return the day for profile
+     */
     public Day getDayForProfile(Profile profile, LocalDate dt) {
         return dao.getDayForProfile(profile, dt);
     }

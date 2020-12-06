@@ -11,7 +11,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type User principal.
+ */
 public class UserPrincipal implements OAuth2User, UserDetails {
+
     private Long id;
     private String email;
     private String password;
@@ -25,9 +29,15 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.authorities = authorities;
     }
 
+    /**
+     * Create user principal.
+     *
+     * @param user the user
+     * @return the user principal
+     */
     static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                singletonList(new SimpleGrantedAuthority(user.getRole().toString()));
 
         return new UserPrincipal(
                 user.getId(),
@@ -37,16 +47,33 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         );
     }
 
+    /**
+     * Create user principal.
+     *
+     * @param user       the user
+     * @param attributes the attributes
+     * @return the user principal
+     */
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
         UserPrincipal userPrincipal = UserPrincipal.create(user);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Gets email.
+     *
+     * @return the email
+     */
     public String getEmail() {
         return email;
     }

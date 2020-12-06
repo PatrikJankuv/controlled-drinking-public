@@ -13,15 +13,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.repository.ProfileRepository;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
-import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.dashboard.GenderDashboard;
 
-
+/**
+ * The type Profile list.
+ */
+@PageTitle("Profiles")
 @Route(value = "", layout = MainLayout.class)
 public class ProfileList extends VerticalLayout {
 
@@ -32,6 +36,12 @@ public class ProfileList extends VerticalLayout {
     private ProfileService contactService;
     private ProfileRepository profileRepository;
 
+    /**
+     * Instantiates a new Profile list.
+     *
+     * @param contactService the contact service
+     * @param repository     the repository
+     */
     public ProfileList(ProfileService contactService, ProfileRepository repository) {
         this.contactService = contactService;
         this.profileRepository = repository;
@@ -78,10 +88,10 @@ public class ProfileList extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addContactButton = new Button("Pridaj profil");
+        Button addContactButton = new Button("Add profile");
         addContactButton.addClickListener(click -> addContact());
 
-        Button statistic = new Button("Štatistika");
+        Button statistic = new Button("Statistic");
         statistic.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         RouterLink routerLink = new RouterLink("", GenderDashboard.class);
         routerLink.getElement().appendChild(statistic.getElement());
@@ -100,6 +110,11 @@ public class ProfileList extends VerticalLayout {
         grid.setItems(profileRepository.findByNameStartsWithIgnoreCase(filterText.getValue()));
     }
 
+    /**
+     * Edit profile.
+     *
+     * @param contact the contact
+     */
     public void editProfile(Profile contact) {
         if (contact == null) {
             closeEditor();

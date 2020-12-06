@@ -2,7 +2,6 @@ package cz.cvut.fel.jankupat.AlkoApp.rest;
 
 import cz.cvut.fel.jankupat.AlkoApp.adapter.ProfileAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.dao.ProfileDao;
-import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.*;
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
@@ -21,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 /**
+ * The type Profile controller.
+ *
  * @author Patrik Jankuv
- * @created 8/4/2020
+ * @created 8 /4/2020
  */
 @RestController
 @RequestMapping(path = "/profile")
@@ -36,6 +36,13 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Instantiates a new Profile controller.
+     *
+     * @param service            the service
+     * @param dayService         the day service
+     * @param achievementService the achievement service
+     */
     @Autowired
     public ProfileController(ProfileService service, DayService dayService, AchievementService achievementService) {
         super(service);
@@ -105,7 +112,7 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
      *
      * @param id          of Profile
      * @param achievement Achievement
-     * @return response
+     * @return response response entity
      */
     @PostMapping(value = "{id}/achievement", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> addAchievement(@PathVariable Integer id, @RequestBody Achievement achievement) {
@@ -129,6 +136,8 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     }
 
     /**
+     * Gets current user profile.
+     *
      * @param userPrincipal current user
      * @return Profile variables without relationships
      */
@@ -142,6 +151,13 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
         return new ProfileAdapter(temp.getName(), temp.getGender(), temp.getWeight(), temp.getHeight(), temp.getAge(), temp.getSmoker());
     }
 
+    /**
+     * Update current profile response entity.
+     *
+     * @param userPrincipal  the user principal
+     * @param entityToUpdate the entity to update
+     * @return the response entity
+     */
     @PutMapping("/me")
     public ResponseEntity<Void> updateCurrentProfile(@CurrentUser UserPrincipal userPrincipal, @RequestBody Profile entityToUpdate) {
         User user = userRepository.findById(userPrincipal.getId())
@@ -163,6 +179,8 @@ public class ProfileController extends BaseController<ProfileService, Profile, P
     }
 
     /**
+     * Add day current profile response entity.
+     *
      * @param userPrincipal current user
      * @param day           new day which gonna add
      * @return 202 if succesfull

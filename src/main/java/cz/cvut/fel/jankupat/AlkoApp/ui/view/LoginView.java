@@ -9,8 +9,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 /**
+ * The type Login view.
+ *
  * @author Patrik Jankuv
- * @created 11/30/2020
+ * @created 11 /30/2020
  */
 @Route("login")
 @PageTitle("Login")
@@ -18,6 +20,9 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private LoginForm login = new LoginForm();
 
+    /**
+     * Instantiates a new Login view.
+     */
     public LoginView(){
         addClassName("login-view");
         setSizeFull();

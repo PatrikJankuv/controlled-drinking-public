@@ -5,6 +5,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+/**
+ * The type Rest utils.
+ */
 public class RestUtils {
 
     /**

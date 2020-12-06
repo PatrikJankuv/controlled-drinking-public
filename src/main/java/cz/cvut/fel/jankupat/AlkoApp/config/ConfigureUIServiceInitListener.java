@@ -11,6 +11,9 @@ import com.vaadin.flow.server.VaadinServiceInitListener;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.LoginView;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Configure ui service init listener.
+ */
 @Component
 public class ConfigureUIServiceInitListener implements VaadinServiceInitListener {
 

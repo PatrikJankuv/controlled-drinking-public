@@ -4,23 +4,35 @@ import cz.cvut.fel.jankupat.AlkoApp.dao.DrinkItemDao;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
-import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
+ * The type Drink item service.
+ *
  * @author Patrik Jankuv
- * @created 8/4/2020
+ * @created 8 /4/2020
  */
 @Service
 public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
 
+    /**
+     * The Day service.
+     */
     DayService dayService;
 
+    /**
+     * Instantiates a new Drink item service.
+     *
+     * @param dao        the dao
+     * @param dayService the day service
+     */
     @Autowired
     public DrinkItemService(DrinkItemDao dao, DayService dayService) {
         super(dao);
@@ -67,6 +79,13 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         dayService.update(day);
     }
 
+    /**
+     * Gets profile drinks.
+     *
+     * @param profile the profile
+     * @param date    the date
+     * @return the profile drinks
+     */
     public List<DrinkItem> getProfileDrinks(Profile profile, LocalDate date) {
         Objects.requireNonNull(profile);
         return dao.getProfileItems(profile, date);

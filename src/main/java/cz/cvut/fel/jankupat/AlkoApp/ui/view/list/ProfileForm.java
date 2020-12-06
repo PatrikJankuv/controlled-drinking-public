@@ -9,38 +9,81 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
-import com.vaadin.flow.shared.Registration;
 import cz.cvut.fel.jankupat.AlkoApp.service.DrinkItemService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.CalendarView;
-import cz.cvut.fel.jankupat.AlkoApp.ui.view.GenderDashboard;
 
+/**
+ * The type Profile form.
+ */
 @SpringComponent
 @UIScope
 public class ProfileForm extends FormLayout {
 
+    /**
+     * The Name.
+     */
     TextField name = new TextField("Name");
+    /**
+     * The Gender.
+     */
     TextField gender = new TextField("Gender");
+    /**
+     * The Weight.
+     */
     TextField weight = new TextField("Weight");
+    /**
+     * The Height.
+     */
     TextField height = new TextField("Height");
+    /**
+     * The Age.
+     */
     TextField age = new TextField("Age");
+    /**
+     * The Smoker.
+     */
     TextField smoker = new TextField("Smoker");
 
 
+    /**
+     * The Save.
+     */
     Button save = new Button("Save");
+    /**
+     * The Delete.
+     */
     Button delete = new Button("Delete");
+    /**
+     * The Close.
+     */
     Button close = new Button("Cancel");
+    /**
+     * The Profile details.
+     */
     Button profileDetails = new Button("Profile calendar");
 
     private Profile profile;
+    /**
+     * The Profile service.
+     */
     public ProfileService profileService;
+    /**
+     * The Drink item service.
+     */
     public DrinkItemService drinkItemService;
+    /**
+     * The Binder.
+     */
     Binder<Profile> binder = new Binder<>(Profile.class);
 
+    /**
+     * Instantiates a new Profile form.
+     */
     public ProfileForm() {
         addClassName("contact-form");
         binder.forField(weight)
@@ -73,11 +116,19 @@ public class ProfileForm extends FormLayout {
     }
 
 
+    /**
+     * Sets contact.
+     *
+     * @param contact the contact
+     */
     void setContact(Profile contact) {
         this.profile = contact;
         binder.readBean(contact);
     }
 
+    /**
+     * Configure profile detail button.
+     */
     public void configureProfileDetailButton() {
         profileDetails.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
         profileDetails.addClickListener(buttonClickEvent -> {
@@ -102,6 +153,11 @@ public class ProfileForm extends FormLayout {
         return new HorizontalLayout(save, delete, close);
     }
 
+    /**
+     * Edit customer.
+     *
+     * @param c the c
+     */
     public final void editCustomer(Profile c) {
         if (c == null) {
             setVisible(false);
@@ -136,34 +192,74 @@ public class ProfileForm extends FormLayout {
         }
     }
 
-    // Events
+    /**
+     * The type Contact form event.
+     */
+// Events
     public static abstract class ContactFormEvent extends ComponentEvent<ProfileForm> {
         private Profile contact;
 
+        /**
+         * Instantiates a new Contact form event.
+         *
+         * @param source  the source
+         * @param contact the contact
+         */
         protected ContactFormEvent(ProfileForm source, Profile contact) {
             super(source, false);
             this.contact = contact;
         }
 
+        /**
+         * Gets contact.
+         *
+         * @return the contact
+         */
         public Profile getContact() {
             return contact;
         }
     }
 
+    /**
+     * The type Save event.
+     */
     public static class SaveEvent extends ContactFormEvent {
+        /**
+         * Instantiates a new Save event.
+         *
+         * @param source  the source
+         * @param contact the contact
+         */
         SaveEvent(ProfileForm source, Profile contact) {
             super(source, contact);
         }
     }
 
+    /**
+     * The type Delete event.
+     */
     public static class DeleteEvent extends ContactFormEvent {
+        /**
+         * Instantiates a new Delete event.
+         *
+         * @param source  the source
+         * @param contact the contact
+         */
         DeleteEvent(ProfileForm source, Profile contact) {
             super(source, contact);
         }
 
     }
 
+    /**
+     * The type Close event.
+     */
     public static class CloseEvent extends ContactFormEvent {
+        /**
+         * Instantiates a new Close event.
+         *
+         * @param source the source
+         */
         CloseEvent(ProfileForm source) {
             super(source, null);
         }

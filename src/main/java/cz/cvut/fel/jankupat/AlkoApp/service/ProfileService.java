@@ -1,23 +1,30 @@
 package cz.cvut.fel.jankupat.AlkoApp.service;
 
-import cz.cvut.fel.jankupat.AlkoApp.dao.DayDao;
-import cz.cvut.fel.jankupat.AlkoApp.dao.DrinkItemDao;
 import cz.cvut.fel.jankupat.AlkoApp.dao.ProfileDao;
+import cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 /**
+ * The type Profile service.
+ *
  * @author Patrik Jankuv
- * @created 8/3/2020
+ * @created 8 /3/2020
  */
 @Service
 public class ProfileService extends BaseService<Profile, ProfileDao> {
 
-
+    /**
+     * Instantiates a new Profile service.
+     *
+     * @param dao the dao
+     */
+    @Autowired
     public ProfileService(ProfileDao dao) {
         super(dao);
 
@@ -35,6 +42,8 @@ public class ProfileService extends BaseService<Profile, ProfileDao> {
     }
 
     /**
+     * Gets gender stats.
+     *
      * @return count genders in map
      */
     public Map<String, Integer> getGenderStats() {
@@ -75,11 +84,26 @@ public class ProfileService extends BaseService<Profile, ProfileDao> {
         return response;
     }
 
+    /**
+     * Gets planned items.
+     *
+     * @param profile the profile
+     * @return the planned items
+     */
     public List<DrinkItem> getPlannedItems(Profile profile) {
         Collection<Day> days = profile.getDays();
 
 
         List<DrinkItem> items = new LinkedList<>();
         return items;
+    }
+
+    /**
+     * Get stats list.
+     *
+     * @return the list
+     */
+    public List<ProfileStatsAdapter> getStats(){
+        return dao.getStats();
     }
 }

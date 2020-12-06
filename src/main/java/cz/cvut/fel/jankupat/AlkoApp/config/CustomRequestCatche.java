@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ * The type Custom request cache.
+ */
 class CustomRequestCache extends HttpSessionRequestCache {
 
     @Override

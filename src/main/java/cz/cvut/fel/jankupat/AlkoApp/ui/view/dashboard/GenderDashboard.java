@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.ui.view;
+package cz.cvut.fel.jankupat.AlkoApp.ui.view.dashboard;
 
 /**
  * @author Patrik Jankuv
@@ -14,28 +14,38 @@ import com.github.appreciated.apexcharts.config.chart.Type;
 import com.github.appreciated.apexcharts.config.legend.Position;
 import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilder;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.charts.model.DataSeriesItem;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 
-import java.awt.*;
+import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Map;
 
-
+/**
+ * The type Gender dashboard.
+ */
+@PageTitle("Dashboard")
 @Route(value = "dashboard", layout = MainLayout.class)
 public class GenderDashboard extends VerticalLayout {
-
-    private ProfileService contactService;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    private ProfileService profileService;
     private Map<String, Integer> genderStats;
 
-    public GenderDashboard(ProfileService contactService) {
-        this.contactService = contactService;
-        genderStats = contactService.getGenderStats();
+    /**
+     * Instantiates a new Gender dashboard.
+     *
+     * @param profileService the profile service
+     */
+    public GenderDashboard(ProfileService profileService) {
+        this.profileService = profileService;
+        genderStats = profileService.getGenderStats();
 
 //        VerticalLayout genders = new VerticalLayout(new Span("Pohlaví"), pieChartExample());
 //        VerticalLayout smoker = new VerticalLayout(new Span("Kuřáci"), pieSmokerChartExample());
@@ -51,20 +61,25 @@ public class GenderDashboard extends VerticalLayout {
         add(layout);
         addClassName("dashboard-view");
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
+        List<ProfileStatsAdapter> stats = profileService.getStats();
+        for(ProfileStatsAdapter item : stats){
+            add(new Label(item.getGender()+": avg. age " + df2.format(item.getAvgAge()) + ", avg. weight " +  df2.format(item.getAvgWeigh()) + " kg, avg. height " +  df2.format(item.getAvgHeight()) + " cm"));
+        }
     }
 
     private Component getContactStats() {
-        Span stats = new Span(contactService.getGenderStats() + " contacts");
+        Span stats = new Span(profileService.getGenderStats() + " contacts");
         stats.addClassName("contact-stats");
         return stats;
     }
 
 
-    public Component pieChartExample() {
-        Span stats = new Span("Pohlaví");
+    private Component pieChartExample() {
+        Span stats = new Span("Gender");
         ApexCharts pieChart = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get().withType(Type.pie).build())
-                .withLabels("Muži", "Ženy", "Jiné")
+                .withLabels("Male", "Female", "Other")
                 .withLegend(LegendBuilder.get()
                         .withPosition(Position.right)
                         .build())
@@ -86,11 +101,16 @@ public class GenderDashboard extends VerticalLayout {
         return verL;
     }
 
+    /**
+     * Pie smoker chart example component.
+     *
+     * @return the component
+     */
     public Component pieSmokerChartExample() {
-        Span stats = new Span("Kuřáci");
+        Span stats = new Span("Smoker");
         ApexCharts pieChart = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get().withType(Type.pie).build())
-                .withLabels("Áno", "Ne", "Občas")
+                .withLabels("Yes", "No", "Occasionally")
                 .withLegend(LegendBuilder.get()
                         .withPosition(Position.right)
                         .build())

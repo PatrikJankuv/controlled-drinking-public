@@ -4,24 +4,29 @@ import cz.cvut.fel.jankupat.AlkoApp.dao.util.DayStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
-import io.swagger.models.auth.In;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Ref;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
+ * The type Day dao.
+ *
  * @author Patrik Jankuv
- * @created 8/4/2020
+ * @created 8 /4/2020
  */
 @Repository
 public class DayDao extends BaseDao<Day> {
+    /**
+     * Instantiates a new Day dao.
+     */
     public DayDao() {
         super(Day.class);
     }
 
     /**
+     * Gets stats.
+     *
      * @return count accomplished plans for date
      */
     public List<DayStatsAdapter> getStats() {
@@ -32,6 +37,10 @@ public class DayDao extends BaseDao<Day> {
     }
 
     /**
+     * Gets stats filter date.
+     *
+     * @param since the since
+     * @param to    the to
      * @return count accomplished plans for date
      */
     public List<DayStatsAdapter> getStatsFilterDate(LocalDate since, LocalDate to) {
@@ -45,6 +54,25 @@ public class DayDao extends BaseDao<Day> {
         return items;
     }
 
+    /**
+     * Gets stats filter.
+     *
+     * @param since        the since
+     * @param to           the to
+     * @param bottomAge    the bottom age
+     * @param topAge       the top age
+     * @param male         the male
+     * @param female       the female
+     * @param other        the other
+     * @param yes          the yes
+     * @param no           the no
+     * @param occasionally the occasionally
+     * @param bottomWeight the bottom weight
+     * @param topWeight    the top weight
+     * @param bottomHeight the bottom height
+     * @param topHeight    the top height
+     * @return the stats filter
+     */
     public List<DayStatsAdapter> getStatsFilter(LocalDate since, LocalDate to, Integer bottomAge, Integer topAge,
                                                 String male, String female, String other,
                                                 String yes, String no, String occasionally,
@@ -71,11 +99,24 @@ public class DayDao extends BaseDao<Day> {
         return items;
     }
 
+    /**
+     * Gets day for profile.
+     *
+     * @param profile the profile
+     * @param dt      the dt
+     * @return the day for profile
+     */
     public Day getDayForProfile(Profile profile, LocalDate dt) {
         Day item = em.createQuery("SELECT d from Profile p INNER JOIN p.days d WHERE p.id = ?1 AND d.dateTime = ?2", Day.class).setParameter(1, profile.getId()).setParameter(2, dt).getSingleResult();
         return item;
     }
 
+    /**
+     * Gets reflection for day.
+     *
+     * @param day the day
+     * @return the reflection for day
+     */
     public Reflection getReflectionForDay(Day day) {
         Reflection item = em.createQuery("SELECT d from Day p INNER JOIN p.reflection d WHERE p.id = ?1 ", Reflection.class).setParameter(1, day.getId()).getSingleResult();
         return item;

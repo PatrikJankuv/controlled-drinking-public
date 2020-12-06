@@ -4,22 +4,33 @@ package cz.cvut.fel.jankupat.AlkoApp.ui.view.list;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.User;
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 
 /**
+ * The type Users list.
+ *
  * @author Patrik Jankuv
- * @created 11/17/2020
+ * @created 11 /17/2020
  */
+@PageTitle("Users")
 @Route(value = "user", layout = MainLayout.class)
 public class UsersList extends VerticalLayout {
+    /**
+     * The Grid.
+     */
     Grid<User> grid = new Grid<>(User.class);
     private final UserForm form;
     private UserRepository repository;
 
+    /**
+     * Instantiates a new Users list.
+     *
+     * @param repository the repository
+     */
     public UsersList(UserRepository repository){
 
         this.repository = repository;
@@ -55,6 +66,12 @@ public class UsersList extends VerticalLayout {
     private void updateList() {
         grid.setItems(repository.findAll());
     }
+
+    /**
+     * Edit user.
+     *
+     * @param user the user
+     */
     public void editUser(User user) {
         if (user == null) {
             closeEditor();
@@ -71,6 +88,11 @@ public class UsersList extends VerticalLayout {
         removeClassName("editing");
     }
 
+    /**
+     * Edit contact.
+     *
+     * @param contact the contact
+     */
     public void editContact(User contact) {
         if (contact == null) {
             closeEditor();

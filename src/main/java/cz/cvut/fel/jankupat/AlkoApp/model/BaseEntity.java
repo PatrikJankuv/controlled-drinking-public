@@ -7,8 +7,10 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
+ * The type Base entity.
+ *
  * @author Patrik Jankuv
- * @created 8/2/2020
+ * @created 8 /2/2020
  */
 @MappedSuperclass
 public class BaseEntity implements Serializable {
@@ -17,10 +19,20 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Sets id.
+     *
+     * @param id the id
+     */
     public void setId(Integer id) {
         this.id = id;
     }

@@ -21,6 +21,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.EnableVaadin;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
@@ -34,14 +35,17 @@ import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
+ * The type Calendar view.
+ *
  * @author Patrik Jankuv
- * @created 11/15/2020
+ * @created 11 /15/2020
  */
-
+@PageTitle("Calendar")
 @EnableVaadin({"com.example.application", "org.vaadin.stefan"})
 @Route(value = "calendar", layout = MainLayout.class)
 public class CalendarView extends VerticalLayout implements HasUrlParameter<Integer> {
@@ -59,10 +63,23 @@ public class CalendarView extends VerticalLayout implements HasUrlParameter<Inte
     private Icon suc = new Icon(VaadinIcon.SMILEY_O);
     private Icon fail = new Icon(VaadinIcon.FROWN_O);
     private Label username = new Label();
+    /**
+     * The Text.
+     */
     Span text = new Span();
 
+    /**
+     * The Profile id.
+     */
     Integer profileId;
 
+    /**
+     * Instantiates a new Calendar view.
+     *
+     * @param profileService the profile service
+     * @param service        the service
+     * @param dayService     the day service
+     */
     public CalendarView(ProfileService profileService, DrinkItemService service, DayService dayService) {
         this.profileService = profileService;
         this.drinkItemService = service;
@@ -185,6 +202,11 @@ public class CalendarView extends VerticalLayout implements HasUrlParameter<Inte
         this.drunk.setItems(drank);
     }
 
+    /**
+     * Pie chart example component.
+     *
+     * @return the component
+     */
     public Component pieChartExample() {
         Span stats = new Span("Favorite items");
         ApexCharts pieChart = ApexChartsBuilder.get()

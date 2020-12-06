@@ -9,7 +9,7 @@ import java.util.Enumeration;
 /**
  * Distributed Sequence Generator.
  * Inspired by Twitter snowflake: https://github.com/twitter/snowflake/tree/snowflake-2010
- *
+ * <p>
  * This class should be used as a Singleton.
  * Make sure that you create and reuse a Single instance of SequenceGenerator per machine in your distributed system cluster.
  */
@@ -30,7 +30,12 @@ public class SequenceGenerator {
     private long lastTimestamp = -1L;
     private long sequence = 0L;
 
-    // Create Snowflake with a machineId
+    /**
+     * Instantiates a new Sequence generator.
+     *
+     * @param machineId the machine id
+     */
+// Create Snowflake with a machineId
     public SequenceGenerator(int machineId) {
         if(machineId < 0 || machineId > maxMachineId) {
             throw new IllegalArgumentException(String.format("MachineId must be between %d and %d", 0, maxMachineId));
@@ -38,12 +43,20 @@ public class SequenceGenerator {
         this.machineId = machineId;
     }
 
-    // Let Snowflake generate a machineId
+    /**
+     * Instantiates a new Sequence generator.
+     */
+// Let Snowflake generate a machineId
     public SequenceGenerator() {
         this.machineId = createMachineId();
     }
 
 
+    /**
+     * Next id long.
+     *
+     * @return the long
+     */
     public long nextId() {
         long currentTimestamp = timestamp();
 
