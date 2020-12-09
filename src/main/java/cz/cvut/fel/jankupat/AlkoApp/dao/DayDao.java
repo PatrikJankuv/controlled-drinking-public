@@ -121,4 +121,15 @@ public class DayDao extends BaseDao<Day> {
         Reflection item = em.createQuery("SELECT d from Day p INNER JOIN p.reflection d WHERE p.id = ?1 ", Reflection.class).setParameter(1, day.getId()).getSingleResult();
         return item;
     }
+    /**
+     * Gets reflection for day.
+     *
+     * @param profile the profile
+     * @return the reflection for day
+     */
+    public List<Reflection> getReflectionsForProfile(Profile profile) {
+        List<Reflection> items = em.createQuery("SELECT r from Profile p INNER JOIN p.days d INNER JOIN d.reflection r WHERE p.id = ?1 ", Reflection.class).setParameter(1, profile.getId()).getResultList();
+
+        return items;
+    }
 }

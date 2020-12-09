@@ -15,7 +15,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.service.DrinkItemService;
 import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
-import cz.cvut.fel.jankupat.AlkoApp.ui.view.CalendarView;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.ProfileDetails;
 
 /**
  * The type Profile form.
@@ -132,7 +132,7 @@ public class ProfileForm extends FormLayout {
     public void configureProfileDetailButton() {
         profileDetails.addThemeVariants(ButtonVariant.LUMO_SUCCESS, ButtonVariant.LUMO_PRIMARY);
         profileDetails.addClickListener(buttonClickEvent -> {
-            UI.getCurrent().navigate(CalendarView.class, profile.getId());
+            UI.getCurrent().navigate(ProfileDetails.class, profile.getId());
         });
     }
 

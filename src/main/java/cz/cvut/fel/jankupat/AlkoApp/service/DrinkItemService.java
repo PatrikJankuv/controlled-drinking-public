@@ -1,6 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.service;
 
 import cz.cvut.fel.jankupat.AlkoApp.dao.DrinkItemDao;
+import cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileDrinkItemStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
@@ -80,15 +81,25 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
     }
 
     /**
-     * Gets profile drinks.
+     * Gets profile drinks for specific day.
      *
      * @param profile the profile
      * @param date    the date
      * @return the profile drinks
      */
-    public List<DrinkItem> getProfileDrinks(Profile profile, LocalDate date) {
+    public List<DrinkItem> getProfileDrinksForSpecificDay(Profile profile, LocalDate date) {
         Objects.requireNonNull(profile);
-        return dao.getProfileItems(profile, date);
+        return dao.getProfileItemsForSpecificDay(profile, date);
+    }
+
+    /**
+     *
+     * @param profile the profile
+     * @return p
+     */
+    public List<ProfileDrinkItemStatsAdapter> getProfileDrinks(Profile profile){
+        Objects.requireNonNull(profile);
+        return dao.getProfileItems(profile);
     }
 
 

@@ -6,11 +6,13 @@ import cz.cvut.fel.jankupat.AlkoApp.dao.util.DayStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
+import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * The type Day service.
@@ -74,17 +76,17 @@ public class DayService extends BaseService<Day, DayDao> {
         String female = "null";
         String other = "null";
 
-        if(gender.size() == 3 || gender.size() == 0){
+        if (gender.size() == 3 || gender.size() == 0) {
             male = "MALE";
             female = "FEMALE";
             other = "OTHER";
-        }else{
-            for(String g:gender){
-                if(g.equals("Male")){
+        } else {
+            for (String g : gender) {
+                if (g.equals("Male")) {
                     male = "MALE";
-                }else if(g.equals("Female")){
+                } else if (g.equals("Female")) {
                     female = "FEMALE";
-                }else{
+                } else {
                     other = "OTHER";
                 }
             }
@@ -94,17 +96,17 @@ public class DayService extends BaseService<Day, DayDao> {
         String no = "null";
         String occasionally = "null";
 
-        if(smoker.size() == 3 || smoker.size() == 0){
+        if (smoker.size() == 3 || smoker.size() == 0) {
             yes = "YES";
             no = "NO";
             occasionally = "OCCASIONALLY";
-        }else{
-            for(String g:smoker){
-                if(g.equals("Yes")){
+        } else {
+            for (String g : smoker) {
+                if (g.equals("Yes")) {
                     yes = "YES";
-                }else if(g.equals("No")){
+                } else if (g.equals("No")) {
                     no = "NO";
-                }else{
+                } else {
                     occasionally = "OCCASIONALLY";
                 }
             }
@@ -154,5 +156,24 @@ public class DayService extends BaseService<Day, DayDao> {
      */
     public Day getDayForProfile(Profile profile, LocalDate dt) {
         return dao.getDayForProfile(profile, dt);
+    }
+
+    /**
+     * @param profile
+     * @return
+     */
+    public TreeMap<String, Integer> getReflectionsForProfile(Profile profile) {
+        List<Reflection> reflections = dao.getReflectionsForProfile(profile);
+
+        TreeMap<String, Integer> tmap = new TreeMap<String, Integer>();
+        for (Reflection r : reflections) {
+        Set<FeelingsEnum> list = r.getFeelings();
+            for (FeelingsEnum t : list) {
+                Integer c = tmap.get(t.toString());
+                tmap.put(t.toString(), (c == null) ? 1 : c + 1);
+            }
+        }
+
+        return tmap;
     }
 }

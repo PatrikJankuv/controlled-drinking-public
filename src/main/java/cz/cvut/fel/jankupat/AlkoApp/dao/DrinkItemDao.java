@@ -1,5 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.dao;
 
+import cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileDrinkItemStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
 import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
@@ -26,15 +27,20 @@ public class DrinkItemDao extends BaseDao<DrinkItem> {
     }
 
     /**
-     * Gets profile items.
+     * Gets profile items for specific day.
      *
      * @param profile Profile
      * @param dt      Date
      * @return Profile 's drinkitems drank in Date
      */
-    public List<DrinkItem> getProfileItems(Profile profile, LocalDate dt) {
+    public List<DrinkItem> getProfileItemsForSpecificDay(Profile profile, LocalDate dt) {
         Day items = em.createQuery("SELECT d from Profile p INNER JOIN p.days d WHERE p.id = ?1 AND d.dateTime = ?2", Day.class).setParameter(1, profile.getId()).setParameter(2, dt).getSingleResult();
 
         return new ArrayList<>(items.getItems());
+    }
+
+    public List<ProfileDrinkItemStatsAdapter> getProfileItems(Profile profile){
+        List<ProfileDrinkItemStatsAdapter> days = em.createQuery("SELECT new cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileDrinkItemStatsAdapter(count(i), i.drinkType, i.planned) FROM Profile p INNER JOIN p.days d JOIN d.items i WHERE p.id = ?1 GROUP BY i.drinkType, i.planned", ProfileDrinkItemStatsAdapter.class).setParameter(1, profile.getId()).getResultList();
+        return days;
     }
 }
