@@ -36,6 +36,11 @@ public class DayDao extends BaseDao<Day> {
         return items;
     }
 
+    public List<Day> getForSpecificProfileDaysInRange(Profile profile, LocalDate since, LocalDate to){
+        List<Day> items = em.createQuery("SELECT d FROM Profile p INNER JOIN p.days d WHERE p.id = ?1 AND d.dateTime >= ?2 AND d.dateTime <= ?3 ORDER BY d.dateTime ASC", Day.class).setParameter(1, profile.getId()).setParameter(2, since).setParameter(3, to).getResultList();
+        return items;
+    }
+
     /**
      * Gets stats filter date.
      *

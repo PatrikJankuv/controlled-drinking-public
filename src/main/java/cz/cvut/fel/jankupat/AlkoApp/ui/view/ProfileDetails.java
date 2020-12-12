@@ -9,6 +9,7 @@ import com.github.appreciated.apexcharts.config.tooltip.builder.YBuilder;
 import com.github.appreciated.apexcharts.config.yaxis.builder.TitleBuilder;
 import com.github.appreciated.apexcharts.helper.Series;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
@@ -16,6 +17,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.PageTitle;
@@ -33,6 +35,7 @@ import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 
 /**
@@ -82,7 +85,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         this.dayService = dayService;
     }
 
-    private Component feelingsDetailsGraph(){
+    private Component feelingsDetailsGraph() {
         Profile profile = profileService.find(profileId);
         TreeMap<String, Integer> feelings = dayService.getReflectionsForProfile(profile);
 
@@ -143,7 +146,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         return verticalLayout;
     }
 
-    private Component favoriteDrinks(){
+    private Component favoriteDrinks() {
         List<ProfileDrinkItemStatsAdapter> items = drinkItemService.getProfileDrinks(this.profileService.find(profileId));
         HashMap<String, Long> planned = new HashMap<String, Long>();
         planned.put("BEER", 0l);
@@ -206,7 +209,9 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         setWidth("100%");
 
         return barChart;
-    };
+    }
+
+    ;
 
     private Component graphsLayer() {
         VerticalLayout graph = new VerticalLayout(new Label("Favorite drinks of user"));
@@ -320,6 +325,91 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         this.drunk.setItems(drank);
     }
 
+    private Component monthStats() {
+        HorizontalLayout layout = new HorizontalLayout();
+
+        // month picker
+        ComboBox<Month> month = new ComboBox<>("Month");
+        month.setItems(Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE, Month.JULY, Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER);
+
+        IntegerField fieldYear = new IntegerField("Year");
+        fieldYear.setHasControls(true);
+        fieldYear.setMin(2020);
+        fieldYear.setValue(LocalDate.now().getYear());
+
+
+        month.addValueChangeListener(valueChangeEvent -> {
+            if (valueChangeEvent.getValue() == null) {
+                layout.removeAll();
+                LocalDate since = LocalDate.of(fieldYear.getValue(), LocalDate.now().getMonth(), 1);
+                LocalDate to = LocalDate.of(fieldYear.getValue(), LocalDate.now().getMonth(), month.getValue().length(true));
+                layout.add(month, fieldYear, gridRGG(since, to));
+            } else {
+                layout.removeAll();
+                LocalDate since = LocalDate.of(fieldYear.getValue(), month.getValue(), 1);
+                LocalDate to = LocalDate.of(fieldYear.getValue(), month.getValue(), month.getValue().length(true));
+                layout.add(month, fieldYear, gridRGG(since, to));
+            }
+        });
+
+        layout.add(month, fieldYear);
+        return layout;
+    }
+
+    private Component gridRGG(LocalDate since, LocalDate to){
+        //grid with days
+        Div form = new Div();
+        form.setClassName("rowCellForm");
+        List<Day> days = dayService.getForSpecifProfileDaysInRange(profileService.find(profileId), since, to);
+
+        List<Component> daysList = new LinkedList<>();
+        for (int i = 1; i <= to.getMonth().length(true); i++) {
+            String d = to.getYear() + "-" + to.getMonth().getValue() + "-" + i;
+            daysList.add(greyThink(d));
+        }
+
+
+        for (Day d : days) {
+            int temp = d.getDateTime().getDayOfMonth();
+
+            if (d.getPlanAccomplished()) {
+                String s = d.getDateTime() + "";
+                daysList.set(temp - 1, greenThink(s));
+            } else {
+                String s = d.getDateTime() + "";
+                daysList.set(temp - 1, redThink(s));
+            }
+        }
+
+
+        for (Component item : daysList) {
+            form.add(item);
+        }
+
+        return form;
+    }
+
+    private Component greyThink(String date) {
+        Div i1 = new Div(new Span("-"));
+        i1.setClassName("itemForm formIcon empty");
+        i1.setTitle(date);
+        return i1;
+    }
+
+    private Component redThink(String date) {
+        Div i1 = new Div(new Span("✗"));
+        i1.setClassName("itemForm formIcon danger");
+        i1.setTitle(date);
+        return i1;
+    }
+
+    private Component greenThink(String date) {
+        Div i1 = new Div(new Span("✓"));
+        i1.setClassName("itemForm formIcon success");
+        i1.setTitle(date);
+        return i1;
+    }
+
 
     @Override
     public void setParameter(BeforeEvent beforeEvent, Integer profileId) {
@@ -334,6 +424,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         VerticalLayout verticalFeelings = new VerticalLayout(new H3("Feelings"), feelings);
         HorizontalLayout top = new HorizontalLayout(dayToolbar(), verticalFeelings);
         top.setWidthFull();
+        add(monthStats());
         add(top);
 
 

@@ -176,4 +176,8 @@ public class DayService extends BaseService<Day, DayDao> {
 
         return tmap;
     }
+
+    public List<Day> getForSpecifProfileDaysInRange(Profile profile, LocalDate since, LocalDate to){
+        return dao.getForSpecificProfileDaysInRange(profile, since, to);
+    }
 }
