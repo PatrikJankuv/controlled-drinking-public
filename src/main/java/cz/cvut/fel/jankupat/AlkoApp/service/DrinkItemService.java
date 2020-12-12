@@ -93,13 +93,16 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
     }
 
     /**
-     *
      * @param profile the profile
      * @return p
      */
-    public List<ProfileDrinkItemStatsAdapter> getProfileDrinks(Profile profile){
+    public List<ProfileDrinkItemStatsAdapter> getProfileDrinks(Profile profile) {
         Objects.requireNonNull(profile);
         return dao.getProfileItems(profile);
+    }
+
+    public List<ProfileDrinkItemStatsAdapter> getStatsAboutAllProfiles() {
+        return dao.getStatsAboutAllProfiles();
     }
 
 
@@ -117,7 +120,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         int other = 0;
         int free = 0;
 
-         if(items == null){
+        if (items == null) {
             return true;
         }
 

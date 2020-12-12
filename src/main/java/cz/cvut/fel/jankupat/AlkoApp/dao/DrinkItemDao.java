@@ -39,8 +39,25 @@ public class DrinkItemDao extends BaseDao<DrinkItem> {
         return new ArrayList<>(items.getItems());
     }
 
+
+    /**
+     * Get profile items list.
+     *
+     * @param profile the profile
+     * @return the list
+     */
     public List<ProfileDrinkItemStatsAdapter> getProfileItems(Profile profile){
         List<ProfileDrinkItemStatsAdapter> days = em.createQuery("SELECT new cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileDrinkItemStatsAdapter(count(i), i.drinkType, i.planned) FROM Profile p INNER JOIN p.days d JOIN d.items i WHERE p.id = ?1 GROUP BY i.drinkType, i.planned", ProfileDrinkItemStatsAdapter.class).setParameter(1, profile.getId()).getResultList();
+        return days;
+    }
+
+    /**
+     * Get stats about all profiles list.
+     *
+     * @return the list
+     */
+    public List<ProfileDrinkItemStatsAdapter> getStatsAboutAllProfiles(){
+        List<ProfileDrinkItemStatsAdapter> days = em.createQuery("SELECT new cz.cvut.fel.jankupat.AlkoApp.dao.util.ProfileDrinkItemStatsAdapter(count(i), i.drinkType, i.planned) FROM Profile p INNER JOIN p.days d JOIN d.items i GROUP BY i.drinkType, i.planned", ProfileDrinkItemStatsAdapter.class).getResultList();
         return days;
     }
 }
