@@ -1,0 +1,1 @@
+web: java -jar target/Alko App-0.0.1-SNAPSHOT.jar $PORT
