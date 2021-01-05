@@ -37,6 +37,8 @@ public final class SecurityUtils {
         final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
         return parameterValue != null
                 && Stream.of(HandlerHelper.RequestType.values()).anyMatch(r -> r.getIdentifier().equals(parameterValue));
+//        todo uncomment for able security
+//        return true;
     }
 
     /**

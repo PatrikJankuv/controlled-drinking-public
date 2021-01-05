@@ -12,6 +12,7 @@ import com.github.appreciated.apexcharts.helper.Series;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -129,6 +130,14 @@ public class PlaneChart extends VerticalLayout {
         smokerComboBox.setClearButtonVisible(true);
         HorizontalLayout comboxes = new HorizontalLayout(genderComboBox, smokerComboBox);
 
+        DatePicker sinceDatePicker = new DatePicker();
+        sinceDatePicker.setLabel("Since a day");
+        sinceDatePicker.setPlaceholder("Since");
+        DatePicker toDatePicker = new DatePicker();
+        toDatePicker.setLabel("To a day");
+        toDatePicker.setPlaceholder("To");
+        HorizontalLayout dates = new HorizontalLayout(sinceDatePicker, toDatePicker);
+
         Button button = new Button("Filter");
         button.addClickListener(buttonClickEvent -> {
             durationCombox.getValue();
@@ -148,8 +157,9 @@ public class PlaneChart extends VerticalLayout {
 
         filter.addClassNames("contact-grid");
         filter.setWidth("50%");
-        filter.add(age, comboxes, physical, button);
+        filter.add(age, comboxes, physical, dates, button);
         filter.addClassName("label");
+        filter.setHeight("75%");
         filter.setVisible(true);
     }
 
