@@ -50,7 +50,7 @@ a[highlight] {
 
 .rowCellForm {
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto auto auto auto;
     justify-content: flex-start;
     grid-area: form;
     align-items: center;

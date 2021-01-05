@@ -331,6 +331,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         // month picker
         ComboBox<Month> month = new ComboBox<>("Month");
         month.setItems(Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE, Month.JULY, Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER);
+        month.setValue(LocalDate.now().getMonth());
 
         IntegerField fieldYear = new IntegerField("Year");
         fieldYear.setHasControls(true);
@@ -352,15 +353,42 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
             }
         });
 
+        fieldYear.addValueChangeListener(integerFieldIntegerComponentValueChangeEvent -> {
+            if (integerFieldIntegerComponentValueChangeEvent.getValue() == null) {
+                layout.removeAll();
+                LocalDate since = LocalDate.of(fieldYear.getValue(), LocalDate.now().getMonth(), 1);
+                LocalDate to = LocalDate.of(fieldYear.getValue(), LocalDate.now().getMonth(), month.getValue().length(true));
+                layout.add(month, fieldYear, gridRGG(since, to));
+            } else {
+                layout.removeAll();
+                LocalDate since = LocalDate.of(fieldYear.getValue(), month.getValue(), 1);
+                LocalDate to = LocalDate.of(fieldYear.getValue(), month.getValue(), month.getValue().length(true));
+                layout.add(month, fieldYear, gridRGG(since, to));
+            }
+        });
+
         layout.add(month, fieldYear);
         return layout;
     }
 
-    private Component gridRGG(LocalDate since, LocalDate to){
+    private Component gridRGG(LocalDate since, LocalDate to) {
         //grid with days
         Div form = new Div();
         form.setClassName("rowCellForm");
         List<Day> days = dayService.getForSpecifProfileDaysInRange(profileService.find(profileId), since, to);
+        form.add(gridRGGLegend("Mo"));
+        form.add(gridRGGLegend("Tu"));
+        form.add(gridRGGLegend("We"));
+        form.add(gridRGGLegend("Th"));
+        form.add(gridRGGLegend("Fr"));
+        form.add(gridRGGLegend("Sa"));
+        form.add(gridRGGLegend("Su"));
+
+        if (since.getDayOfWeek().getValue() != 7)
+            for (int i = 1; i < since.getDayOfWeek().getValue(); i++) {
+                form.add(greyThink("-"));
+            }
+
 
         List<Component> daysList = new LinkedList<>();
         for (int i = 1; i <= to.getMonth().length(true); i++) {
@@ -368,24 +396,20 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
             daysList.add(greyThink(d));
         }
 
-
         for (Day d : days) {
             int temp = d.getDateTime().getDayOfMonth();
 
             if (d.getPlanAccomplished()) {
                 String s = d.getDateTime() + "";
-                daysList.set(temp - 1, greenThink(s));
+                daysList.set(temp - 1, greenThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
             } else {
                 String s = d.getDateTime() + "";
-                daysList.set(temp - 1, redThink(s));
+                daysList.set(temp - 1, redThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
             }
         }
-
-
         for (Component item : daysList) {
             form.add(item);
         }
-
         return form;
     }
 
@@ -396,17 +420,26 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         return i1;
     }
 
-    private Component redThink(String date) {
-        Div i1 = new Div(new Span("✗"));
+    private Component redThink(String date, String day) {
+//        Div i1 = new Div(new Span("✗"));
+        Div i1 = new Div(new Span(day));
         i1.setClassName("itemForm formIcon danger");
         i1.setTitle(date);
         return i1;
     }
 
-    private Component greenThink(String date) {
-        Div i1 = new Div(new Span("✓"));
+    private Component greenThink(String date, String day) {
+//        Div i1 = new Div(new Span("✓"));
+        Div i1 = new Div(new Span(day));
         i1.setClassName("itemForm formIcon success");
         i1.setTitle(date);
+        return i1;
+    }
+
+    private Component gridRGGLegend(String day) {
+        Div i1 = new Div(new Span(day));
+        i1.setClassName("itemForm formIcon info");
+        i1.setTitle(day);
         return i1;
     }
 
