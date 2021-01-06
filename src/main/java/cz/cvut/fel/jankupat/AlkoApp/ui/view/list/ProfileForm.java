@@ -65,7 +65,7 @@ public class ProfileForm extends FormLayout {
     /**
      * The Profile details.
      */
-    Button profileDetails = new Button("Profile calendar");
+    Button profileDetails = new Button("Profile detail");
 
     private Profile profile;
     /**

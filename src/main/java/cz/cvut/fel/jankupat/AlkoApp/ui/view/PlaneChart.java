@@ -148,7 +148,7 @@ public class PlaneChart extends VerticalLayout {
             }
 
             layoutWithChart.removeAll();
-            configureChart(dayService.getStatsFilter(period, fromAge.getValue(), toAge.getValue(), genderComboBox.getSelectedItems(), smokerComboBox.getSelectedItems(), fromWeight.getValue(), toWeight.getValue(), fromHeight.getValue(), toHeight.getValue()), "Filtered data");
+            configureChart(dayService.getStatsFilter(period, sinceDatePicker.getValue(), toDatePicker.getValue(), fromAge.getValue(), toAge.getValue(), genderComboBox.getSelectedItems(), smokerComboBox.getSelectedItems(), fromWeight.getValue(), toWeight.getValue(), fromHeight.getValue(), toHeight.getValue()), "Filtered data");
 
             layoutWithChart.add(lineChart);
         });

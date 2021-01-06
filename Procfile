@@ -1,1 +1,1 @@
-web: java -jar target/AlkoApp-0.0.1-SNAPSHOT.jar 443
+web: java -jar target/AlkoApp-0.0.1-SNAPSHOT.jar --server.port=$PORT

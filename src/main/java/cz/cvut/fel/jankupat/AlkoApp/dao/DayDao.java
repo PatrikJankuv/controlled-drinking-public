@@ -91,7 +91,7 @@ public class DayDao extends BaseDao<Day> {
                 "AND p.weight >= ?12 AND p.weight <= ?13" +
                 "AND p.height >= ?14 AND p.height <= ?3" +
                 "GROUP BY d.planAccomplished, d.dateTime " +
-                "HAVING d.dateTime > ?1 AND d.dateTime <= ?2 " +
+                "HAVING d.dateTime >= ?1 AND d.dateTime <= ?2 " +
                 "ORDER BY d.dateTime ASC")
                 .setParameter(1, since).setParameter(2, to)
                 .setParameter(5, bottomAge).setParameter(4, topAge)

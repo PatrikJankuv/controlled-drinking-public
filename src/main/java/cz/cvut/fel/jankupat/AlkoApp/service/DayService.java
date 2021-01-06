@@ -64,13 +64,25 @@ public class DayService extends BaseService<Day, DayDao> {
      * @param topHeight    the top height
      * @return the stats filter
      */
-    public List<DayStatsAdapter> getStatsFilter(int period, Integer bottomAge, Integer topAge,
+    public List<DayStatsAdapter> getStatsFilter(int period, LocalDate since, LocalDate to, Integer bottomAge, Integer topAge,
                                                 Set<String> gender,
                                                 Set<String> smoker,
                                                 Integer bottomWeight, Integer topWeight,
                                                 Integer bottomHeight, Integer topHeight) {
+
         LocalDate now = LocalDate.now();
-        LocalDate lastWeek = now.minusDays(period);
+        LocalDate lastWeek;
+
+        //filer by date
+        if (since == null){
+            lastWeek = now.minusDays(period);
+        }else {
+            lastWeek = since;
+        }
+
+        if(to != null){
+            now = to;
+        }
 
         String male = "null";
         String female = "null";

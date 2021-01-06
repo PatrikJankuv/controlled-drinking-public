@@ -13,6 +13,7 @@ import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.PlaneChart;
+import cz.cvut.fel.jankupat.AlkoApp.ui.view.Setting;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.dashboard.GenderDashboard;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.ProfileList;
 import cz.cvut.fel.jankupat.AlkoApp.ui.view.list.UsersList;
@@ -63,7 +64,8 @@ public class MainLayout extends AppLayout {
                 listLink,
                 new RouterLink("Dashboard", GenderDashboard.class),
                 new RouterLink("Users", UsersList.class),
-                new RouterLink("Stats", PlaneChart.class)
+                new RouterLink("Plans stats", PlaneChart.class),
+                new RouterLink("Settings", Setting.class)
         ));
     }
 }
