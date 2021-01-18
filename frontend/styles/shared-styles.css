@@ -81,7 +81,12 @@ a[highlight] {
     margin: 2px;
 }
 
-
+.padding{
+    padding: 10px;
+    border-radius: 5px;
+    /*margin: 10px;*/
+    /*background-color: #f44336;*/
+}
 
 
 .empty {    background-color: #b9b9b9;

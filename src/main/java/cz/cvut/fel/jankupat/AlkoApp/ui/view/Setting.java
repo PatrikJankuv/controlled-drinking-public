@@ -2,15 +2,17 @@ package cz.cvut.fel.jankupat.AlkoApp.ui.view;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import cz.cvut.fel.jankupat.AlkoApp.model.User;
+import cz.cvut.fel.jankupat.AlkoApp.service.UserService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Patrik Jankuv
@@ -19,9 +21,12 @@ import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 @Route(value = "settings", layout = MainLayout.class)
 @PageTitle("Settings")
 public class Setting extends VerticalLayout {
+    @Autowired
+    private UserService userService;
+
     private PasswordField oldPasswordField;
     private PasswordField passwordField2;
-    private Label info;
+    private Div info;
 
     public Setting() {
         add(new H3("Settings"));
@@ -32,8 +37,7 @@ public class Setting extends VerticalLayout {
         VerticalLayout changePasswordForm = new VerticalLayout();
         oldPasswordField = new PasswordField();
         passwordField2 = new PasswordField();
-        info = new Label();
-        info.setVisible(false);
+        info = new Div();
 
         oldPasswordField.setLabel("Current password");
         oldPasswordField.setPlaceholder("Enter password");
@@ -65,12 +69,21 @@ public class Setting extends VerticalLayout {
         passwordField2.addValueChangeListener(event -> returnBinder.validate());
         passwordField2.setRevealButtonVisible(false);
 
+
         changePassword.addClickListener(buttonClickEvent -> {
-            if (!passwordField.getValue().equals(passwordField2.getValue())) {
-//                info.setText("Password don't match");
-//                info.setVisible(true);
+            if(!passwordField.getValue().equals(passwordField2.getValue()))return;
+
+            String newPassword = passwordField2.getValue();
+            String oldPassword = oldPasswordField.getValue();
+
+            if (userService.changePasswordOfUser(oldPassword, newPassword)) {
+                info.setText(" Password changed ");
+                info.addClassNames("success padding");
+                info.setVisible(true);
             } else {
-//                info.setVisible(false);
+                info.setText(" Wrong current password ");
+                info.setClassName("danger padding");
+                info.setVisible(true);
             }
         });
 
