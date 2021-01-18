@@ -4,7 +4,9 @@ import com.github.appreciated.apexcharts.ApexCharts;
 import com.github.appreciated.apexcharts.ApexChartsBuilder;
 import com.github.appreciated.apexcharts.config.builder.*;
 import com.github.appreciated.apexcharts.config.chart.Type;
+import com.github.appreciated.apexcharts.config.legend.Position;
 import com.github.appreciated.apexcharts.config.plotoptions.builder.BarBuilder;
+import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilder;
 import com.github.appreciated.apexcharts.config.tooltip.builder.YBuilder;
 import com.github.appreciated.apexcharts.config.yaxis.builder.TitleBuilder;
 import com.github.appreciated.apexcharts.helper.Series;
@@ -89,47 +91,75 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         Profile profile = profileService.find(profileId);
         TreeMap<String, Integer> feelings = dayService.getReflectionsForProfile(profile);
 
+
         String[] y = feelings.keySet().toArray(new String[0]);
         Integer[] data = feelings.values().toArray(new Integer[0]);
+        Double[] doubles = new Double[data.length];
+
+        for(int i=0; i<data.length; i++) {
+            doubles[i] = Double.valueOf(data[i]);
+        }
+
+
+//        ApexCharts barChart = ApexChartsBuilder.get()
+//                .withChart(ChartBuilder.get()
+//                        .withType(Type.bar)
+//                        .build())
+//                .withPlotOptions(PlotOptionsBuilder.get()
+//                        .withBar(BarBuilder.get()
+//                                .withHorizontal(false)
+//                                .withColumnWidth("55%")
+//                                .build())
+//                        .build())
+//                .withDataLabels(DataLabelsBuilder.get()
+//                        .withEnabled(false).build())
+//                .withStroke(StrokeBuilder.get()
+//                        .withShow(true)
+//                        .withWidth(2.0)
+//                        .withColors("transparent")
+//                        .build())
+//                .withSeries(
+//                        new Series<>("Feeling", data))
+//                .withColors("#fed766")
+//                .withYaxis(YAxisBuilder.get()
+//                        .withTitle(TitleBuilder.get()
+//                                .withText("count")
+//                                .build())
+//                        .build())
+//                .withXaxis(XAxisBuilder.get().withCategories(y).build())
+//                .withFill(FillBuilder.get()
+//                        .withOpacity(1.0).build())
+//                .withTooltip(TooltipBuilder.get()
+//                        .withY(YBuilder.get()
+//                                .withFormatter("function (val) {\n" + // Formatter currently not yet working
+//                                        "return \" \" + val + \" \"\n" +
+//                                        "}").build())
+//                        .build())
+//                .build();
+
         ApexCharts barChart = ApexChartsBuilder.get()
-                .withChart(ChartBuilder.get()
-                        .withType(Type.bar)
+                .withChart(ChartBuilder.get().withType(Type.pie).build())
+                .withLabels(y)
+                .withLegend(LegendBuilder.get()
+                        .withPosition(Position.right)
                         .build())
-                .withPlotOptions(PlotOptionsBuilder.get()
-                        .withBar(BarBuilder.get()
-                                .withHorizontal(false)
-                                .withColumnWidth("55%")
+                .withSeries(doubles[0], doubles[1], doubles[2], doubles[3], doubles[4], doubles[5], doubles[6], doubles[7], doubles[8], doubles[9], doubles[10])
+                .withResponsive(ResponsiveBuilder.get()
+                        .withBreakpoint(480.0)
+                        .withOptions(OptionsBuilder.get()
+                                .withLegend(LegendBuilder.get()
+                                        .withPosition(Position.bottom)
+                                        .build())
                                 .build())
-                        .build())
-                .withDataLabels(DataLabelsBuilder.get()
-                        .withEnabled(false).build())
-                .withStroke(StrokeBuilder.get()
-                        .withShow(true)
-                        .withWidth(2.0)
-                        .withColors("transparent")
-                        .build())
-                .withSeries(
-                        new Series<>("Feeling", data))
-                .withColors("#fed766")
-                .withYaxis(YAxisBuilder.get()
-                        .withTitle(TitleBuilder.get()
-                                .withText("count")
-                                .build())
-                        .build())
-                .withXaxis(XAxisBuilder.get().withCategories(y).build())
-                .withFill(FillBuilder.get()
-                        .withOpacity(1.0).build())
-                .withTooltip(TooltipBuilder.get()
-                        .withY(YBuilder.get()
-                                .withFormatter("function (val) {\n" + // Formatter currently not yet working
-                                        "return \" \" + val + \" \"\n" +
-                                        "}").build())
                         .build())
                 .build();
-        add(barChart);
+        barChart.setColors("#03071E", "#370617", "#6A040F", "#9D0208", "#9D0208", "#DC2F02", "#DC2F02","#E85D04","#F48C06", "#FAA307", "#FFBA08");
         setWidth("100%");
 
+        add(barChart);
+        setWidth("100%");
 //        barChart.add(barChart);
+        System.out.println(new Series<>("Feeling", data));
         return barChart;
     }
 
