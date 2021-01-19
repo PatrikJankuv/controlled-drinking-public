@@ -4,9 +4,13 @@ import com.github.appreciated.apexcharts.ApexCharts;
 import com.github.appreciated.apexcharts.ApexChartsBuilder;
 import com.github.appreciated.apexcharts.config.builder.*;
 import com.github.appreciated.apexcharts.config.chart.Type;
+import com.github.appreciated.apexcharts.config.chart.builder.ZoomBuilder;
+import com.github.appreciated.apexcharts.config.legend.HorizontalAlign;
 import com.github.appreciated.apexcharts.config.legend.Position;
 import com.github.appreciated.apexcharts.config.plotoptions.builder.BarBuilder;
 import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilder;
+import com.github.appreciated.apexcharts.config.stroke.Curve;
+import com.github.appreciated.apexcharts.config.subtitle.Align;
 import com.github.appreciated.apexcharts.config.tooltip.builder.YBuilder;
 import com.github.appreciated.apexcharts.config.yaxis.builder.TitleBuilder;
 import com.github.appreciated.apexcharts.helper.Series;
@@ -37,8 +41,11 @@ import cz.cvut.fel.jankupat.AlkoApp.service.ProfileService;
 import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The type Calendar view.
@@ -53,6 +60,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
 
     private Grid<DrinkItem> planned = new Grid<>(DrinkItem.class);
     private Grid<DrinkItem> drunk = new Grid<>(DrinkItem.class);
+    private HorizontalLayout alcoholDayLevel = new HorizontalLayout();
 
     private ProfileService profileService;
     private DrinkItemService drinkItemService;
@@ -64,6 +72,8 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
     private Icon suc = new Icon(VaadinIcon.SMILEY_O);
     private Icon fail = new Icon(VaadinIcon.FROWN_O);
     private Label username = new Label();
+
+    Logger logger = Logger.getAnonymousLogger();
     /**
      * The Text.
      */
@@ -96,7 +106,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         Integer[] data = feelings.values().toArray(new Integer[0]);
         Double[] doubles = new Double[data.length];
 
-        for(int i=0; i<data.length; i++) {
+        for (int i = 0; i < data.length; i++) {
             doubles[i] = Double.valueOf(data[i]);
         }
 
@@ -153,13 +163,12 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
                                 .build())
                         .build())
                 .build();
-        barChart.setColors("#03071E", "#370617", "#6A040F", "#9D0208", "#9D0208", "#DC2F02", "#DC2F02","#E85D04","#F48C06", "#FAA307", "#FFBA08");
+        barChart.setColors("#03071E", "#370617", "#6A040F", "#9D0208", "#9D0208", "#DC2F02", "#DC2F02", "#E85D04", "#F48C06", "#FAA307", "#FFBA08");
         setWidth("100%");
 
         add(barChart);
         setWidth("100%");
 //        barChart.add(barChart);
-        System.out.println(new Series<>("Feeling", data));
         return barChart;
     }
 
@@ -241,8 +250,6 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         return barChart;
     }
 
-    ;
-
     private Component graphsLayer() {
         VerticalLayout graph = new VerticalLayout(new Label("Favorite drinks of user"));
         graph.add(favoriteDrinks());
@@ -304,7 +311,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
 
         drunk.addClassName("contact-grid");
         drunk.setWidthFull();
-        drunk.setColumns("name", "drinkType", "price", "amount", "alcohol");
+        drunk.setColumns("name", "drinkType", "price", "amount", "count", "alcohol");
         drunk.getColumns().forEach(col -> col.setAutoWidth(true));
 
         VerticalLayout verticalLayout = new VerticalLayout(h2Planned, drunk);
@@ -317,7 +324,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
 
         planned.addClassName("contact-grid");
         planned.setWidthFull();
-        planned.setColumns("name", "drinkType", "price", "amount", "alcohol");
+        planned.setColumns("name", "drinkType", "price", "amount", "count", "alcohol");
         planned.getColumns().forEach(col -> col.setAutoWidth(true));
 
         VerticalLayout verticalLayout = new VerticalLayout(h2Planned, planned);
@@ -336,7 +343,6 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
             text.setText(" fail");
             result.add(fail, text);
         }
-
     }
 
     private void refreshCalendar(LocalDate dateTime) {
@@ -351,8 +357,73 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
                 drank.add(item);
             }
         }
-        this.planned.setItems(items);
+        alcoholConsumedDuringDayGraphConfig(drank);
+        this.planned.setItems(planned);
         this.drunk.setItems(drank);
+    }
+
+    private void alcoholConsumedDuringDayGraphConfig(List<DrinkItem> drank) {
+
+        ArrayList<DrinkItem>[] itemsByHour = new ArrayList[24];
+
+        for (int i = 0; i < 24; i++) {
+            itemsByHour[i] = new ArrayList<DrinkItem>();
+        }
+
+        //divide drinks into hours
+        drank.forEach(drinkItem -> {
+            LocalTime time = drinkItem.getDateTime();
+            itemsByHour[time.getHour()].add(drinkItem);
+        });
+
+        double[] hoursAlcohol = new double[24];
+
+        //count pure alcohol volume and add to array
+        for (int i = 0; i < 24; i++) {
+            double tempValue = 0.0;
+            for (int j = 0; j < itemsByHour[i].size(); j++) {
+                DrinkItem tempItem = itemsByHour[i].get(j);
+                tempValue += tempItem.getCount() * tempItem.getAmount() * (tempItem.getAlcohol() * 0.01);
+            }
+            hoursAlcohol[i] = tempValue;
+        }
+
+//        for(double i : hoursAlcohol){
+//            System.out.println(i);
+//        }
+
+        ApexCharts alcoholDayLevelChart = ApexChartsBuilder.get()
+                .withChart(ChartBuilder.get()
+                        .withType(Type.area)
+                        .withZoom(ZoomBuilder.get()
+                                .withEnabled(false)
+                                .build())
+                        .build())
+                .withDataLabels(DataLabelsBuilder.get()
+                        .withEnabled(false)
+                        .build())
+                .withStroke(StrokeBuilder.get().withCurve(Curve.straight).build())
+                .withSeries(new Series<>("Alc. volume in ml", hoursAlcohol[0], hoursAlcohol[1], hoursAlcohol[2], hoursAlcohol[3], hoursAlcohol[4], hoursAlcohol[5], hoursAlcohol[6], hoursAlcohol[7], hoursAlcohol[8], hoursAlcohol[9], hoursAlcohol[10], hoursAlcohol[11], hoursAlcohol[12], hoursAlcohol[13], hoursAlcohol[14], hoursAlcohol[15], hoursAlcohol[16], hoursAlcohol[17], hoursAlcohol[18], hoursAlcohol[19], hoursAlcohol[20], hoursAlcohol[21], hoursAlcohol[22], hoursAlcohol[23]))
+                .withTitle(TitleSubtitleBuilder.get()
+                        .withText("Alcohol consummation during a day")
+                        .withAlign(Align.left).build())
+                .withSubtitle(TitleSubtitleBuilder.get()
+                        .withText("Alcohol volume in ml")
+                        .withAlign(Align.left).build())
+//                .withLabels(IntStream.range(1, 24).boxed().map(day -> LocalDate.of(2000, 1, day).toString()).toArray(String[]::new))
+//                .withLabels("1", "2")
+                .withXaxis(XAxisBuilder.get()
+                        .withCategories("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00").build())
+                .withYaxis(YAxisBuilder.get()
+                        .withOpposite(true).build())
+                .withLegend(LegendBuilder.get().withHorizontalAlign(HorizontalAlign.left).build())
+                .build();
+//        add(alcoholDayLevel);
+        alcoholDayLevelChart.setWidth("100%");
+        alcoholDayLevelChart.setHeight("400px");
+        alcoholDayLevel.setWidthFull();
+        alcoholDayLevel.removeAll();
+        alcoholDayLevel.add(alcoholDayLevelChart);
     }
 
     private Component monthStats() {
@@ -429,12 +500,16 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         for (Day d : days) {
             int temp = d.getDateTime().getDayOfMonth();
 
-            if (d.getPlanAccomplished()) {
-                String s = d.getDateTime() + "";
-                daysList.set(temp - 1, greenThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
-            } else {
-                String s = d.getDateTime() + "";
-                daysList.set(temp - 1, redThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
+            try {
+                if (d.getPlanAccomplished()) {
+                    String s = d.getDateTime() + "";
+                    daysList.set(temp - 1, greenThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
+                } else {
+                    String s = d.getDateTime() + "";
+                    daysList.set(temp - 1, redThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
+                }
+            } catch (NullPointerException ex) {
+                    logger.log(Level.FINE, "null pointer", ex);
             }
         }
         for (Component item : daysList) {
@@ -489,7 +564,8 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         top.setWidthFull();
         add(monthStats());
         add(top);
-
+        add(alcoholDayLevel);
+        alcoholDayLevel.setWidthFull();
 
         HorizontalLayout horizontalLayout = new HorizontalLayout(configPlanned(), configureDrank());
 
