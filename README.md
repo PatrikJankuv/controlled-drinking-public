@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/AOEpeople/Tagging.svg?branch=master)](https://travis-ci.org/AOEpeople/Tagging)
+
 # **Controlled drinking**
 This app is a back end of Controlled drinking app. This app's primary function is to collect data from the mobile app and store them to a database.
 
