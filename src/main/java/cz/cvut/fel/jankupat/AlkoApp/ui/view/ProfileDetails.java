@@ -61,6 +61,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
     private Grid<DrinkItem> planned = new Grid<>(DrinkItem.class);
     private Grid<DrinkItem> drunk = new Grid<>(DrinkItem.class);
     private HorizontalLayout alcoholDayLevel = new HorizontalLayout();
+    private VerticalLayout alcoholTimeLine = new VerticalLayout();
 
     private ProfileService profileService;
     private DrinkItemService drinkItemService;
@@ -72,6 +73,10 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
     private Icon suc = new Icon(VaadinIcon.SMILEY_O);
     private Icon fail = new Icon(VaadinIcon.FROWN_O);
     private Label username = new Label();
+
+    private static LocalDate sinceTimeLine;
+    private static LocalDate toTimeLine;
+    private static ApexCharts barChart;
 
     Logger logger = Logger.getAnonymousLogger();
     /**
@@ -110,7 +115,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
             doubles[i] = Double.valueOf(data[i]);
         }
 
-
+// feelings as barchar
 //        ApexCharts barChart = ApexChartsBuilder.get()
 //                .withChart(ChartBuilder.get()
 //                        .withType(Type.bar)
@@ -509,7 +514,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
                     daysList.set(temp - 1, redThink(s, String.valueOf(d.getDateTime().getDayOfMonth())));
                 }
             } catch (NullPointerException ex) {
-                    logger.log(Level.FINE, "null pointer", ex);
+                logger.log(Level.FINE, "null pointer", ex);
             }
         }
         for (Component item : daysList) {
@@ -548,6 +553,89 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         return i1;
     }
 
+    private void configAlcoholTimeLine() {
+        alcoholTimeLine.setWidthFull();
+
+        sinceTimeLine = LocalDate.of(2020, 10, 27);
+        toTimeLine = LocalDate.of(2021, 2, 1);
+
+        DatePicker sinceP = new DatePicker("Since");
+        DatePicker toP = new DatePicker("To");
+
+        sinceP.addValueChangeListener(datePickerLocalDateComponentValueChangeEvent -> {
+            alcoholTimeLine.remove(barChart);
+            sinceTimeLine = datePickerLocalDateComponentValueChangeEvent.getValue();
+            configGraphInAlcoholTimeLine(sinceTimeLine, toTimeLine);
+        });
+
+        toP.addValueChangeListener(datePickerLocalDateComponentValueChangeEvent -> {
+            alcoholTimeLine.remove(barChart);
+            toTimeLine = datePickerLocalDateComponentValueChangeEvent.getValue();
+            configGraphInAlcoholTimeLine(sinceTimeLine, toTimeLine);
+        });
+
+        HorizontalLayout layout = new HorizontalLayout(sinceP, toP);
+        alcoholTimeLine.add(layout);
+
+
+        configGraphInAlcoholTimeLine(sinceTimeLine, toTimeLine);
+    }
+
+    private void configGraphInAlcoholTimeLine(LocalDate since, LocalDate to) {
+        ArrayList<Double> data = new ArrayList<Double>();
+        ArrayList<String> days = new ArrayList<String>();
+        Map<LocalDate, Double> t = dayService.getForProfileDaysInRangeAlcoholVolumeForEveryDay(profileService.find(1), since, to);
+
+        for (LocalDate date = since; date.isBefore(to.plusDays(1)); date = date.plusDays(1)) {
+            days.add(date.toString());
+            if (t.get(date) == null) {
+                data.add(0.0);
+            } else {
+                data.add(t.get(date));
+            }
+        }
+
+        barChart = ApexChartsBuilder.get()
+                .withChart(ChartBuilder.get()
+                        .withType(Type.bar)
+                        .build())
+                .withPlotOptions(PlotOptionsBuilder.get()
+                        .withBar(BarBuilder.get()
+                                .withHorizontal(false)
+                                .withColumnWidth("55%")
+                                .build())
+                        .build())
+                .withDataLabels(DataLabelsBuilder.get()
+                        .withEnabled(false).build())
+                .withStroke(StrokeBuilder.get()
+                        .withShow(true)
+                        .withWidth(2.0)
+                        .withColors("transparent")
+                        .build())
+                .withSeries(new Series<>("Alc. volume (ml)", data.toArray()))
+                .withYaxis(YAxisBuilder.get()
+                        .withTitle(TitleBuilder.get()
+                                .withText("alcohol (milliliters)")
+                                .build())
+                        .build())
+                .withXaxis(XAxisBuilder.get()
+                        .withCategories(days)
+                        .build())
+                .withFill(FillBuilder.get()
+                        .withOpacity(1.0).build())
+                .withTooltip(TooltipBuilder.get()
+                        .withY(YBuilder.get()
+                                .withFormatter("function (val) {\n" + // Formatter currently not yet working
+                                        "return \" \" + val + \" ml \"\n" +
+                                        "}").build())
+                        .build())
+                .build();
+        alcoholTimeLine.add(barChart);
+        barChart.setWidth("100%");
+        barChart.setHeight("350px");
+
+    }
+
 
     @Override
     public void setParameter(BeforeEvent beforeEvent, Integer profileId) {
@@ -558,6 +646,9 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         profileDetails.expand(profileDetails);
         profileDetails.setWidthFull();
         add(profileDetails);
+
+        configAlcoholTimeLine();
+        add(alcoholTimeLine);
 
         VerticalLayout verticalFeelings = new VerticalLayout(new H3("Feelings"), feelings);
         HorizontalLayout top = new HorizontalLayout(dayToolbar(), verticalFeelings);
@@ -572,5 +663,6 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
         suc.setColor("#28965a");
         horizontalLayout.setWidthFull();
         add(horizontalLayout);
+
     }
 }

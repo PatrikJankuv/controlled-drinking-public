@@ -90,5 +90,6 @@ public class Setting extends VerticalLayout {
         changePasswordForm.add(oldPasswordField, passwordField, passwordField2, changePassword, info);
 
         add(changePasswordForm);
+
     }
 }

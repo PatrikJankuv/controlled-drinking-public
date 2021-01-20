@@ -4,15 +4,15 @@ import cz.cvut.fel.jankupat.AlkoApp.dao.DayDao;
 import cz.cvut.fel.jankupat.AlkoApp.dao.ReflectionDao;
 import cz.cvut.fel.jankupat.AlkoApp.dao.util.DayStatsAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.model.Day;
+import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
+import java.time.Period;
+import java.util.*;
 
 /**
  * The type Day service.
@@ -191,5 +191,42 @@ public class DayService extends BaseService<Day, DayDao> {
 
     public List<Day> getForSpecifProfileDaysInRange(Profile profile, LocalDate since, LocalDate to){
         return dao.getForSpecificProfileDaysInRange(profile, since, to);
+    }
+
+    /**
+     *
+     * @param profile Profile id
+     * @param since since Date
+     * @param to to Date
+     * @return list with values for every day
+     */
+    public Map<LocalDate, Double> getForProfileDaysInRangeAlcoholVolumeForEveryDay(Profile profile, LocalDate since, LocalDate to){
+        List<Day> days = dao.getForSpecificProfileDaysInRange(profile, since, to);
+        Map<LocalDate, Double> result = new HashMap<>();
+
+        Period period = Period.between(since, to);
+        int range = Math.abs(period.getDays());
+
+        for(Day day: days){
+            Set<DrinkItem> items = day.getItems();
+            double alc = 0.0;
+            for(DrinkItem item : items){
+                if(!item.getPlanned()){
+                    alc += item.getAlcohol() * item.getCount() * item.getAmount() * 0.01;
+                }
+            }
+            result.put(day.getDateTime(), round(alc, 1));
+        }
+
+        return result;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }
