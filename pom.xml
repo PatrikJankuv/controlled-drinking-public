@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cz.cvut.fel.jankupat</groupId>
-    <artifactId>AlkoApp</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>ControlledDrinking</artifactId>
+    <version>0.9.4-SNAPSHOT</version>
     <name>Alko App</name>
     <description>Spring app for controlled drinking</description>
 
@@ -330,7 +330,7 @@
                         <configuration>
                             <appName>controlled-drinking-app</appName>
                             <processTypes>
-                                <web>java $JAVA_OPTS -jar target/AlkoApp-0.0.1-SNAPSHOT.jar --server.port=$PORT</web>
+                                <web>java $JAVA_OPTS -jar target/ControlledDrinking-0.9.4-SNAPSHOT.jar --server.port=$PORT</web>
                             </processTypes>
                         </configuration>
                     </plugin>
