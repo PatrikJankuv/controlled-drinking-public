@@ -109,10 +109,14 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
 
         String[] y = feelings.keySet().toArray(new String[0]);
         Integer[] data = feelings.values().toArray(new Integer[0]);
-        Double[] doubles = new Double[data.length];
+        Double[] doubles = new Double[11];
+        Arrays.fill(doubles, 0.0);
 
         for (int i = 0; i < data.length; i++) {
-            doubles[i] = Double.valueOf(data[i]);
+            if(data[i] != null){
+                doubles[i] = Double.valueOf(data[i]);
+            }
+
         }
 
 // feelings as barchar
