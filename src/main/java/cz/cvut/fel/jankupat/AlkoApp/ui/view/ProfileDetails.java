@@ -109,52 +109,19 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
 
         String[] y = feelings.keySet().toArray(new String[0]);
         Integer[] data = feelings.values().toArray(new Integer[0]);
-        Double[] doubles = new Double[11];
+
+        Double[] doubles = new Double[data.length];
         Arrays.fill(doubles, 0.0);
 
         for (int i = 0; i < data.length; i++) {
             if(data[i] != null){
                 doubles[i] = Double.valueOf(data[i]);
             }
-
         }
 
-// feelings as barchar
-//        ApexCharts barChart = ApexChartsBuilder.get()
-//                .withChart(ChartBuilder.get()
-//                        .withType(Type.bar)
-//                        .build())
-//                .withPlotOptions(PlotOptionsBuilder.get()
-//                        .withBar(BarBuilder.get()
-//                                .withHorizontal(false)
-//                                .withColumnWidth("55%")
-//                                .build())
-//                        .build())
-//                .withDataLabels(DataLabelsBuilder.get()
-//                        .withEnabled(false).build())
-//                .withStroke(StrokeBuilder.get()
-//                        .withShow(true)
-//                        .withWidth(2.0)
-//                        .withColors("transparent")
-//                        .build())
-//                .withSeries(
-//                        new Series<>("Feeling", data))
-//                .withColors("#fed766")
-//                .withYaxis(YAxisBuilder.get()
-//                        .withTitle(TitleBuilder.get()
-//                                .withText("count")
-//                                .build())
-//                        .build())
-//                .withXaxis(XAxisBuilder.get().withCategories(y).build())
-//                .withFill(FillBuilder.get()
-//                        .withOpacity(1.0).build())
-//                .withTooltip(TooltipBuilder.get()
-//                        .withY(YBuilder.get()
-//                                .withFormatter("function (val) {\n" + // Formatter currently not yet working
-//                                        "return \" \" + val + \" \"\n" +
-//                                        "}").build())
-//                        .build())
-//                .build();
+        List al = Arrays.asList(doubles);
+
+
 
         ApexCharts barChart = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get().withType(Type.pie).build())
@@ -162,7 +129,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
                 .withLegend(LegendBuilder.get()
                         .withPosition(Position.right)
                         .build())
-                .withSeries(doubles[0], doubles[1], doubles[2], doubles[3], doubles[4], doubles[5], doubles[6], doubles[7], doubles[8], doubles[9], doubles[10])
+                .withSeries(doubles)
                 .withResponsive(ResponsiveBuilder.get()
                         .withBreakpoint(480.0)
                         .withOptions(OptionsBuilder.get()
@@ -177,7 +144,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
 
         add(barChart);
         setWidth("100%");
-//        barChart.add(barChart);
+
         return barChart;
     }
 
@@ -397,9 +364,6 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
             hoursAlcohol[i] = tempValue;
         }
 
-//        for(double i : hoursAlcohol){
-//            System.out.println(i);
-//        }
 
         ApexCharts alcoholDayLevelChart = ApexChartsBuilder.get()
                 .withChart(ChartBuilder.get()
@@ -560,8 +524,8 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
     private void configAlcoholTimeLine() {
         alcoholTimeLine.setWidthFull();
 
-        sinceTimeLine = LocalDate.of(2020, 10, 27);
-        toTimeLine = LocalDate.of(2021, 2, 1);
+        toTimeLine = LocalDate.now();
+        sinceTimeLine = toTimeLine.minusMonths(1);
 
         DatePicker sinceP = new DatePicker("Since");
         DatePicker toP = new DatePicker("To");
