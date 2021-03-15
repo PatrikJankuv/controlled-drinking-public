@@ -63,4 +63,8 @@ For a testing app on server, I use Heroku. For this reason, I can handle a manua
 	```text
 	mvn clean package -Pproduction heroku:deploy
 	```
+	or for windows
+	```text
+	mvnw clean package -Pproduction heroku:deploy
+	```
 6. Go to the browser and navigate to _<app_name>.herokuapp.com_
