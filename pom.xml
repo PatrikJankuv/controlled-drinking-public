@@ -10,7 +10,7 @@
     </parent>
     <groupId>cz.cvut.fel.jankupat</groupId>
     <artifactId>ControlledDrinking</artifactId>
-    <version>0.9.4-SNAPSHOT</version>
+    <version>0.9.5-SNAPSHOT</version>
     <name>Alko App</name>
     <description>Spring app for controlled drinking</description>
 

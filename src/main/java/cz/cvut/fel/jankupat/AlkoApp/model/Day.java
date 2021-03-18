@@ -1,6 +1,8 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,8 +25,15 @@ public class Day extends BaseEntity implements IEntity{
 
     private LocalDate dateTime;
 
+    private Double planPerMile;
+
+    private Integer planMoney;
+
+    private Integer planAlcoholVolume;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<DrinkItem> items;
 
 
@@ -33,6 +42,31 @@ public class Day extends BaseEntity implements IEntity{
     private Reflection reflection;
 
     private Boolean planAccomplished;
+
+    public Double getPlanPerMile() {
+        return planPerMile;
+    }
+
+    public void setPlanPerMile(Double planPerMile) {
+        this.planPerMile = planPerMile;
+    }
+
+    public Integer getPlanMoney() {
+        return planMoney;
+    }
+
+    public void setPlanMoney(Integer planMoney) {
+        this.planMoney = planMoney;
+    }
+
+    public Integer getPlanAlcoholVolume() {
+        return planAlcoholVolume;
+    }
+
+    public void setPlanAlcoholVolume(Integer planAlcoholVolume) {
+        this.planAlcoholVolume = planAlcoholVolume;
+    }
+
 
     /**
      * Gets plan accomplished.

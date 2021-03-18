@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -72,12 +73,15 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
 
     @Override
     public void remove(DrinkItem object) {
-        super.remove(object);
-
         Day day = dayService.find(object.getDay().getId());
+        Set<DrinkItem> items = day.getItems();
+        items.remove(object);
+
         boolean plan = countItems(day);
         day.setPlanAccomplished(plan);
         dayService.update(day);
+
+        super.remove(object);
     }
 
     /**
@@ -114,51 +118,34 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
      */
     private boolean countItems(Day day) {
         Set<DrinkItem> items = day.getItems();
-        int beer = 0;
-        int wine = 0;
-        int spirit = 0;
-        int other = 0;
-        int free = 0;
 
         if (items == null) {
             return true;
         }
 
+        HashMap<String, Integer> countItems = new HashMap<>();
+
         for (DrinkItem item : items) {
             String type = item.getDrinkType();
+            try {
+                int count = countItems.get(type);
 
-            if (type.equals("BEER")) {
                 if (item.getPlanned()) {
-                    beer = beer - item.getCount();
+                    count = count - item.getCount();
                 } else {
-                    beer = beer + item.getCount();
+                    count = count + item.getCount();
                 }
-            } else if (type.equals("WINE")) {
-                if (item.getPlanned()) {
-                    wine = wine - item.getCount();
-                } else {
-                    wine = wine + item.getCount();
-                }
-            } else if (type.equals("NON_ALCOHOL")) {
-                if (item.getPlanned()) {
-                    free = free - item.getCount();
-                } else {
-                    free = free + item.getCount();
-                }
-            } else if (type.equals("SPIRIT")) {
-                if (item.getPlanned()) {
-                    spirit = spirit - item.getCount();
-                } else {
-                    spirit = spirit + item.getCount();
-                }
-            } else if (type.equals("OTHER")) {
-                if (item.getPlanned()) {
-                    other = other - item.getCount();
-                } else {
-                    other = other + item.getCount();
-                }
+                countItems.put(type, count);
+            } catch (Exception e) {
+                countItems.put(type, item.getCount());
             }
         }
-        return beer <= 0 && wine <= 0 && free <= 0 && other <= 0 && spirit <= 0;
+
+        for (Integer i : countItems.values()) {
+            if (i > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
