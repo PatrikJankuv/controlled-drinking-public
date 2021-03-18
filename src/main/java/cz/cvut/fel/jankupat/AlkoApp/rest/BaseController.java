@@ -15,12 +15,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Base controller.
+ *
+ * @param <T> the type parameter
+ * @param <S> the type parameter
+ * @param <D> the type parameter
+ */
 public abstract class BaseController<T, S, D> {
 
+    /**
+     * The Log.
+     */
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * The Service.
+     */
     protected final T service;
 
+    /**
+     * Instantiates a new Base controller.
+     *
+     * @param service the service
+     */
     @Autowired
     public BaseController(T service) {
         this.service = service;
@@ -29,8 +47,8 @@ public abstract class BaseController<T, S, D> {
     /**
      * Get all entities.
      *
-     * @method  GET
-     * @return  List with courses.
+     * @return List with courses.
+     * @method GET
      */
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<S> getEntities() {
@@ -40,9 +58,9 @@ public abstract class BaseController<T, S, D> {
     /**
      * Create entity.
      *
-     * @method  POST
-     * @param   entity
-     * @return  Response with headers and http status.
+     * @param entity the entity
+     * @return Response with headers and http status.
+     * @method POST
      */
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createEntity(@RequestBody S entity) {
@@ -55,9 +73,9 @@ public abstract class BaseController<T, S, D> {
     /**
      * Get entity by id.
      *
-     * @method  GET
-     * @param   id
-     * @return  Entity.
+     * @param id the id
+     * @return Entity. by id
+     * @method GET
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public S getById(@PathVariable("id") Integer id) {
@@ -71,9 +89,10 @@ public abstract class BaseController<T, S, D> {
     /**
      * Update entity by id.
      *
-     * @method  PUT
-     * @param   id
-     * @return  Entity
+     * @param entityToUpdate the entity to update
+     * @param id             the id
+     * @return Entity response entity
+     * @method PUT
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateEntity(@RequestBody S entityToUpdate, @PathVariable("id") Integer id) {
@@ -89,6 +108,11 @@ public abstract class BaseController<T, S, D> {
         return new ResponseEntity<>(headers, HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Remove entity.
+     *
+     * @param id the id
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeEntity(@PathVariable("id") Integer id) {

@@ -15,18 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * The type Adapter controller.
+ *
  * @author Patrik Jankuv
- * @created 10/14/2020
+ * @created 10 /14/2020
  */
 @RestController
 @RequestMapping(path = "/adapter")
 public class AdapterController {
+    /**
+     * The Log.
+     */
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserRepository userRepository;
 
     /**
+     * Gets current user profile.
+     *
      * @param userPrincipal current user
      * @return Profile variables without relationships
      */

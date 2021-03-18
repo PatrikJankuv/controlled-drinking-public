@@ -8,13 +8,29 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The type Base dao.
+ *
+ * @param <T> the type parameter
+ */
 public abstract class BaseDao<T> implements GenericDao<T> {
 
+    /**
+     * The Em.
+     */
     @PersistenceContext
     protected EntityManager em;
 
+    /**
+     * The Type.
+     */
     protected final Class<T> type;
 
+    /**
+     * Instantiates a new Base dao.
+     *
+     * @param type the type
+     */
     protected BaseDao(Class<T> type) {
         this.type = type;
     }
@@ -34,6 +50,12 @@ public abstract class BaseDao<T> implements GenericDao<T> {
         }
     }
 
+    /**
+     * Find all by ads list.
+     *
+     * @param ids the ids
+     * @return the list
+     */
     public List<T> findAllByAds(Set<Integer> ids) {
         try {
             return em.createQuery("SELECT e FROM " + type.getSimpleName() + " e WHERE id IN ?1", type).setParameter(1, ids).getResultList();

@@ -5,8 +5,18 @@ import cz.cvut.fel.jankupat.AlkoApp.model.AuthProvider;
 
 import java.util.Map;
 
+/**
+ * The type O auth 2 user info factory.
+ */
 public class OAuth2UserInfoFactory {
 
+    /**
+     * Gets o auth 2 user info.
+     *
+     * @param registrationId the registration id
+     * @param attributes     the attributes
+     * @return the o auth 2 user info
+     */
     public static OAuth2UserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
         if(registrationId.equalsIgnoreCase(AuthProvider.google.toString())) {
             return new GoogleOAuth2UserInfo(attributes);

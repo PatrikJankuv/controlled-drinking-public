@@ -1,20 +1,19 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
-import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Set;
 
 
 /**
+ * The type Day.
+ *
  * @author Patrik Jankuv
- * @created 8/3/2020
+ * @created 8 /3/2020
  */
 @Entity
 @Table(name="DAY")
@@ -26,52 +25,153 @@ public class Day extends BaseEntity implements IEntity{
 
     private LocalDate dateTime;
 
+    private Double planPerMile;
+
+    private Integer planMoney;
+
+    private Integer planAlcoholVolume;
+
     @JsonManagedReference
-    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<DrinkItem> items;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
+    private Boolean planAccomplished;
 
+    public Double getPlanPerMile() {
+        return planPerMile;
+    }
+
+    public void setPlanPerMile(Double planPerMile) {
+        this.planPerMile = planPerMile;
+    }
+
+    public Integer getPlanMoney() {
+        return planMoney;
+    }
+
+    public void setPlanMoney(Integer planMoney) {
+        this.planMoney = planMoney;
+    }
+
+    public Integer getPlanAlcoholVolume() {
+        return planAlcoholVolume;
+    }
+
+    public void setPlanAlcoholVolume(Integer planAlcoholVolume) {
+        this.planAlcoholVolume = planAlcoholVolume;
+    }
+
+
+    /**
+     * Gets plan accomplished.
+     *
+     * @return the plan accomplished
+     */
+    public Boolean getPlanAccomplished() {
+        return planAccomplished;
+    }
+
+    /**
+     * Sets plan accomplished.
+     *
+     * @param planAccomplished the plan accomplished
+     */
+    public void setPlanAccomplished(Boolean planAccomplished) {
+        this.planAccomplished = planAccomplished;
+    }
+
+    /**
+     * Gets items.
+     *
+     * @return the items
+     */
     public Set<DrinkItem> getItems() {
         return items;
     }
 
+    /**
+     * Sets items.
+     *
+     * @param items the items
+     */
     public void setItems(Set<DrinkItem> items) {
         this.items = items;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets description.
+     *
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets description.
+     *
+     * @param description the description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Gets date time.
+     *
+     * @return the date time
+     */
     public LocalDate getDateTime() {
         return dateTime;
     }
 
+    /**
+     * Sets date time.
+     *
+     * @param dateTime the date time
+     */
     public void setDateTime(LocalDate dateTime) {
         this.dateTime = dateTime;
     }
 
+    /**
+     * Gets reflection.
+     *
+     * @return the reflection
+     */
     public Reflection getReflection() {
         return reflection;
     }
 
+    /**
+     * Sets reflection.
+     *
+     * @param reflection the reflection
+     */
     public void setReflection(Reflection reflection) {
         this.reflection = reflection;
     }

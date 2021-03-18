@@ -5,7 +5,6 @@ import cz.cvut.fel.jankupat.AlkoApp.dao.DrinkItemDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.*;
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
-import cz.cvut.fel.jankupat.AlkoApp.rest.BaseController;
 import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
 import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
 import cz.cvut.fel.jankupat.AlkoApp.service.DrinkItemService;
@@ -19,8 +18,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * The type Drink item controller.
+ *
  * @author Patrik Jankuv
- * @created 8/4/2020
+ * @created 8 /4/2020
  */
 @RestController
 @RequestMapping(path = "/drink_item")
@@ -28,8 +29,19 @@ public class DrinkItemController extends BaseController<DrinkItemService, DrinkI
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Instantiates a new Drink item controller.
+     *
+     * @param service the service
+     */
     public DrinkItemController(DrinkItemService service){ super(service);}
 
+    /**
+     * Gets current user days.
+     *
+     * @param userPrincipal the user principal
+     * @return the current user days
+     */
     @GetMapping("/me")
     public Collection<DrinkItem> getCurrentUserDays(@CurrentUser UserPrincipal userPrincipal) {
         User user = userRepository.findById(userPrincipal.getId())
@@ -46,6 +58,12 @@ public class DrinkItemController extends BaseController<DrinkItemService, DrinkI
         return items;
     }
 
+    /**
+     * Gets current user days with drinks.
+     *
+     * @param userPrincipal the user principal
+     * @return the current user days with drinks
+     */
     @GetMapping("/adapter")
     public Collection<Den> getCurrentUserDaysWithDrinks(@CurrentUser UserPrincipal userPrincipal) {
         User user = userRepository.findById(userPrincipal.getId())

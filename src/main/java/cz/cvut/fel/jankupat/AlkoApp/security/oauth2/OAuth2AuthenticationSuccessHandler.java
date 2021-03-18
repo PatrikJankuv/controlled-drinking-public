@@ -19,6 +19,9 @@ import java.util.Optional;
 
 import static cz.cvut.fel.jankupat.AlkoApp.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
+/**
+ * The type O auth 2 authentication success handler.
+ */
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -29,6 +32,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
 
+    /**
+     * Instantiates a new O auth 2 authentication success handler.
+     *
+     * @param tokenProvider                                  the token provider
+     * @param appProperties                                  the app properties
+     * @param httpCookieOAuth2AuthorizationRequestRepository the http cookie o auth 2 authorization request repository
+     */
     @Autowired
     OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider, AppProperties appProperties,
                                        HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {

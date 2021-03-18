@@ -1,13 +1,10 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
-import cz.cvut.fel.jankupat.AlkoApp.exception.BadRequestException;
 import cz.cvut.fel.jankupat.AlkoApp.exception.BaseException;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.AuthProvider;
-import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.User;
-import cz.cvut.fel.jankupat.AlkoApp.payload.ApiResponse;
 import cz.cvut.fel.jankupat.AlkoApp.payload.AuthResponse;
 import cz.cvut.fel.jankupat.AlkoApp.payload.SignUpRequest;
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
@@ -27,11 +24,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 
+/**
+ * The type User controller.
+ */
 @RestController
 public class UserController {
 
@@ -49,6 +47,12 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    /**
+     * Gets current user.
+     *
+     * @param userPrincipal the user principal
+     * @return the current user
+     */
     @GetMapping("/user/me")
 //    @PreAuthorize("hasRole('USER')")
     public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
@@ -57,6 +61,7 @@ public class UserController {
     }
 
     /**
+     * Get current user profile profile.
      *
      * @param userPrincipal current user
      * @return Profile connected to profile
@@ -77,9 +82,10 @@ public class UserController {
     }
 
     /**
+     * Add profile to user response entity.
      *
      * @param userPrincipal source of current user data
-     * @param profile object which gonna add to user
+     * @param profile       object which gonna add to user
      * @return ACCEPTED response if add, if user has a profile return NOT_MODIFIED response
      */
     @PostMapping("/user/me/profile")
@@ -102,6 +108,7 @@ public class UserController {
     }
 
     /**
+     * Sign up with existing profile response entity.
      *
      * @param userPrincipal source of current user data
      * @param signUpRequest sign up credentials
@@ -147,6 +154,7 @@ public class UserController {
 
     /**
      * Remove profile from user
+     *
      * @param userPrincipal current user
      * @return NO_CONTENT response
      */

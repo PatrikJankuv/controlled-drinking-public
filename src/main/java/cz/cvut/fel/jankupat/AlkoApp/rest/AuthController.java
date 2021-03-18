@@ -25,6 +25,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+/**
+ * The type Auth controller.
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -41,6 +44,12 @@ public class AuthController {
     @Autowired
     private TokenProvider tokenProvider;
 
+    /**
+     * Authenticate user response entity.
+     *
+     * @param loginRequest the login request
+     * @return the response entity
+     */
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -57,6 +66,12 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
+    /**
+     * Register user response entity.
+     *
+     * @param signUpRequest the sign up request
+     * @return the response entity
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {

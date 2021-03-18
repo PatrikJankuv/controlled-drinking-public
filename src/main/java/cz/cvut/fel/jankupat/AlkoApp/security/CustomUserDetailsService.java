@@ -14,10 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created on 02/08/17.
  */
-
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    /**
+     * The User repository.
+     */
     @Autowired
     UserRepository userRepository;
 
@@ -33,6 +35,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         return UserPrincipal.create(user);
     }
 
+    /**
+     * Load user by id user details.
+     *
+     * @param id the id
+     * @return the user details
+     */
     @Transactional
     public UserDetails loadUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(

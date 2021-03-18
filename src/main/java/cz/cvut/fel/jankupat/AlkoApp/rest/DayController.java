@@ -1,7 +1,6 @@
 package cz.cvut.fel.jankupat.AlkoApp.rest;
 
 import cz.cvut.fel.jankupat.AlkoApp.adapter.Den;
-import cz.cvut.fel.jankupat.AlkoApp.adapter.ProfileAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.dao.DayDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
@@ -20,11 +19,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
+ * The type Day controller.
+ *
  * @author Patrik Jankuv
- * @created 8/4/2020
+ * @created 8 /4/2020
  */
 @RestController
 @RequestMapping(path = "/day")
@@ -34,6 +38,12 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Instantiates a new Day controller.
+     *
+     * @param service           the service
+     * @param reflectionService the reflection service
+     */
     @Autowired
     public DayController(DayService service, ReflectionService reflectionService) {
         super(service);
@@ -55,6 +65,8 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
     }
 
     /**
+     * Create day and add to profile days response entity.
+     *
      * @param id         of day
      * @param reflection body of new reflection
      * @return status 202

@@ -2,8 +2,16 @@ package cz.cvut.fel.jankupat.AlkoApp.security.oauth2.user;
 
 import java.util.Map;
 
+/**
+ * The type Google o auth 2 user info.
+ */
 public class GoogleOAuth2UserInfo extends OAuth2UserInfo {
 
+    /**
+     * Instantiates a new Google o auth 2 user info.
+     *
+     * @param attributes the attributes
+     */
     GoogleOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }

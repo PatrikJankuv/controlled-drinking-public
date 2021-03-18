@@ -2,7 +2,15 @@ package cz.cvut.fel.jankupat.AlkoApp.security.oauth2.user;
 
 import java.util.Map;
 
+/**
+ * The type Facebook o auth 2 user info.
+ */
 public class FacebookOAuth2UserInfo extends OAuth2UserInfo {
+    /**
+     * Instantiates a new Facebook o auth 2 user info.
+     *
+     * @param attributes the attributes
+     */
     FacebookOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }
