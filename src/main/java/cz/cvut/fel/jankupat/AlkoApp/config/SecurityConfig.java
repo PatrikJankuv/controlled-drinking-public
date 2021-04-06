@@ -196,6 +196,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/styles/**",
 
                 // (development mode) H2 debugging console
-                "/h2-console/**");
+                "/h2-console/**",
+
+                //ignore security for swagger
+                "/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
 }
