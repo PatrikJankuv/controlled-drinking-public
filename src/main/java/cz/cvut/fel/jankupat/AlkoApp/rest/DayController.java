@@ -57,6 +57,9 @@ public class DayController extends BaseController<DayService, Day, DayDao> {
         den.setDateTime(entityToUpdate.getDateTime());
         den.setDescription(entityToUpdate.getDescription());
         den.setName(entityToUpdate.getName());
+        den.setPlanMoney(entityToUpdate.getPlanMoney());
+        den.setPlanAlcoholVolume(entityToUpdate.getPlanAlcoholVolume());
+        den.setPlanPerMile(entityToUpdate.getPlanPerMile());
 
         this.service.update(den);
         LOG.debug("Updated entity {}.", entityToUpdate);
