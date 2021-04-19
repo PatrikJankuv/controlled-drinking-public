@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:postgresql://ec2-52-2-6-71.compute-1.amazonaws.com/d5mcjg2rn43ilh
-        username: dwoafcpdxawyyi
-        password: 5f1aad4238e032d83332aa1b7a7f839c480cf7df1b453213397b9ee4e2c45088
+        url: jdbc:postgresql://aq-app-irl-db.cnlvnaregjxh.eu-west-1.rds.amazonaws.com/piti
+        username: piti
+        password: SgV43cvKbbN55y
 
     jpa:
         show-sql: false
@@ -10,7 +10,7 @@ spring:
             ddl-auto: update
         properties:
             hibernate:
-              default_schema: test
+              default_schema: public
               dialect: org.hibernate.dialect.PostgreSQLDialect
     security:
       oauth2:
