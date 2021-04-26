@@ -552,7 +552,7 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
     private void configGraphInAlcoholTimeLine(LocalDate since, LocalDate to) {
         ArrayList<Double> data = new ArrayList<Double>();
         ArrayList<String> days = new ArrayList<String>();
-        Map<LocalDate, Double> t = dayService.getForProfileDaysInRangeAlcoholVolumeForEveryDay(profileService.find(1), since, to);
+        Map<LocalDate, Double> t = dayService.getForProfileDaysInRangeAlcoholVolumeForEveryDay(profileService.find(this.profileId), since, to);
 
         for (LocalDate date = since; date.isBefore(to.plusDays(1)); date = date.plusDays(1)) {
             days.add(date.toString());
