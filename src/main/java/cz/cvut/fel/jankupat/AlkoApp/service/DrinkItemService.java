@@ -50,8 +50,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         super.persist(object);
 
         Day day = dayService.find(object.getDay().getId());
-        boolean plan = countItemsAndCheckPlan(day);
-        day.setPlanAccomplished(plan);
+        day.setPlanAccomplished(countItemsAndCheckPlan(day));
         dayService.update(day);
     }
 
@@ -61,13 +60,10 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         if (!object.getPlanned()) {
             object.setDateTime(LocalTime.now());
         }
-
         super.update(object);
 
-
         Day day = dayService.find(object.getDay().getId());
-        boolean plan = countItemsAndCheckPlan(day);
-        day.setPlanAccomplished(plan);
+        day.setPlanAccomplished( countItemsAndCheckPlan(day));
         dayService.update(day);
     }
 
@@ -142,7 +138,6 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
                 } else {
                     countItems.put(type, item.getCount());
                 }
-
             }
         }
 

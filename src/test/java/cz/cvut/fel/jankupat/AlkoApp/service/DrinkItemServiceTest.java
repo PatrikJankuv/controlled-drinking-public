@@ -7,6 +7,7 @@ import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Patrik Jankuv
@@ -29,7 +31,7 @@ class DrinkItemServiceTest {
     @Mock
     DayService dayService;
 
-
+    @InjectMocks
     DrinkItemService itemService;
 
     @BeforeEach
@@ -117,6 +119,55 @@ class DrinkItemServiceTest {
     }
 
     @Test
-    void updateTest() {
+    void persistTest() {
+        System.out.println("persistTest");
+        Day day = new Day();
+        day.setId(1);
+        DrinkItem item1 = ObjectsGenerator.GenerateDrinkItemWithParameters(20.0, 50, 2, true, day, "beer");
+
+        Set<DrinkItem> items = new HashSet<>();
+        items.add(item1);
+        day.setItems(items);
+        when(dayService.find(item1.getDay().getId())).thenReturn(day);
+
+        itemService.persist(item1);
+        assertEquals(true, day.getPlanAccomplished());
+
+        Day day2 = new Day();
+        day2.setId(2);
+        DrinkItem item2 = ObjectsGenerator.GenerateDrinkItemWithParameters(20.0, 50, 4, false, day2, "beer");
+
+        items = new HashSet<>();
+        items.add(item2);
+        day2.setItems(items);
+        when(dayService.find(item2.getDay().getId())).thenReturn(day2);
+
+        itemService.persist(item2);
+
+        assertEquals(false, day2.getPlanAccomplished());
+        System.out.println("persistTest completed");
+    }
+
+    @Test
+    void updateTest(){
+        System.out.println("update Test");
+        Day day = new Day();
+        day.setId(1);
+        DrinkItem item1 = ObjectsGenerator.GenerateDrinkItemWithParameters(20.0, 50, 2, false, day, "beer");
+
+        Set<DrinkItem> items = new HashSet<>();
+        items.add(item1);
+        day.setItems(items);
+        when(dayService.find(item1.getDay().getId())).thenReturn(day);
+
+        itemService.persist(item1);
+        assertEquals(false, day.getPlanAccomplished());
+
+        item1.setPlanned(true);
+        itemService.update(item1);
+        assertEquals(true, day.getPlanAccomplished());
+
+        System.out.println("update test completed");
+
     }
 }
