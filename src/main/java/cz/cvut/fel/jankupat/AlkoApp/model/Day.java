@@ -1,6 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -41,6 +42,7 @@ public class Day extends BaseEntity implements IEntity{
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
+    @Column(columnDefinition = "boolean default true")
     private Boolean planAccomplished;
 
     public Double getPlanPerMile() {

@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cz.cvut.fel.jankupat</groupId>
-    <artifactId>ControlledDrinking</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <artifactId>controlled-drinking</artifactId>
+    <version>0.9.7-SNAPSHOT</version>
     <name>Alko App</name>
     <description>Spring app for controlled drinking</description>
 
@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
-                <version>17.0.9</version>
+                <version>18.0.7</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -72,12 +72,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-        <!-- toto sposobuje ze sa zapne najprv /login -->
-        <!--		<dependency>-->
-        <!--			<groupId>org.springframework.boot</groupId>-->
-        <!--			<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--		</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -105,6 +99,36 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--        swagger starts -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <!-- swagger ends -->
+        <!--        spring test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--        spring test ends-->
+
 
         <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-spring -->
         <dependency>
@@ -323,17 +347,17 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <plugin>
-                        <groupId>com.heroku.sdk</groupId>
-                        <artifactId>heroku-maven-plugin</artifactId>
-                        <version>2.0.13</version>
-                        <configuration>
-                            <appName>controlled-drinking-app</appName>
-                            <processTypes>
-                                <web>java $JAVA_OPTS -jar target/ControlledDrinking-0.9.4-SNAPSHOT.jar --server.port=$PORT</web>
-                            </processTypes>
-                        </configuration>
-                    </plugin>
+                    <!--                    <plugin>-->
+                    <!--                        <groupId>com.heroku.sdk</groupId>-->
+                    <!--                        <artifactId>heroku-maven-plugin</artifactId>-->
+                    <!--                        <version>2.0.13</version>-->
+                    <!--                        <configuration>-->
+                    <!--                            <appName>controlled-drinking-app</appName>-->
+                    <!--                            <processTypes>-->
+                    <!--                                <web>java $JAVA_OPTS -jar target/controlled-drinking-0.9.6-SNAPSHOT.jar &#45;&#45;server.port=$PORT</web>-->
+                    <!--                            </processTypes>-->
+                    <!--                        </configuration>-->
+                    <!--                    </plugin>-->
                 </plugins>
             </build>
         </profile>

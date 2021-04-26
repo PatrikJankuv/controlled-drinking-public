@@ -1,8 +1,8 @@
 spring:
     datasource:
-        url: jdbc:postgresql://ec2-52-2-6-71.compute-1.amazonaws.com/d5mcjg2rn43ilh
-        username: dwoafcpdxawyyi
-        password: 5f1aad4238e032d83332aa1b7a7f839c480cf7df1b453213397b9ee4e2c45088
+      url: jdbc:postgresql://ec2-52-2-6-71.compute-1.amazonaws.com/d5mcjg2rn43ilh
+      username: dwoafcpdxawyyi
+      password: 5f1aad4238e032d83332aa1b7a7f839c480cf7df1b453213397b9ee4e2c45088
 
     jpa:
         show-sql: false
@@ -48,3 +48,11 @@ app:
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
+      -
+#server:
+#  port: 8080
+#  ssl:
+#    key-alias: https-alias
+#    key-store-type: JKS
+#    key-password: Tajne123
+#    key-store: classpath:https-alias.jks
