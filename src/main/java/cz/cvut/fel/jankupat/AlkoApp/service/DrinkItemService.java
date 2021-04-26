@@ -27,7 +27,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
     /**
      * The Day service.
      */
-    DayService dayService;
+    private DayService dayService;
 
     /**
      * Instantiates a new Drink item service.
@@ -50,7 +50,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         super.persist(object);
 
         Day day = dayService.find(object.getDay().getId());
-        boolean plan = countItems(day);
+        boolean plan = countItemsAndCheckPlan(day);
         day.setPlanAccomplished(plan);
         dayService.update(day);
     }
@@ -66,7 +66,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
 
 
         Day day = dayService.find(object.getDay().getId());
-        boolean plan = countItems(day);
+        boolean plan = countItemsAndCheckPlan(day);
         day.setPlanAccomplished(plan);
         dayService.update(day);
     }
@@ -77,7 +77,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         Set<DrinkItem> items = day.getItems();
         items.remove(object);
 
-        boolean plan = countItems(day);
+        boolean plan = countItemsAndCheckPlan(day);
         day.setPlanAccomplished(plan);
         dayService.update(day);
 
@@ -111,12 +111,12 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
 
 
     /**
-     * after every edit of drink item count if day accomplished plan
+     * Count items in day and check if plan was accomplished
      *
-     * @param day Day from which drink is
-     * @return true if plan is good, false if not
+     * @param day Day to validate plan
+     * @return true if plan is accomplished, false if not
      */
-    private boolean countItems(Day day) {
+    public boolean countItemsAndCheckPlan(Day day) {
         Set<DrinkItem> items = day.getItems();
 
         if (items == null) {
@@ -126,7 +126,7 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
         HashMap<String, Integer> countItems = new HashMap<>();
 
         for (DrinkItem item : items) {
-            String type = item.getDrinkType();
+            String type = item.getDrinkType().toLowerCase();
             try {
                 int count = countItems.get(type);
 
@@ -137,7 +137,12 @@ public class DrinkItemService extends BaseService<DrinkItem, DrinkItemDao> {
                 }
                 countItems.put(type, count);
             } catch (Exception e) {
-                countItems.put(type, item.getCount());
+                if (item.getPlanned()) {
+                    countItems.put(type, 0-item.getCount());
+                } else {
+                    countItems.put(type, item.getCount());
+                }
+
             }
         }
 
