@@ -1,6 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -172,6 +173,9 @@ public class Profile extends BaseEntity implements IEntity {
      * @param day the day
      */
     public void addDay(Day day){
+        if(days == null){
+            days = new ArrayList<>();
+        }
         days.add(day);
     }
 
