@@ -10,7 +10,7 @@
     </parent>
     <groupId>cz.cvut.fel.jankupat</groupId>
     <artifactId>controlled-drinking</artifactId>
-    <version>0.9.6-SNAPSHOT</version>
+    <version>0.9.7-SNAPSHOT</version>
     <name>Alko App</name>
     <description>Spring app for controlled drinking</description>
 
@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
-                <version>17.0.9</version>
+                <version>18.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

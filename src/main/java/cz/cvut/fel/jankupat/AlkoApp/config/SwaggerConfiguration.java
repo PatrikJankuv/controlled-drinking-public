@@ -26,7 +26,7 @@ public class SwaggerConfiguration {
     private ApiInfo apiInfo() {
         return new ApiInfo("Controlled drinking",
                 "Controlled drinking API",
-                "0.9.6",
+                "0.9.7",
                 "Terms of service",
                 new Contact("Patrik Jankuv", "nothing", "jankupat@fel.cvut.cz"),
                 "License of API",

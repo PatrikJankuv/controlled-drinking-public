@@ -1,11 +1,11 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest;
+package cz.cvut.fel.jankupat.AlkoApp.controller;
 
 import cz.cvut.fel.jankupat.AlkoApp.adapter.ProfileAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.dao.ProfileDao;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.*;
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
-import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
+import cz.cvut.fel.jankupat.AlkoApp.controller.util.RestUtils;
 import cz.cvut.fel.jankupat.AlkoApp.security.CurrentUser;
 import cz.cvut.fel.jankupat.AlkoApp.security.UserPrincipal;
 import cz.cvut.fel.jankupat.AlkoApp.service.AchievementService;

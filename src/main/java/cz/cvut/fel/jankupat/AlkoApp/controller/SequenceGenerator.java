@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest;
+package cz.cvut.fel.jankupat.AlkoApp.controller;
 
 
 import java.net.NetworkInterface;

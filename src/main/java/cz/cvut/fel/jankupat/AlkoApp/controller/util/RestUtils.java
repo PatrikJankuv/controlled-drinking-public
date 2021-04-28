@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest.util;
+package cz.cvut.fel.jankupat.AlkoApp.controller.util;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

@@ -1,7 +1,7 @@
 package cz.cvut.fel.jankupat.AlkoApp.service;
 
 import cz.cvut.fel.jankupat.AlkoApp.repository.UserRepository;
-import cz.cvut.fel.jankupat.AlkoApp.rest.DayController;
+import cz.cvut.fel.jankupat.AlkoApp.controller.DayController;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

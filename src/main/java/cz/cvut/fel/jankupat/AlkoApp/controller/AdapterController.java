@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest;
+package cz.cvut.fel.jankupat.AlkoApp.controller;
 
 import cz.cvut.fel.jankupat.AlkoApp.adapter.ProfileAdapter;
 import cz.cvut.fel.jankupat.AlkoApp.exception.ResourceNotFoundException;

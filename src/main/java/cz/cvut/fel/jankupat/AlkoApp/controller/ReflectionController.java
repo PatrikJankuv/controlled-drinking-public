@@ -1,4 +1,4 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest;
+package cz.cvut.fel.jankupat.AlkoApp.controller;
 
 import cz.cvut.fel.jankupat.AlkoApp.dao.ReflectionDao;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;

@@ -1,8 +1,8 @@
-package cz.cvut.fel.jankupat.AlkoApp.rest;
+package cz.cvut.fel.jankupat.AlkoApp.controller;
 
 import cz.cvut.fel.jankupat.AlkoApp.exception.NotFoundException;
 import cz.cvut.fel.jankupat.AlkoApp.model.IEntity;
-import cz.cvut.fel.jankupat.AlkoApp.rest.util.RestUtils;
+import cz.cvut.fel.jankupat.AlkoApp.controller.util.RestUtils;
 import cz.cvut.fel.jankupat.AlkoApp.service.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * The type Base controller.
@@ -50,10 +48,10 @@ public abstract class BaseController<T, S, D> {
      * @return List with courses.
      * @method GET
      */
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<S> getEntities() {
-        return ((BaseService<S, D>)service).findAll();
-    }
+//    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<S> getEntities() {
+//        return ((BaseService<S, D>)service).findAll();
+//    }
 
     /**
      * Create entity.
