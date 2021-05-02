@@ -331,17 +331,17 @@
                             </execution>
                         </executions>
                     </plugin>
-<!--                    <plugin>-->
-<!--                        <groupId>com.heroku.sdk</groupId>-->
-<!--                        <artifactId>heroku-maven-plugin</artifactId>-->
-<!--                        <version>2.0.13</version>-->
-<!--                        <configuration>-->
-<!--                            <appName>controlled-drinking-app</appName>-->
-<!--                            <processTypes>-->
-<!--                                <web>java $JAVA_OPTS -jar target/controlled-drinking-0.9.6-SNAPSHOT.jar &#45;&#45;server.port=$PORT</web>-->
-<!--                            </processTypes>-->
-<!--                        </configuration>-->
-<!--                    </plugin>-->
+                    <plugin>
+                        <groupId>com.heroku.sdk</groupId>
+                        <artifactId>heroku-maven-plugin</artifactId>
+                        <version>2.0.13</version>
+                        <configuration>
+                            <appName>controlled-drinking-app</appName>
+                            <processTypes>
+                                <web>java $JAVA_OPTS -jar target/controlled-drinking-0.9.7-SNAPSHOT.jar --server.port=$PORT</web>
+                            </processTypes>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>

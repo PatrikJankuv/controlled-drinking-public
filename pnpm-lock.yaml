@@ -51,8 +51,8 @@ dependencies:
   multiselect-combo-box: 2.4.2
   onecolor: 3.1.0
 devDependencies:
-  '@types/validator': 13.1.0
-  awesome-typescript-loader: 5.2.1_typescript@4.0.3
+  '@types/validator': 10.11.3
+  awesome-typescript-loader: 5.2.1_typescript@3.8.3
   chokidar: 3.4.3
   compression-webpack-plugin: 4.0.1_webpack@4.42.0
   copy-webpack-plugin: 5.1.2_webpack@4.42.0
@@ -63,8 +63,8 @@ devDependencies:
   lit-html: 1.2.1
   raw-loader: 4.0.0_webpack@4.42.0
   script-ext-html-webpack-plugin: 2.1.4_f9f57bd8a148b6edc3192202e3fa66cb
-  typescript: 4.0.3
-  validator: 13.1.17
+  typescript: 3.8.3
+  validator: 12.0.0
   webpack: 4.42.0_webpack@4.42.0
   webpack-cli: 3.3.11_webpack@4.42.0
   webpack-dev-server: 3.11.0_a99e8271b7943dfdc7dfc6c27536d940
@@ -185,10 +185,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Zw1vhUSQZYw+7u5dAwNbIA9TuTotpzY/OF7sJM9FqPOF3SPjKnxrjoTktXDZgUjybf4cWVBP7O8wvKdSaGHweg==
-  /@types/validator/13.1.0:
+  /@types/validator/10.11.3:
     dev: true
     resolution:
-      integrity: sha512-gHUHI6pJaANIO2r6WcbT7+WMgbL9GZooR4tWpuBOETpDIqFNxwaJluE+6rj6VGYe8k6OkfhbHz2Fkm8kl06Igw==
+      integrity: sha512-GKF2VnEkMmEeEGvoo03ocrP9ySMuX1ypKazIYMlsjfslfBMhOAtC5dmEWKdJioW4lJN7MZRS88kalTsVClyQ9w==
   /@vaadin-component-factory/vcf-toggle-button/1.0.3:
     dependencies:
       '@polymer/polymer': 3.2.0
@@ -1186,7 +1186,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
-  /awesome-typescript-loader/5.2.1_typescript@4.0.3:
+  /awesome-typescript-loader/5.2.1_typescript@3.8.3:
     dependencies:
       chalk: 2.4.2
       enhanced-resolve: 4.3.0
@@ -1195,7 +1195,7 @@ packages:
       micromatch: 3.1.10
       mkdirp: 0.5.5
       source-map-support: 0.5.19
-      typescript: 4.0.3
+      typescript: 3.8.3
       webpack-log: 1.2.0
     dev: true
     peerDependencies:
@@ -6014,13 +6014,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-  /typescript/4.0.3:
+  /typescript/3.8.3:
     dev: true
     engines:
       node: '>=4.2.0'
     hasBin: true
     resolution:
-      integrity: sha512-tEu6DGxGgRJPb/mVPIZ48e69xCn2yRmCgYmDugAVwmJ6o+0u1RI18eO7E7WBTLYLaEVVOhwQmcdhQHweux/WPg==
+      integrity: sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
   /uglify-js/3.4.10:
     dependencies:
       commander: 2.19.0
@@ -6146,12 +6146,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-CNmdbwQMBjwr9Gsmohvm0pbL954tJrNzf6gWL3K+QMQf00PF7ERGrEiLgjuU3mKreLC2MeGhUsNV9ybTbLgd3w==
-  /validator/13.1.17:
+  /validator/12.0.0:
     dev: true
     engines:
       node: '>= 0.10'
     resolution:
-      integrity: sha512-zL5QBoemJ3jYFb2/j38y7ljhwYGXVLUp8H6W1nVxadnAOvUOytec+L7BHh1oBQ82/TzWXHd+GSaxUWp4lROkLg==
+      integrity: sha512-r5zA1cQBEOgYlesRmSEwc9LkbfNLTtji+vWyaHzRZUxCTHdsX3bd+sdHfs5tGZ2W6ILGGsxWxCNwT/h3IY/3ng==
   /vary/1.1.2:
     dev: true
     engines:
@@ -6458,7 +6458,7 @@ specifiers:
   '@polymer/iron-icon': 3.0.1
   '@polymer/iron-list': 3.1.0
   '@polymer/polymer': 3.2.0
-  '@types/validator': 13.1.0
+  '@types/validator': 10.11.3
   '@vaadin-component-factory/vcf-toggle-button': 1.0.3
   '@vaadin/flow-frontend': ./target/flow-frontend
   '@vaadin/form': ./target/flow-frontend/form
@@ -6518,8 +6518,8 @@ specifiers:
   onecolor: 3.1.0
   raw-loader: 4.0.0
   script-ext-html-webpack-plugin: 2.1.4
-  typescript: 4.0.3
-  validator: 13.1.17
+  typescript: 3.8.3
+  validator: 12.0.0
   webpack: 4.42.0
   webpack-cli: 3.3.11
   webpack-dev-server: 3.11.0

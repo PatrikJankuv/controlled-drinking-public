@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 //@SpringBootTest
-@WebMvcTest(DayController.class)
+//@WebMvcTest(DayController.class)
 class DayServiceTest {
 
     @Autowired
