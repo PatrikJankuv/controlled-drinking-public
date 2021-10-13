@@ -36,6 +36,14 @@ public class DayDao extends BaseDao<Day> {
         return items;
     }
 
+    /**
+     * Get for specific profile days in range list.
+     *
+     * @param profile the profile
+     * @param since   the since
+     * @param to      the to
+     * @return the list
+     */
     public List<Day> getForSpecificProfileDaysInRange(Profile profile, LocalDate since, LocalDate to){
         List<Day> items = em.createQuery("SELECT d FROM Profile p INNER JOIN p.days d WHERE p.id = ?1 AND d.dateTime >= ?2 AND d.dateTime <= ?3 ORDER BY d.dateTime ASC", Day.class).setParameter(1, profile.getId()).setParameter(2, since).setParameter(3, to).getResultList();
         return items;
@@ -126,6 +134,7 @@ public class DayDao extends BaseDao<Day> {
         Reflection item = em.createQuery("SELECT d from Day p INNER JOIN p.reflection d WHERE p.id = ?1 ", Reflection.class).setParameter(1, day.getId()).getSingleResult();
         return item;
     }
+
     /**
      * Gets reflection for day.
      *

@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
+ * The type Context load test.
+ *
  * @author Patrik Jankuv
- * @created 5/3/2021
+ * @created 5 /3/2021
  */
-
 @SpringBootTest
 public class ContextLoadTest {
     @Autowired
@@ -36,6 +37,11 @@ public class ContextLoadTest {
     @Autowired
     private UserController userController;
 
+    /**
+     * Context load.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void contextLoad() throws Exception{
         assertThat(adapterController).isNotNull();

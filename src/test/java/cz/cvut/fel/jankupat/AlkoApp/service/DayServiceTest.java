@@ -11,6 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * The type Day service test.
+ */
 @RunWith(SpringRunner.class)
 //@SpringBootTest
 //@WebMvcTest(DayController.class)
@@ -22,6 +25,9 @@ class DayServiceTest {
     @MockBean
     private UserRepository repository;
 
+    /**
+     * Round.
+     */
     @Test
     void round() {
         assertEquals(2.53, DayService.round(2.5297, 2));

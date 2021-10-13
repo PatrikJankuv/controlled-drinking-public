@@ -8,12 +8,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
+ * The type Profile test.
+ *
  * @author Patrik Jankuv
- * @created 4/26/2021
+ * @created 4 /26/2021
  */
 class ProfileTest {
 
 
+    /**
+     * Add day.
+     */
     @Test
     void addDay() {
         Profile the_profile = new Profile();

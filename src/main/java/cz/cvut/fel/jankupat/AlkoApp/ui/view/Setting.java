@@ -15,8 +15,10 @@ import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
+ * The type Setting.
+ *
  * @author Patrik Jankuv
- * @created 1/6/2021
+ * @created 1 /6/2021
  */
 @Route(value = "settings", layout = MainLayout.class)
 @PageTitle("Settings")
@@ -28,6 +30,9 @@ public class Setting extends VerticalLayout {
     private PasswordField passwordField2;
     private Div info;
 
+    /**
+     * Instantiates a new Setting.
+     */
     public Setting() {
         add(new H3("Settings"));
         changePasswordForm();

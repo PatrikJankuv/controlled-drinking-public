@@ -78,6 +78,9 @@ public class ProfileDetails extends VerticalLayout implements HasUrlParameter<In
     private static LocalDate toTimeLine;
     private static ApexCharts barChart;
 
+    /**
+     * The Logger.
+     */
     Logger logger = Logger.getAnonymousLogger();
     /**
      * The Text.

@@ -6,8 +6,10 @@ import cz.cvut.fel.jankupat.AlkoApp.ui.MainLayout;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * The type Custom not found target.
+ *
  * @author Patrik Jankuv
- * @created 4/26/2021
+ * @created 4 /26/2021
  */
 @ParentLayout(MainLayout.class)
 public class CustomNotFoundTarget

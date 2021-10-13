@@ -19,27 +19,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
+ * The type Drink item service test.
+ *
  * @author Patrik Jankuv
- * @created 4/26/2021
+ * @created 4 /26/2021
  */
 @RunWith(MockitoJUnitRunner.class)
 class DrinkItemServiceTest {
 
+    /**
+     * The Item dao.
+     */
     @Mock
     DrinkItemDao itemDao;
 
+    /**
+     * The Day service.
+     */
     @Mock
     DayService dayService;
 
+    /**
+     * The Item service.
+     */
     @InjectMocks
     DrinkItemService itemService;
 
+    /**
+     * Sets up.
+     */
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.itemService = new DrinkItemService(itemDao, dayService);
     }
 
+    /**
+     * Count items and check plan test.
+     */
     @Test
     void countItemsAndCheckPlanTest() {
         System.out.println("countItemsAndCheckPlanTest");
@@ -93,6 +110,9 @@ class DrinkItemServiceTest {
         System.out.println("Count items test completed");
     }
 
+    /**
+     * Count items and check plan advanced test.
+     */
     @Test
     void countItemsAndCheckPlanAdvancedTest() {
         System.out.println("countItemsAndCheckPlanAdvancedTest");
@@ -118,6 +138,9 @@ class DrinkItemServiceTest {
         System.out.println("Count items advanced test completed");
     }
 
+    /**
+     * Persist test.
+     */
     @Test
     void persistTest() {
         System.out.println("persistTest");
@@ -148,6 +171,9 @@ class DrinkItemServiceTest {
         System.out.println("persistTest completed");
     }
 
+    /**
+     * Update test.
+     */
     @Test
     void updateTest(){
         System.out.println("update Test");

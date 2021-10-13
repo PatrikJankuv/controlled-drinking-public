@@ -14,8 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
+ * The type User service.
+ *
  * @author Patrik Jankuv
- * @created 1/6/2021
+ * @created 1 /6/2021
  */
 @Service
 public class UserService {
@@ -30,8 +32,10 @@ public class UserService {
 
     /**
      * Only for ui layer
+     *
      * @param oldPassword old oldPassword for verification
-     * @return
+     * @param newPassword the new password
+     * @return boolean
      */
     public boolean changePasswordOfUser(String oldPassword, String newPassword) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

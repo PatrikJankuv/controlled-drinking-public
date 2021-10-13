@@ -8,7 +8,9 @@ import cz.cvut.fel.jankupat.AlkoApp.model.DrinkItem;
 import cz.cvut.fel.jankupat.AlkoApp.model.Profile;
 import cz.cvut.fel.jankupat.AlkoApp.model.Reflection;
 import cz.cvut.fel.jankupat.AlkoApp.model.enums.FeelingsEnum;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -44,6 +46,8 @@ public class DayService extends BaseService<Day, DayDao> {
      * @param period the period
      * @return the stats
      */
+    @Transactional(readOnly = true)
+    @PreAuthorize("this.userCanEditGroup(principal.username, #group)")
     public List<DayStatsAdapter> getStats(int period) {
         LocalDate now = LocalDate.now();
         LocalDate lastWeek = now.minusDays(period);
@@ -54,6 +58,8 @@ public class DayService extends BaseService<Day, DayDao> {
      * Gets stats filter.
      *
      * @param period       the period
+     * @param since        the since
+     * @param to           the to
      * @param bottomAge    the bottom age
      * @param topAge       the top age
      * @param gender       the gender
@@ -64,6 +70,7 @@ public class DayService extends BaseService<Day, DayDao> {
      * @param topHeight    the top height
      * @return the stats filter
      */
+    @Transactional(readOnly = true)
     public List<DayStatsAdapter> getStatsFilter(int period, LocalDate since, LocalDate to, Integer bottomAge, Integer topAge,
                                                 Set<String> gender,
                                                 Set<String> smoker,
@@ -166,14 +173,18 @@ public class DayService extends BaseService<Day, DayDao> {
      * @param dt      the dt
      * @return the day for profile
      */
+    @Transactional(readOnly = true)
     public Day getDayForProfile(Profile profile, LocalDate dt) {
         return dao.getDayForProfile(profile, dt);
     }
 
     /**
-     * @param profile
-     * @return
+     * Gets reflections for profile.
+     *
+     * @param profile the profile
+     * @return reflections for profile
      */
+    @Transactional(readOnly = true)
     public TreeMap<String, Integer> getReflectionsForProfile(Profile profile) {
         List<Reflection> reflections = dao.getReflectionsForProfile(profile);
 
@@ -189,17 +200,28 @@ public class DayService extends BaseService<Day, DayDao> {
         return tmap;
     }
 
+    /**
+     * Get for specif profile days in range list.
+     *
+     * @param profile the profile
+     * @param since   the since
+     * @param to      the to
+     * @return the list
+     */
+    @Transactional(readOnly = true)
     public List<Day> getForSpecifProfileDaysInRange(Profile profile, LocalDate since, LocalDate to){
         return dao.getForSpecificProfileDaysInRange(profile, since, to);
     }
 
     /**
+     * Get for profile days in range alcohol volume for every day map.
      *
      * @param profile Profile id
-     * @param since since Date
-     * @param to to Date
+     * @param since   since Date
+     * @param to      to Date
      * @return list with values for every day
      */
+    @Transactional(readOnly = true)
     public Map<LocalDate, Double> getForProfileDaysInRangeAlcoholVolumeForEveryDay(Profile profile, LocalDate since, LocalDate to){
         List<Day> days = dao.getForSpecificProfileDaysInRange(profile, since, to);
         Map<LocalDate, Double> result = new HashMap<>();
@@ -221,6 +243,13 @@ public class DayService extends BaseService<Day, DayDao> {
         return result;
     }
 
+    /**
+     * Round double.
+     *
+     * @param value  the value
+     * @param places the places
+     * @return the double
+     */
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 

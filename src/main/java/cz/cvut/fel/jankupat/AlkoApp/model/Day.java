@@ -45,26 +45,56 @@ public class Day extends BaseEntity implements IEntity{
     @Column(columnDefinition = "boolean default true")
     private Boolean planAccomplished;
 
+    /**
+     * Gets plan per mile.
+     *
+     * @return the plan per mile
+     */
     public Double getPlanPerMile() {
         return planPerMile;
     }
 
+    /**
+     * Sets plan per mile.
+     *
+     * @param planPerMile the plan per mile
+     */
     public void setPlanPerMile(Double planPerMile) {
         this.planPerMile = planPerMile;
     }
 
+    /**
+     * Gets plan money.
+     *
+     * @return the plan money
+     */
     public Integer getPlanMoney() {
         return planMoney;
     }
 
+    /**
+     * Sets plan money.
+     *
+     * @param planMoney the plan money
+     */
     public void setPlanMoney(Integer planMoney) {
         this.planMoney = planMoney;
     }
 
+    /**
+     * Gets plan alcohol volume.
+     *
+     * @return the plan alcohol volume
+     */
     public Integer getPlanAlcoholVolume() {
         return planAlcoholVolume;
     }
 
+    /**
+     * Sets plan alcohol volume.
+     *
+     * @param planAlcoholVolume the plan alcohol volume
+     */
     public void setPlanAlcoholVolume(Integer planAlcoholVolume) {
         this.planAlcoholVolume = planAlcoholVolume;
     }

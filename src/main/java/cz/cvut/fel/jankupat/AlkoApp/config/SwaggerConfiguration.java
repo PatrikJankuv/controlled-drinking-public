@@ -15,12 +15,17 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * The type Swagger configuration.
+ *
  * @author Patrik Jankuv
- * @created 4/6/2021
+ * @created 4 /6/2021
  */
 @Configuration
 public class SwaggerConfiguration {
 
+    /**
+     * The constant AUTHORIZATION_HEADER.
+     */
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private ApiInfo apiInfo() {
@@ -34,6 +39,11 @@ public class SwaggerConfiguration {
                 Collections.emptyList());
     }
 
+    /**
+     * Api docket.
+     *
+     * @return the docket
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -56,6 +66,11 @@ public class SwaggerConfiguration {
                 .build();
     }
 
+    /**
+     * Default auth list.
+     *
+     * @return the list
+     */
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope
                 = new AuthorizationScope("global", "accessEverything");

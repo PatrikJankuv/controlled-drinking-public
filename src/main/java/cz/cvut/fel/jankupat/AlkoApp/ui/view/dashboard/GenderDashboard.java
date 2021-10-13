@@ -47,7 +47,8 @@ public class GenderDashboard extends VerticalLayout {
     /**
      * Instantiates a new Gender dashboard.
      *
-     * @param profileService the profile service
+     * @param profileService   the profile service
+     * @param drinkItemService the drink item service
      */
     public GenderDashboard(ProfileService profileService, DrinkItemService drinkItemService) {
         this.profileService = profileService;
